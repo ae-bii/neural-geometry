@@ -2,82 +2,69 @@ import torch
 import math
 
 import numpy as np
-from scipy.integrate import quad
-from scipy.optimize import minimize_scalar
+from scipy.optimize import linear_sum_assignment
+from manifolds import BasicManifold, ProductManifold
 
 
-
-def sample_points_euclidean(n: int, dimension: int) -> torch.Tensor:
-    # For Euclidean space, sample each dimension uniformly at random from [0, 1)
-    return torch.rand(n, dimension)
-
-
-def chi(t):
-    if isinstance(t, (int, np.integer)):
-        return 0.0
-    else:
-        return np.sin(np.pi * t) * np.exp(-np.sin(np.pi * t) ** (-2))
-
-def psi1(x):
-    A, _ = quad(chi, 0, 1)
-    integral, _ = quad(lambda t: chi(t), 0, 1+x)
-    return (1/A) * integral
-
-def psi2(x):
-    A, _ = quad(chi, 0, 1)
-    integral, _ = quad(lambda t: chi(t), 0, x)
-    return (1/A) * integral
-
-def h(x, y):
-    return np.array([
-        np.sinh(x) / c * psi1(x) * np.cos(c * y),
-        np.sinh(x) / c * psi1(x) * np.sin(c * y),
-        psi2(x) * np.cos(c * y),
-        psi2(x) * np.sin(c * y)
-    ])
-
-def psi(x, y):
-    return np.array([
-        np.arcsinh(y * np.exp(x)),
-        np.log(np.sqrt(np.exp(-2*x) + y**2))
-    ])
-
-def f0(x, y):
-    p = psi(x, y)
-    integral, _ = quad(lambda t: np.sqrt(1 - epsilon(t)**2), 0, p[0])
-    return np.concatenate((np.array([integral, p[1]]), h(p)))
-
-def f(x, *y):
-    n = len(y) + 1
-    kappa = 1 / np.sqrt(n - 1)
-    return np.concatenate([f0(x, kappa * yi) for yi in y])
-
-def epsilon(t):
-    return (G2**2 / (1 + G2**2)) * c**2
-
-# Constants
-G1 = minimize_scalar(lambda x: -np.abs(np.sinh(x) * psi1(x)), bounds=(-2, 2), method='bounded').fun
-G2 = minimize_scalar(lambda x: -np.abs(np.sinh(x) * psi2(x)), bounds=(-2, 2), method='bounded').fun
-c = 2 * max(G1, G2)
-
-def map_hyperbolic_to_euclidean(points_Hn, n):
+def manifold_type(manifold: BasicManifold):
     """
-    Map a set of points from hyperbolic space H^n to Euclidean space E^(6n-6).
-
-    Args:
-        points_Hn (list or numpy.ndarray): A collection of points in hyperbolic space H^n.
-        n (int): The dimension of the hyperbolic space.
-
-    Returns:
-        numpy.ndarray: The mapped points in Euclidean space E^(6n-6).
+    Helper function to identify manifold type based on curvature. Assumes dimension 2.
     """
-    points_E6n_6 = []
+    if manifold.dimension != 2:
+        raise ValueError(f"Dimension must be 2, found manifold.dimension={manifold.dimension}")
 
-    for point in points_Hn:
-        x = point[0]
-        y = point[1:]
+    if manifold.curvature == 0:
+        return 'E2'
+    elif manifold.curvature > 0:
+        return 'S2'
+    else:  # manifold.curvature < 0
+        return 'H2'
+    
 
-        mapped_point = f(x, *y)
-        points_E6n_6.append(mapped_point)
+def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
+    """
+    Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
+    between their component manifolds using the Hungarian algorithm.
 
-    return np.array(points_E6n_6)
+
+    Returns: 
+        Inverse Gromov-Haustorff distance between manifold1 and manifold2. If the manifolds 
+        have mismatching dimensions, returns 0.
+
+    Note:
+        The weight computation is formulated as an optimal matching problem because we want to find
+        the best alignment between the component manifolds of the two ProductManifold objects that
+        minimizes the total distance. Each component manifold from manifold1 should be matched with
+        exactly one component manifold from manifold2 in a way that minimizes the sum of the distances
+        between the matched pairs.
+
+        The Hungarian algorithm is used to solve this optimal matching problem efficiently. It finds
+        the minimum weight perfect matching in a bipartite graph, where the nodes represent the component
+        manifolds and the edges represent the distances between them.
+    """
+    # GH distances between pairs of geometric spaces
+    distances = {
+        ('E2', 'S2'): 0.23,
+        ('S2', 'E2'): 0.23,
+        ('E2', 'H2'): 0.77,
+        ('H2', 'E2'): 0.77,
+        ('S2', 'H2'): 0.84,
+        ('H2', 'S2'): 0.84,
+    }
+
+    # Check if the product manifolds have the same number of component manifolds
+    if len(manifold1.manifolds) != len(manifold2.manifolds):
+        return 0.0  # No connection between product manifolds of different dimensions
+
+    # Identifying the types of manifolds in each ProductManifold
+    types1 = [manifold_type(manifold) for manifold in manifold1.manifolds]
+    types2 = [manifold_type(manifold) for manifold in manifold2.manifolds]
+
+    # Create the cost matrix based on the distances between manifold types
+    cost_matrix = [[distances.get((t1, t2), 1.0) for t2 in types2] for t1 in types1]
+
+    # Use the Hungarian algorithm to find the minimum weight matching
+    row_ind, col_ind = linear_sum_assignment(cost_matrix)
+    weight = sum(cost_matrix[i][j] for i, j in zip(row_ind, col_ind))
+
+    return 1 / weight

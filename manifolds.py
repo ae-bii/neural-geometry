@@ -102,7 +102,6 @@ class HyperbolicManifold(BasicManifold):
 
 
 
-# TODO: is it valid to align the dimensions of the product manifold model spaces with those of the latent vector naively?
 class ProductManifold:
     """
     Represents a product manifold constructed from multiple manifold components,
