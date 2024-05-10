@@ -14,18 +14,18 @@ class ImageAutoEncoder(nn.Module):
 
     def __init__(self):
         super().__init__()
-        encoder = [nn.Conv2d(1, 20, 3), nn.BatchNorm2d(), nn.SiLU()]
+        encoder = [nn.Conv2d(1, 20, 3), nn.LazyBatchNorm2d(), nn.SiLU()]
 
         for _ in range(10):
-            encoder.extend([nn.Conv2d(20, 20, 3), nn.BatchNorm2d(), nn.SiLU()])
+            encoder.extend([nn.Conv2d(20, 20, 3), nn.LazyBatchNorm2d(), nn.SiLU()])
 
         encoder.extend(
             [
                 nn.Conv2d(20, 2, 3),
-                nn.BatchNorm2d(),
+                nn.LazyBatchNorm2d(),
                 nn.SiLU(),
                 nn.Flatten(),
-                nn.Linear(),
+                nn.LazyLinear(6 * 6), # TODO: figure out the dims here?
                 nn.SiLU(),
             ]
         )
@@ -33,18 +33,18 @@ class ImageAutoEncoder(nn.Module):
         self.encoder = nn.Sequential(*encoder)
 
         decoder = [
-            nn.Linear(),
+            nn.LazyLinear(),
             nn.SiLU(),
-            nn.Unflatten(),
+            nn.Unflatten(2, (6, 6)), # TODO: figure out the dims here?
             nn.ConvTranspose2d(2, 20, 3),
-            nn.BatchNorm2d(),
+            nn.LazyBatchNorm2d(),
             nn.SiLU(),
         ]
 
         for _ in range(10):
-            decoder.extend([nn.Conv2d(20, 20, 3), nn.BatchNorm2d(), nn.SiLU()])
+            decoder.extend([nn.Conv2d(20, 20, 3), nn.LazyBatchNorm2d(), nn.SiLU()])
 
-        decoder.extend([nn.ConvTranspose2d(20, 1, 3), nn.BatchNorm2d(), nn.Sigmoid()])
+        decoder.extend([nn.ConvTranspose2d(20, 1, 3), nn.LazyBatchNorm2d(), nn.Sigmoid()])
 
         self.decoder = nn.Sequential(*decoder)
 
