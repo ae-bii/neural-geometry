@@ -1,10 +1,11 @@
 import numpy as np
-import networkx as nx
 
 from difflib import SequenceMatcher
 from typing import AnyStr
 from math import isclose
 from itertools import combinations_with_replacement, chain
+from manifolds import ProductManifold
+from graph_search_space import compute_weight, manifold_to_curvature
 
 
 def define_space_search_graph(
@@ -51,7 +52,27 @@ def define_space_search_graph(
                     if adj_product_spaces(curnode, compnode):
                         distances[inv_map[compnode]][inv_map[curnode]] = 1
 
-    return (distances + distances.T - np.diag(np.diag(distances)), indices)
+    # flip upper triangle onto bottom triangle
+    distances = distances + distances.T - np.diag(np.diag(distances))
+
+    # if we only want an adjacency matrix, return early
+    if connectivity:
+        return (distances, indices)
+
+    # inefficiently compute the inverse d_GH between product spaces
+    for i in range(distances.shape[0]):
+        for j in range(distances.shape[1]):
+            if distances[i][j] != 1:
+                continue
+
+            pm1 = ProductManifold([(2, manifold_to_curvature(m)) for m in indices[i]])
+            pm2 = ProductManifold([(2, manifold_to_curvature(m)) for m in indices[j]])
+            dgh = compute_weight(pm1, pm2)
+
+            distances[i][j] = dgh if dgh != 0 else 1  # different dims
+
+    # compute
+    return (distances, indices)
 
 
 def adj_product_spaces(s1: list[AnyStr | int], s2: list[AnyStr | int]) -> bool:
@@ -76,3 +97,14 @@ def adj_product_spaces(s1: list[AnyStr | int], s2: list[AnyStr | int]) -> bool:
     # if equal length, check that approx. Levenshtein distance is 2
     # if length differs by 1, check that approx. Levenshtein distance is 1
     return isclose(1 - matcher.ratio(), (1.0 if len_delta == 1 else 2.0) / total_len)
+
+
+def get_color(weight: float) -> str:
+    if isclose(weight, 1.0):  # diff dim
+        return "grey"
+    elif isclose(weight, 4.34782600402832):  # d_GH(E2, S2)^{-1} = 1.0 / 0.23
+        return "black"
+    elif isclose(weight, 1.298701286315918):  # d_GH(E2, H2)^{-1} = 1.0 / 0.77
+        return "red"
+    else:  # d_GH(S2, H2)^{-1} = 1.0 / 0.84
+        return "blue"
