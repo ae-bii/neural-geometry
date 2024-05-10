@@ -13,7 +13,7 @@ class BasicManifold:
 
     def __init__(self, dimension: int, curvature: float, base_point: torch.Tensor = None):
         self.dimension = dimension
-        self.curvature = curvature
+        self.curvature = torch.tensor(curvature)
         self.base_point = base_point if base_point != None else torch.zeros(dimension)
     
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
@@ -108,19 +108,19 @@ class ProductManifold:
     each characterized by its dimension and curvature.
 
     Args:
-        signatures (List[Tuple[int, float]]): A list of tuples where each tuple contains
-                                              the dimension and curvature of a component manifold.
+        curvatures (List[float]): A list containing the curvautes of component manifolds
 
     Attributes:
         manifolds (List[BasicManifold]): A list of manifold objects representing the components
                                          of the product manifold.
         dimensions (List[int]): A list of dimensions of each component manifold.
+    Note: dimension of each component manifold is assumed to be 2
     """
 
-    def __init__(self, signatures: List[Tuple[int, float]]):
+    def __init__(self, curvatures: List[Tuple[float]]):
         self.manifolds = []
-        self.dimensions = [dimension for dimension, _ in signatures]
-        for dimension, curvature in signatures:
+        self.dimensions = [2 for _ in curvatures]
+        for dimension, curvature in zip(self.dimensions, curvatures):
             if curvature == 0:
                 self.manifolds.append(EuclideanManifold(dimension, curvature))
             elif curvature > 0:
