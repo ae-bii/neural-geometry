@@ -3,6 +3,7 @@ import numpy as np
 from torchvision import datasets, transforms
 
 from bayesian_optimization import bayesian_optimization
+from randomwalk import RandomWalkOptimizer
 from autoencoder import GeometricAutoencoder
 from train import train_and_evaluate
 from graph_search_space import construct_graph_search_space
@@ -54,7 +55,10 @@ def callback(signature, metric):
     loss_trajectories.append(metric[0])  
     evaluated_metrics.append(metric[1])  
 
-optimal_signature, optimal_val_metric, optimal_train_metric = bayesian_optimization(objective_function, signatures, adjacency_matrix, n_iterations=10, callback=callback)
+# optimal_signature, optimal_val_metric, optimal_train_metric = bayesian_optimization(objective_function, signatures, adjacency_matrix, n_iterations=10, callback=callback)
+
+optimizer = RandomWalkOptimizer(adjacency_matrix, signatures, signatures[0], None)
+optimal_signature, optimal_val_metric, optimal_train_metric = optimizer.optimize(objective_function, 10, callback)
 
 print("Optimal signature:", optimal_signature)
 print("Optimal validation metric:", optimal_val_metric)

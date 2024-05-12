@@ -2,7 +2,7 @@ import numpy as np
 import random
 
 
-class RandomWalkOptimization:
+class RandomWalkOptimizer:
     def __init__(self, graph, signatures, start, criterion):
         if graph.shape[0] != graph.shape[1]:
             raise ValueError("Graph adjacency matrix dimensions must be square.")
@@ -12,12 +12,13 @@ class RandomWalkOptimization:
         self.signatures = signatures
         self.criterion = criterion
 
-    def optimize(self, objective, callback=None):
+    def optimize(self, objective, max_iters, callback=None):
         visited = set()
         current_node = self.start
         best_node = (None, float("inf"), float("inf"))
+        it = 0
 
-        while True:
+        while it < max_iters:
             if current_node in visited:
                 break
 
@@ -38,6 +39,7 @@ class RandomWalkOptimization:
                 break
 
             current_node = random.choice(neighbors)
+            it += 1
 
         return best_node
 
