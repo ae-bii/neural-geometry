@@ -19,8 +19,6 @@ def manifold_to_curvature(manifold: str):
         return -1
 
 
-
-
 def manifold_type(manifold: BasicManifold):
     """
     Helper function to identify manifold type based on curvature. Assumes dimension 2.

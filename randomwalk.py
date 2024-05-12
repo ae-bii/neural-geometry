@@ -4,6 +4,9 @@ import random
 
 class RandomWalkOptimization:
     def __init__(self, graph, start, criterion):
+        if graph.shape[0] != graph.shape[1]:
+            raise ValueError("Graph adjacency matrix dimensions must be square.")
+        
         self.graph = graph
         self.start = start
         self.criterion = criterion
@@ -15,4 +18,5 @@ class RandomWalkOptimization:
         pass
 
     def normalize_graph(self):
-        pass
+        rowsums = self.graph.sum(axis=1)
+        self.graph = self.graph / rowsums[:, np.newaxis]
