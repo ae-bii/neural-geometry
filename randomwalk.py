@@ -31,7 +31,7 @@ class RandomWalkOptimizer:
                 best_node = (self.signatures[current_node], metric, loss)
 
             if callback:
-                callback(self.signatures[current_node], metric, loss)
+                callback(self.signatures[current_node], (metric, loss))
 
             neighbors = np.where(self.graph[current_node] > 0)[0]
 
@@ -64,7 +64,7 @@ class RandomWalkOptimizer:
                 best_node = (self.signatures[current_node], metric, loss)
 
             if callback:
-                callback(self.signatures[current_node], metric, loss)
+                callback(self.signatures[current_node], (metric, loss))
 
             neighbors = np.where(self.graph[current_node] > 0)[0]
 
