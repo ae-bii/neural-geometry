@@ -20,7 +20,7 @@ class RandomWalkOptimizer:
 
         while it < max_iters:
             print("--------------------")
-            print("Iteration: " + str(it))
+            print("Iteration: " + str(it + 1))
             print("--------------------")
             # if current_node in visited:
             #     break
@@ -59,7 +59,7 @@ class RandomWalkOptimizer:
 
         while it < max_iters:
             print("--------------------")
-            print("Iteration: " + str(it))
+            print("Iteration: " + str(it + 1))
             print("--------------------")
 
             visited.add(current_node)
