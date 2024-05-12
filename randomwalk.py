@@ -19,6 +19,9 @@ class RandomWalkOptimizer:
         it = 0
 
         while it < max_iters:
+            print("--------------------")
+            print("Iteration: " + str(it))
+            print("--------------------")
             # if current_node in visited:
             #     break
 
@@ -55,6 +58,10 @@ class RandomWalkOptimizer:
         path = []  # to keep track of the path taken
 
         while it < max_iters:
+            print("--------------------")
+            print("Iteration: " + str(it))
+            print("--------------------")
+
             visited.add(current_node)
             path.append(current_node)
 
