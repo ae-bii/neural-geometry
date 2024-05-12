@@ -25,13 +25,13 @@ class RandomWalkOptimizer:
             visited.add(current_node)
 
             # test loss = index 1
-            metric, loss = objective(current_node)
+            metric, loss = objective(self.signatures[current_node])
 
             if loss < best_node[2]:
                 best_node = (self.signatures[current_node], metric, loss)
 
             if callback:
-                callback(best_node)
+                callback(best_node[0], (best_node[1], best_node[2]))
 
             neighbors = np.where(self.graph[current_node] > 0)[0]
 

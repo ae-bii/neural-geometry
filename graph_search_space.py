@@ -7,6 +7,7 @@ from tqdm import tqdm
 from scipy.optimize import linear_sum_assignment
 from manifolds import BasicManifold, ProductManifold
 
+
 def manifold_to_curvature(manifold: str):
     """
     Helper function to convert dimension 2 manifold type to arbitrary curvature that matches.
@@ -96,8 +97,6 @@ def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     return 1 / distances.get((types1[i], types2[i]))
 
 
-
-
 def construct_graph_search_space(n_p: int, curvature_choices: list = [-1, 0, 1]):
     """
     Constructs the graph search space for finding the optimal latent geometry.
@@ -110,7 +109,7 @@ def construct_graph_search_space(n_p: int, curvature_choices: list = [-1, 0, 1])
         - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.
         - signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.
                     The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.
-        
+
 
     Note:
         - All model spaces have dimension 2.
@@ -123,25 +122,22 @@ def construct_graph_search_space(n_p: int, curvature_choices: list = [-1, 0, 1])
     curvature_combinations = list(itertools.product(curvature_choices, repeat=n_p))
 
     # Deduplicate: Sort the curvatures within each combination to avoid duplicates
-    curvature_combinations = list(set([tuple(sorted(combination)) for combination in curvature_combinations]))
+    curvature_combinations = list(
+        set([tuple(sorted(combination)) for combination in curvature_combinations])
+    )
 
     # Create nodes (product manifolds) for each curvature combination
     nodes = [ProductManifold(curvatures) for curvatures in curvature_combinations]
 
-    # Create the graph search space dictionary
-    graph = {}
+    # Initialize the adjacency matrix with zeros
+    adjacency_matrix = np.zeros((len(nodes), len(nodes)))
 
-    # Compute the distances between nodes and add edges to the graph
+    # Compute the distances between nodes and add edges to the adjacency matrix
     for i in tqdm(range(len(nodes)), desc="Constructing Graph Search Space"):
         for j in range(i + 1, len(nodes)):
             weight = compute_weight(nodes[i], nodes[j])
             if weight != 0.0:
-                if nodes[i] not in graph:
-                    graph[nodes[i]] = {}
-                if nodes[j] not in graph:
-                    graph[nodes[j]] = {}
-                graph[nodes[i]][nodes[j]] = weight
-                graph[nodes[j]][nodes[i]] = weight
-            
+                adjacency_matrix[i][j] = weight
+                adjacency_matrix[j][i] = weight
 
-    return graph, curvature_combinations
+    return adjacency_matrix, curvature_combinations
