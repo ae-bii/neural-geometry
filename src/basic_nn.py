@@ -22,10 +22,7 @@ print(f"Using {device} device")
 
 # Loading MNIST data into into training, validation, and testing datasets
 mnist_train = datasets.MNIST(
-    root="data",
-    train=True,
-    download=True,
-    transform=ToTensor()
+    root="data", train=True, download=True, transform=ToTensor()
 )
 
 # We split 5000/60000 of the data points from training to validation
@@ -33,25 +30,23 @@ mnist_train = datasets.MNIST(
 mnist_train, mnist_val = torch.utils.data.random_split(mnist_train, [55000, 5000])
 
 mnist_test = datasets.MNIST(
-    root="data",
-    train=False,
-    download=True,
-    transform=ToTensor()
+    root="data", train=False, download=True, transform=ToTensor()
 )
 
 # General functions for training, testing, and plotting graphs for all models!
 
+
 def train(model, name, epochs, optimizer, train_dataloader, val_dataloader=None):
-    '''Training Function
+    """Training Function
     Trains a provided PyTorch model for classification over given dataset.
     By default uses Cross Entropy Loss.
-    '''
+    """
     # Use cross entropy loss for all models for multiclass classification!
     loss_fn = nn.CrossEntropyLoss()
 
     # Initializing arrays for tracking training loss, validation loss, validation accuracy
     train_loss, val_loss, val_acc = [], [], []
-    best_val_loss = float('inf')
+    best_val_loss = float("inf")
 
     # Iterate over all epochs!
     for e in range(epochs):
@@ -87,36 +82,47 @@ def train(model, name, epochs, optimizer, train_dataloader, val_dataloader=None)
                     # Get predictions on validation minibatches and calculate loss + accuracy
                     pred = model(x.to(device))
                     loss += loss_fn(pred, y.to(device)).item() * x.size()[0]
-                    correct += (pred.argmax(1) == y.to(device)).type(torch.float).sum().item()
+                    correct += (
+                        (pred.argmax(1) == y.to(device)).type(torch.float).sum().item()
+                    )
                 val_loss.append(loss / len(val_dataloader.dataset))
                 val_acc.append(correct / len(val_dataloader.dataset))
 
                 # If the validation loss is better than previously, save this model!
                 if val_loss[-1] < best_val_loss:
                     best_val_loss = val_loss[-1]
-                    torch.save({
-                        'epoch': e + 1,
-                        'model_state_dict': model.state_dict(), # weights of model
-                        'optimizer_state_dict': optimizer.state_dict(), # optimizer params
-                        'loss': loss_fn,
-                        }, '/content/drive/MyDrive/Colab Notebooks/dlforcv/models/' + name)
+                    torch.save(
+                        {
+                            "epoch": e + 1,
+                            "model_state_dict": model.state_dict(),  # weights of model
+                            "optimizer_state_dict": optimizer.state_dict(),  # optimizer params
+                            "loss": loss_fn,
+                        },
+                        "/content/drive/MyDrive/Colab Notebooks/dlforcv/models/" + name,
+                    )
 
         # print out training and validation loss every 1/10th of the epochs!
         if e == 0 or (e + 1) % (epochs / 10) == 0:
-            print(f'Epoch {e + 1}/{epochs} => Train Loss: {train_loss[-1]}, Val. Loss: {val_loss[-1]}')
+            print(
+                f"Epoch {e + 1}/{epochs} => Train Loss: {train_loss[-1]}, Val. Loss: {val_loss[-1]}"
+            )
 
     # Save final model after all training
-    torch.save({
-        'epoch': epochs,
-        'model_state_dict': model.state_dict(),
-        'optimizer_state_dict': optimizer.state_dict(),
-        'loss': loss_fn,
-        }, '/content/drive/MyDrive/Colab Notebooks/dlforcv/models/final_' + name)
+    torch.save(
+        {
+            "epoch": epochs,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict(),
+            "loss": loss_fn,
+        },
+        "/content/drive/MyDrive/Colab Notebooks/dlforcv/models/final_" + name,
+    )
 
     return (train_loss, val_loss, val_acc)
 
+
 def test(model, dataloader):
-    '''Test a given model on a training dataset.'''
+    """Test a given model on a training dataset."""
     # Set model to evaluation mode, disabling things like dropout
     model.eval()
     test_loss, correct = 0, 0
@@ -128,10 +134,11 @@ def test(model, dataloader):
             correct += (pred.argmax(1) == y.to(device)).type(torch.float).sum().item()
 
     correct /= len(dataloader.dataset)
-    print(f'Test Accuracy: {correct}')
+    print(f"Test Accuracy: {correct}")
+
 
 def show_digits(model, dataloader):
-    '''Shows 10 random digits from a given dataloader and the model's predictions.'''
+    """Shows 10 random digits from a given dataloader and the model's predictions."""
     # Set model to evaluation mode
     model.eval()
 
@@ -147,28 +154,31 @@ def show_digits(model, dataloader):
 
         for i in range(10):
             fig = plt.figure(figsize=(2, 2))
-            print(f'Label: {y[idxs[i]]}')
-            print(f'Pred. Label: {pred[idxs[i]].argmax()}')
-            print(f'Preds: {pred[idxs[i]]}')
+            print(f"Label: {y[idxs[i]]}")
+            print(f"Pred. Label: {pred[idxs[i]].argmax()}")
+            print(f"Preds: {pred[idxs[i]]}")
             plt.imshow(x[idxs[i]].squeeze())
             plt.show()
 
+
 def plot_losses(train_loss, val_loss, val_acc):
-    '''Plots the training and validation losses, as well as validation accuracy.'''
+    """Plots the training and validation losses, as well as validation accuracy."""
     fig, axes = plt.subplots(ncols=2, figsize=[15, 6])
 
     x = np.arange(len(train_loss))
-    axes[0].scatter(x, train_loss, label='Train Loss', s=1)
-    axes[0].scatter(x, val_loss, label='Validation Loss', s=1)
+    axes[0].scatter(x, train_loss, label="Train Loss", s=1)
+    axes[0].scatter(x, val_loss, label="Validation Loss", s=1)
     axes[0].legend()
-    axes[0].set(xlabel='Epoch', ylabel='Loss', title='Losses')
+    axes[0].set(xlabel="Epoch", ylabel="Loss", title="Losses")
 
     axes[1].scatter(x, val_acc, s=1)
-    axes[1].set(xlabel='Epoch', ylabel='Accuracy', title='Validation Accuracy')
+    axes[1].set(xlabel="Epoch", ylabel="Accuracy", title="Validation Accuracy")
 
     fig.show()
 
+
 """# Softmax Regression!"""
+
 
 # Softmax regression PyTorch implementation
 class SoftmaxRegressor(nn.Module):
@@ -185,6 +195,7 @@ class SoftmaxRegressor(nn.Module):
         logits = self.w(x)
         return logits
 
+
 # load mnist training and validation datasets into dataloaders that automatically shuffle
 # set batch size to 100 for more efficient computation (minibatch SGD)
 train_loader = DataLoader(mnist_train, batch_size=100, shuffle=True)
@@ -195,7 +206,7 @@ softmax = SoftmaxRegressor().to(device)
 # use SGD with learning rate of 0.5
 optimizer = torch.optim.SGD(softmax.parameters(), lr=0.5)
 # train model and keep track of training loss, validation loss, and val. accuracy
-reg_outputs = train(softmax, 'softmax_reg.pt', 50, optimizer, train_loader, val_loader)
+reg_outputs = train(softmax, "softmax_reg.pt", 50, optimizer, train_loader, val_loader)
 
 plot_losses(*reg_outputs)
 
@@ -210,16 +221,19 @@ show_digits(softmax, test_loader)
 softmax_loaded = SoftmaxRegressor().to(device)
 
 # load model from checkpoint file with lowest validation accuracy
-reg_checkpoint = torch.load('/content/drive/MyDrive/Colab Notebooks/dlforcv/models/softmax_reg.pt')
+reg_checkpoint = torch.load(
+    "/content/drive/MyDrive/Colab Notebooks/dlforcv/models/softmax_reg.pt"
+)
 # load the weights into the model
-softmax_loaded.load_state_dict(reg_checkpoint['model_state_dict'])
-epoch = reg_checkpoint['epoch']
+softmax_loaded.load_state_dict(reg_checkpoint["model_state_dict"])
+epoch = reg_checkpoint["epoch"]
 
-print(f'Best Epoch: {epoch}')
+print(f"Best Epoch: {epoch}")
 # test this new model on the testing dataset
 test(softmax_loaded, test_loader)
 
 """# Softmax MLP!"""
+
 
 # functor to initialize all weights in linear and convolutional layers
 # use normal distribution to initialize weights with mean 0 and std dev. of 0.1
@@ -229,6 +243,7 @@ def init_weights(m):
         if m.bias is not None:
             torch.nn.init.normal_(m.bias, std=0.1)
 
+
 class SoftmaxMLP(nn.Module):
     def __init__(self):
         super().__init__()
@@ -237,9 +252,7 @@ class SoftmaxMLP(nn.Module):
         # then, pass through one fully connected hidden layer with ReLU activation
         # then, pass again to fully connected output layer
         self.linear = nn.Sequential(
-            nn.Linear(28 * 28, 512),
-            nn.ReLU(),
-            nn.Linear(512, 10)
+            nn.Linear(28 * 28, 512), nn.ReLU(), nn.Linear(512, 10)
         )
         # initializing weights normally
         self.linear.apply(init_weights)
@@ -251,6 +264,7 @@ class SoftmaxMLP(nn.Module):
         logits = self.linear(x)
         return logits
 
+
 # setting up dataloaders with mnist training/validation data and using size 50 minibatches
 train_loader = DataLoader(mnist_train, batch_size=50, shuffle=True)
 val_loader = DataLoader(mnist_val, batch_size=50, shuffle=True)
@@ -261,7 +275,7 @@ mlp = SoftmaxMLP().to(device)
 optimizer = torch.optim.Adam(mlp.parameters(), lr=1e-4)
 
 # train model for 50 epochs and save into mlp.pt or final_mlp.pt file names
-mlp_outputs = train(mlp, 'mlp.pt', 50, optimizer, train_loader, val_loader)
+mlp_outputs = train(mlp, "mlp.pt", 50, optimizer, train_loader, val_loader)
 
 plot_losses(*mlp_outputs)
 
@@ -276,17 +290,20 @@ show_digits(mlp, test_loader)
 mlp_loaded = SoftmaxMLP().to(device)
 
 # load model checkpoint and update weights from the saved state dictionary
-mlp_checkpoint = torch.load('/content/drive/MyDrive/Colab Notebooks/dlforcv/models/mlp.pt')
-mlp_loaded.load_state_dict(mlp_checkpoint['model_state_dict'])
-epoch = mlp_checkpoint['epoch']
+mlp_checkpoint = torch.load(
+    "/content/drive/MyDrive/Colab Notebooks/dlforcv/models/mlp.pt"
+)
+mlp_loaded.load_state_dict(mlp_checkpoint["model_state_dict"])
+epoch = mlp_checkpoint["epoch"]
 
 # testing our model
-print(f'Best Epoch: {epoch}')
+print(f"Best Epoch: {epoch}")
 test(mlp_loaded, test_loader)
 
 """# LeNet!"""
 
 # an implementation of LeNet, a basic CNN model
+
 
 class LeNet(nn.Module):
     def __init__(self):
@@ -315,9 +332,7 @@ class LeNet(nn.Module):
         # use relu for nonlinear activation and implement dropout with probability 0.1
         # to select potentially better neurons to activate
         self.l3 = nn.Sequential(
-            nn.Linear(7 * 7 * 64, 1024),
-            nn.ReLU(),
-            nn.Dropout(p=0.1)
+            nn.Linear(7 * 7 * 64, 1024), nn.ReLU(), nn.Dropout(p=0.1)
         )
 
         # final fully connected layer connects 1024 neurons to outputs
@@ -340,6 +355,7 @@ class LeNet(nn.Module):
         logits = self.l4(x)
         return logits
 
+
 # load training and validation data into dataloaders with minibatch size 50
 train_loader = DataLoader(mnist_train, batch_size=50, shuffle=True)
 val_loader = DataLoader(mnist_val, batch_size=50, shuffle=True)
@@ -350,7 +366,7 @@ lenet = LeNet().to(device)
 optimizer = torch.optim.Adam(lenet.parameters(), lr=1e-4)
 
 # train lenet model and save to lenet.pt or final_lenet.pt
-lenet_outputs = train(lenet, 'lenet.pt', 50, optimizer, train_loader, val_loader)
+lenet_outputs = train(lenet, "lenet.pt", 50, optimizer, train_loader, val_loader)
 
 plot_losses(*lenet_outputs)
 
@@ -363,11 +379,12 @@ show_digits(lenet, test_loader)
 # loading best saved lenet model
 lenet_loaded = LeNet().to(device)
 
-lenet_checkpoint = torch.load('/content/drive/MyDrive/Colab Notebooks/dlforcv/models/lenet.pt')
-lenet_loaded.load_state_dict(lenet_checkpoint['model_state_dict'])
-epoch = lenet_checkpoint['epoch']
+lenet_checkpoint = torch.load(
+    "/content/drive/MyDrive/Colab Notebooks/dlforcv/models/lenet.pt"
+)
+lenet_loaded.load_state_dict(lenet_checkpoint["model_state_dict"])
+epoch = lenet_checkpoint["epoch"]
 
 # testing saved model
-print(f'Best Epoch: {epoch}')
+print(f"Best Epoch: {epoch}")
 test(lenet_loaded, test_loader)
-

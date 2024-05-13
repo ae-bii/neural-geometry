@@ -25,7 +25,7 @@ class ImageAutoEncoder(nn.Module):
                 nn.LazyBatchNorm2d(),
                 nn.SiLU(),
                 nn.Flatten(),
-                nn.LazyLinear(6 * 6), # TODO: figure out the dims here?
+                nn.LazyLinear(6 * 6),  # TODO: figure out the dims here?
                 nn.SiLU(),
             ]
         )
@@ -35,7 +35,7 @@ class ImageAutoEncoder(nn.Module):
         decoder = [
             nn.LazyLinear(),
             nn.SiLU(),
-            nn.Unflatten(2, (6, 6)), # TODO: figure out the dims here?
+            nn.Unflatten(2, (6, 6)),  # TODO: figure out the dims here?
             nn.ConvTranspose2d(2, 20, 3),
             nn.LazyBatchNorm2d(),
             nn.SiLU(),
@@ -44,7 +44,9 @@ class ImageAutoEncoder(nn.Module):
         for _ in range(10):
             decoder.extend([nn.Conv2d(20, 20, 3), nn.LazyBatchNorm2d(), nn.SiLU()])
 
-        decoder.extend([nn.ConvTranspose2d(20, 1, 3), nn.LazyBatchNorm2d(), nn.Sigmoid()])
+        decoder.extend(
+            [nn.ConvTranspose2d(20, 1, 3), nn.LazyBatchNorm2d(), nn.Sigmoid()]
+        )
 
         self.decoder = nn.Sequential(*decoder)
 
@@ -155,7 +157,6 @@ def test(model, dataloader):
     print(f"Test Accuracy: {correct}")
 
 
-
 # ==========================================================================================
 # ============================= FOR USE IN `mnist_experiment.ipynb`=========================
 # ==========================================================================================
@@ -165,8 +166,9 @@ import torch
 import torch.nn as nn
 from manifolds import ProductManifold
 
+
 class Encoder(nn.Module):
-    def __init__(self, hidden_dim=20, latent_dim=2):  
+    def __init__(self, hidden_dim=20, latent_dim=2):
         super(Encoder, self).__init__()
 
         self.encoder = nn.Sequential(
@@ -189,12 +191,13 @@ class Encoder(nn.Module):
             nn.BatchNorm2d(latent_dim),
             nn.ReLU(inplace=True),
             nn.AdaptiveAvgPool2d(1),
-            nn.Flatten()
+            nn.Flatten(),
         )
 
     def forward(self, x):
         z = self.encoder(x)
         return z
+
 
 class Decoder(nn.Module):
     def __init__(self, hidden_dim=20, latent_dim=2):
@@ -204,19 +207,24 @@ class Decoder(nn.Module):
             nn.Linear(latent_dim, hidden_dim * 7 * 7),
             nn.ReLU(inplace=True),
             nn.Unflatten(1, (hidden_dim, 7, 7)),
-            nn.ConvTranspose2d(hidden_dim, hidden_dim, 3, stride=2, padding=1, output_padding=1),  # Upsample to 14x14
+            nn.ConvTranspose2d(
+                hidden_dim, hidden_dim, 3, stride=2, padding=1, output_padding=1
+            ),  # Upsample to 14x14
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(hidden_dim),
-            nn.ConvTranspose2d(hidden_dim, hidden_dim, 3, stride=2, padding=1, output_padding=1),  # Upsample to 28x28
+            nn.ConvTranspose2d(
+                hidden_dim, hidden_dim, 3, stride=2, padding=1, output_padding=1
+            ),  # Upsample to 28x28
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(hidden_dim),
             nn.Conv2d(hidden_dim, 1, 3, padding=1),  # Reduce to 1 channel
-            nn.Sigmoid()  # Output in range [0, 1]
+            nn.Sigmoid(),  # Output in range [0, 1]
         )
 
     def forward(self, z):
         x_recon = self.decoder(z)
         return x_recon
+
 
 class GeometricAutoencoder(nn.Module):
     def __init__(self, signature, hidden_dim=20, latent_dim=2):

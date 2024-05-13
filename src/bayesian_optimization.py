@@ -11,7 +11,9 @@ from skopt.utils import use_named_args
 from skopt.learning import GaussianProcessRegressor
 
 
-def get_eigendecomposition(adjacency_matrix: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+def get_eigendecomposition(
+    adjacency_matrix: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Perform eigendecomposition of the adjacency matrix.
 
@@ -21,7 +23,10 @@ def get_eigendecomposition(adjacency_matrix: np.ndarray) -> Tuple[np.ndarray, np
     eigenvalues, eigenvectors = np.linalg.eigh(adjacency_matrix)
     return eigenvectors, np.diag(eigenvalues)
 
-def compute_covariance_matrix(eigenvectors: np.ndarray, eigenvalues: np.ndarray, beta: float) -> np.ndarray:
+
+def compute_covariance_matrix(
+    eigenvectors: np.ndarray, eigenvalues: np.ndarray, beta: float
+) -> np.ndarray:
     """
     Compute the covariance matrix of the Gaussian Process (GP) based on the eigendecomposition of the adjacency matrix.
 
@@ -33,13 +38,17 @@ def compute_covariance_matrix(eigenvectors: np.ndarray, eigenvalues: np.ndarray,
     Returns:
         np.ndarray: Covariance matrix of the GP.
     """
-    covariance_matrix = np.dot(eigenvectors, np.dot(np.exp(-beta * eigenvalues), eigenvectors.T))
+    covariance_matrix = np.dot(
+        eigenvectors, np.dot(np.exp(-beta * eigenvalues), eigenvectors.T)
+    )
     return covariance_matrix
+
 
 class AdjacencyGPKernel(Kernel):
     """
     Custom kernel for the Gaussian Process based on the adjacency matrix of the graph.
     """
+
     def __init__(self, adjacency_matrix: np.ndarray, beta: float = 1.0):
         self.adjacency_matrix = adjacency_matrix
         self.beta = beta
@@ -58,11 +67,9 @@ class AdjacencyGPKernel(Kernel):
         return True
 
 
-
-
-
-
-def bayesian_optimization(objective_function, signatures, adjacency_matrix, n_iterations=10, callback=None):
+def bayesian_optimization(
+    objective_function, signatures, adjacency_matrix, n_iterations=10, callback=None
+):
     """
     Perform Bayesian optimization using a Gaussian Process with a custom adjacency-based kernel.
 
@@ -78,7 +85,7 @@ def bayesian_optimization(objective_function, signatures, adjacency_matrix, n_it
     """
 
     # Define the search space with names
-    space = [Categorical(signatures, name='signature')]
+    space = [Categorical(signatures, name="signature")]
 
     # Use named arguments in the objective function
     @use_named_args(space)
@@ -91,7 +98,13 @@ def bayesian_optimization(objective_function, signatures, adjacency_matrix, n_it
     gp = GaussianProcessRegressor(kernel=kernel)
 
     # Perform Bayesian optimization using the GP as the base estimator
-    result = gp_minimize(objective, dimensions=space, base_estimator=gp, n_calls=n_iterations, acq_func="EI")
+    result = gp_minimize(
+        objective,
+        dimensions=space,
+        base_estimator=gp,
+        n_calls=n_iterations,
+        acq_func="EI",
+    )
 
     # Extract the best result
     best_signature = signatures[result.x]

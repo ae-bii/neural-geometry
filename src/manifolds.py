@@ -1,6 +1,7 @@
 import torch
 from typing import List, Tuple
 
+
 class BasicManifold:
     """
     A base class for manifolds, providing a common interface for dimension, curvature, and base point.
@@ -11,11 +12,13 @@ class BasicManifold:
         base_point (torch.Tensor): The origin point of the tangent space.
     """
 
-    def __init__(self, dimension: int, curvature: float, base_point: torch.Tensor = None):
+    def __init__(
+        self, dimension: int, curvature: float, base_point: torch.Tensor = None
+    ):
         self.dimension = dimension
         self.curvature = torch.tensor(curvature)
         self.base_point = base_point if base_point != None else torch.zeros(dimension)
-    
+
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         """
         Applies the exponential map to the given tangent vector in Euclidean space.
@@ -46,7 +49,7 @@ class EuclideanManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         # For Euclidean, the exponential map is an identity function
         return tangent_vector
-    
+
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         # Compute the Euclidean distance between point_x and point_y
         return torch.norm(point_x - point_y, dim=-1)
@@ -56,7 +59,9 @@ class SphericalManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         # Compute the L2 norm of the tangent vector
         # $\sqrt{K_S}|x|$
-        norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(tangent_vector, dim=-1, keepdim=True)
+        norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(
+            tangent_vector, dim=-1, keepdim=True
+        )
 
         # Compute the unit direction vector by dividing the tangent vector by its norm
         # $\frac{x}{\sqrt{K_S}\|x\|}$
@@ -73,14 +78,18 @@ class SphericalManifold(BasicManifold):
 
         # Compute the geodesic distance using the arc-cosine of the inner product
         # $\arccos(K_S * (x,y)_2) / \sqrt{|K|}$
-        return torch.acos(self.curvature * inner_product.clamp(-1., 1.)) / torch.sqrt(self.curvature)
+        return torch.acos(self.curvature * inner_product.clamp(-1.0, 1.0)) / torch.sqrt(
+            self.curvature
+        )
 
 
 class HyperbolicManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         # Compute the L2 norm of the tangent vector
         # $\sqrt{-K_H}|x|$
-        norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(tangent_vector, dim=-1, keepdim=True)
+        norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(
+            tangent_vector, dim=-1, keepdim=True
+        )
 
         # Compute the unit direction vector by dividing the tangent vector by its norm
         # $\frac{x}{\sqrt{-K_H}\|x\|}$
@@ -93,13 +102,15 @@ class HyperbolicManifold(BasicManifold):
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         # Compute the Lorentz inner product between point_x and point_y
         # $-(x_p,y_1)_L$, where $(x,y)_L$ denotes the Lorentz inner product
-        inner_product = -(point_x[..., 0] * point_y[..., 0]) + (point_x[..., 1:] * point_y[..., 1:]).sum(dim=-1)
+        inner_product = -(point_x[..., 0] * point_y[..., 0]) + (
+            point_x[..., 1:] * point_y[..., 1:]
+        ).sum(dim=-1)
 
         # Compute the geodesic distance using the arc-hyperbolic cosine of the inner product
         # $\frac{1}{\sqrt{-K_H}} \mathrm{arccosh}(K_H*(x,y)_L)$
-        return torch.acosh(self.curvature * inner_product.clamp_min(1.)) / torch.sqrt(-self.curvature)
-
-
+        return torch.acosh(self.curvature * inner_product.clamp_min(1.0)) / torch.sqrt(
+            -self.curvature
+        )
 
 
 class ProductManifold:
@@ -127,7 +138,7 @@ class ProductManifold:
                 self.manifolds.append(SphericalManifold(dimension, curvature))
             else:  # curvature < 0
                 self.manifolds.append(HyperbolicManifold(dimension, curvature))
-    
+
     def exponential_map(self, latent_vector: torch.Tensor) -> torch.Tensor:
         """
         Applies the exponential map of each component manifold to the corresponding segment of the input latent vector
@@ -145,11 +156,13 @@ class ProductManifold:
         # Apply mapping projection of component manifold to corresponding segment of latent vector
         segments = self._get_segments(latent_vector)
 
-        mapped_segments = [manifold.exponential_map(segment) for manifold, segment in zip(self.manifolds, segments)]
-        
+        mapped_segments = [
+            manifold.exponential_map(segment)
+            for manifold, segment in zip(self.manifolds, segments)
+        ]
+
         # Concatenate the mapped segments along the last dimension to form a single tensor
         return torch.cat(mapped_segments, dim=-1)
-
 
     def _get_segments(self, tangent_vector):
         """
@@ -187,7 +200,9 @@ class ProductManifold:
         # Compute the squared distances for each component manifold
         squared_distances = [
             manifold.distance(x_segment, y_segment) ** 2
-            for manifold, x_segment, y_segment in zip(self.manifolds, x_segments, y_segments)
+            for manifold, x_segment, y_segment in zip(
+                self.manifolds, x_segments, y_segments
+            )
         ]
 
         # Sum the squared distances and take the square root
