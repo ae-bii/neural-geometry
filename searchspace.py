@@ -65,8 +65,8 @@ def define_space_search_graph(
             if distances[i][j] != 1:
                 continue
 
-            pm1 = ProductManifold([(2, manifold_to_curvature(m)) for m in indices[i]])
-            pm2 = ProductManifold([(2, manifold_to_curvature(m)) for m in indices[j]])
+            pm1 = ProductManifold([manifold_to_curvature(m) for m in indices[i]])
+            pm2 = ProductManifold([manifold_to_curvature(m) for m in indices[j]])
             dgh = compute_weight(pm1, pm2)
 
             distances[i][j] = dgh if dgh != 0 else 1  # different dims
