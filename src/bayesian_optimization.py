@@ -1,14 +1,10 @@
 import numpy as np
-from typing import List, Tuple, Any
+from typing import Tuple
 from skopt import gp_minimize
 from skopt.learning import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import Kernel
-from tqdm import tqdm
 from skopt.space import Categorical
-from typing import List, Tuple, Callable, Any, Dict
-from sklearn.gaussian_process.kernels import Kernel
 from skopt.utils import use_named_args
-from skopt.learning import GaussianProcessRegressor
 
 
 def get_eigendecomposition(

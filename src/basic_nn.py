@@ -9,8 +9,8 @@ A basic NN implementation
 # Importing PyTorch libraries + Matplotlib + NumPy
 import torch
 from torch import nn
-from torch.utils.data import Dataset, DataLoader
-from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+from torchvision import datasets
 from torchvision.transforms import ToTensor
 import matplotlib.pyplot as plt
 import numpy as np
@@ -125,7 +125,8 @@ def test(model, dataloader):
     """Test a given model on a training dataset."""
     # Set model to evaluation mode, disabling things like dropout
     model.eval()
-    test_loss, correct = 0, 0
+    # test_loss = 0
+    correct = 0
 
     # Disable gradient updating
     with torch.no_grad():
@@ -153,7 +154,7 @@ def show_digits(model, dataloader):
         np.random.shuffle(idxs)
 
         for i in range(10):
-            fig = plt.figure(figsize=(2, 2))
+            # fig = plt.figure(figsize=(2, 2))
             print(f"Label: {y[idxs[i]]}")
             print(f"Pred. Label: {pred[idxs[i]].argmax()}")
             print(f"Preds: {pred[idxs[i]]}")

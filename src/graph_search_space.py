@@ -1,10 +1,6 @@
-import torch
-import math
-
 import numpy as np
 import itertools
 from tqdm import tqdm
-from scipy.optimize import linear_sum_assignment
 from manifolds import BasicManifold, ProductManifold
 
 

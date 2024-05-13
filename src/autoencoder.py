@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from manifolds import ProductManifold
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -66,7 +67,7 @@ def train(model, name, epochs, optimizer, train_dataloader, val_dataloader=None)
 
     # Initializing arrays for tracking training loss, validation loss, validation accuracy
     train_loss, val_loss, val_acc = [], [], []
-    best_val_loss = float("inf")
+    # best_val_loss = float("inf")
 
     # Iterate over all epochs!
     for e in range(epochs):
@@ -145,7 +146,8 @@ def test(model, dataloader):
     """Test a given model on a training dataset."""
     # Set model to evaluation mode, disabling things like dropout
     model.eval()
-    test_loss, correct = 0, 0
+    # test_loss = 0
+    correct = 0
 
     # Disable gradient updating
     with torch.no_grad():
@@ -160,11 +162,6 @@ def test(model, dataloader):
 # ==========================================================================================
 # ============================= FOR USE IN `mnist_experiment.ipynb`=========================
 # ==========================================================================================
-
-
-import torch
-import torch.nn as nn
-from manifolds import ProductManifold
 
 
 class Encoder(nn.Module):

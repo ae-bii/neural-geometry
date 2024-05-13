@@ -17,7 +17,9 @@ class BasicManifold:
     ):
         self.dimension = dimension
         self.curvature = torch.tensor(curvature)
-        self.base_point = base_point if base_point != None else torch.zeros(dimension)
+        self.base_point = (
+            base_point if base_point is not None else torch.zeros(dimension)
+        )
 
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         """
