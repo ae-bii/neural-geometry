@@ -8,7 +8,7 @@ from skopt.utils import use_named_args
 
 
 def get_eigendecomposition(
-    adjacency_matrix: np.ndarray
+    adjacency_matrix: np.ndarray,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Perform eigendecomposition of the adjacency matrix.

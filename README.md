@@ -38,9 +38,10 @@ Replace `your_data` with the data you want to optimize.
 Contributions to `nlgm` are welcome! To contribute:
 
 1. Fork the repository.
-2. Create a new branch for your changes.
-3. Make your changes in your branch.
-4. Submit a pull request.
+2. Install the pre-commit hooks using `pre-commit install`.
+3. Create a new branch for your changes.
+4. Make your changes in your branch.
+5. Submit a pull request.
 
 Before submitting your pull request, please make sure your changes pass all tests.
 
