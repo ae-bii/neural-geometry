@@ -1,10 +1,10 @@
 import torch
 from torchvision import datasets, transforms
 import random
-from randomwalk import RandomWalkOptimizer
-from autoencoder import GeometricAutoencoder
-from train import train_and_evaluate
-from graph_search_space import construct_graph_search_space
+from nlgm.randomwalk import RandomWalkOptimizer
+from nlgm.autoencoder import GeometricAutoencoder
+from nlgm.train import train_and_evaluate
+from nlgm.graph_search_space import construct_graph_search_space
 
 subsample_percent = 0.005
 
