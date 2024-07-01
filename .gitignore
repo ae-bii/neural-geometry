@@ -161,3 +161,6 @@ cython_debug/
 #.idea/
 
 shell.nix
+
+# temporary data files
+data/
