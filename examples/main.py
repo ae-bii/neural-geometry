@@ -1,7 +1,7 @@
 import torch
 from torchvision import datasets, transforms
 import random
-from nlgm.randomwalk import RandomWalkOptimizer
+from nlgm.optimizers import RandomWalkOptimizer
 from nlgm.autoencoder import GeometricAutoencoder
 from nlgm.train import train_and_evaluate
 from nlgm.graph_search_space import construct_graph_search_space
