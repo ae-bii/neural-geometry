@@ -50,6 +50,7 @@ adjacency_matrix, signatures = construct_graph_search_space(n_p=n_p)
 
 epochs = 10
 
+
 # Define the objective function
 def objective_function(signature):
     model = GeometricAutoencoder(signature, latent_dim=latent_dim)
@@ -58,15 +59,18 @@ def objective_function(signature):
     )
     return train_losses, test_loss
 
+
 # Perform optimization
 evaluated_signatures = []
 evaluated_metrics = []
 loss_trajectories = []
 
+
 def callback(signature, metric):
     evaluated_signatures.append(signature)
     loss_trajectories.append(metric[0])
     evaluated_metrics.append(metric[1])
+
 
 # Create an instance of the RandomWalkOptimizer
 optimizer = RandomWalkOptimizer(
