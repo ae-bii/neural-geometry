@@ -6,8 +6,6 @@ from nlgm.autoencoder import GeometricAutoencoder
 from nlgm.train import train_and_evaluate
 from nlgm.graph_search_space import construct_graph_search_space
 
-subsample_percent = 0.005
-
 # Define the data transforms
 transform = transforms.Compose(
     [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
@@ -27,6 +25,8 @@ test_dataset = datasets.MNIST(
     transform=transform,
 )
 
+subsample_percent = 0.005
+
 # Calculate the number of samples for 5% of the training data
 subsample_size = int(subsample_percent * len(train_dataset))
 
@@ -44,11 +44,14 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=F
 
 n_p = 5
 latent_dim = n_p * 2
+
+# Construct the adjacency matrix and signatures for the graph search space
 adjacency_matrix, signatures = construct_graph_search_space(n_p=n_p)
+
 epochs = 10
 
 
-# Define the objective function for Bayesian optimization
+# Define the objective function
 def objective_function(signature):
     model = GeometricAutoencoder(signature, latent_dim=latent_dim)
     train_losses, test_loss = train_and_evaluate(
@@ -57,7 +60,7 @@ def objective_function(signature):
     return train_losses, test_loss
 
 
-# Perform Bayesian optimization
+# Perform optimization
 evaluated_signatures = []
 evaluated_metrics = []
 loss_trajectories = []
@@ -69,12 +72,16 @@ def callback(signature, metric):
     evaluated_metrics.append(metric[1])
 
 
+# Create an instance of the RandomWalkOptimizer
 optimizer = RandomWalkOptimizer(
     adjacency_matrix, signatures, random.randint(0, len(signatures) - 1), None
 )
+
+# Optimize the objective function
 optimal_signature, optimal_val_metric, optimal_train_metric = optimizer.optimize(
     objective_function, 10, callback
 )
 
+# Print the optimal signature and validation metric
 print("Optimal signature:", optimal_signature)
 print("Optimal validation metric:", optimal_val_metric)
