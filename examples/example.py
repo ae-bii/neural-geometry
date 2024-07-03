@@ -6,8 +6,6 @@ from nlgm.autoencoder import GeometricAutoencoder
 from nlgm.train import train_and_evaluate
 from nlgm.graph_search_space import construct_graph_search_space
 
-subsample_percent = 0.005
-
 # Define the data transforms
 transform = transforms.Compose(
     [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
@@ -26,6 +24,8 @@ test_dataset = datasets.MNIST(
     download=True,
     transform=transform,
 )
+
+subsample_percent = 0.005
 
 # Calculate the number of samples for 5% of the training data
 subsample_size = int(subsample_percent * len(train_dataset))
