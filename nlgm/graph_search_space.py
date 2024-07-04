@@ -1,7 +1,7 @@
 import numpy as np
 import itertools
 from tqdm import tqdm
-from manifolds import BasicManifold, ProductManifold
+from nlgm.manifolds import BasicManifold, ProductManifold
 
 
 def manifold_to_curvature(manifold: str):
@@ -38,9 +38,12 @@ def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
     between their component manifolds using the Hungarian algorithm.
 
+    Args:
+        manifold1 (ProductManifold): The first ProductManifold object.
+        manifold2 (ProductManifold): The second ProductManifold object.
 
     Returns:
-        Inverse Gromov-Haustorff distance between manifold1 and manifold2. If the manifolds
+        float: The inverse Gromov-Haustorff distance between manifold1 and manifold2. If the manifolds
         have mismatching dimensions, returns 0.
 
     Note:
@@ -72,17 +75,6 @@ def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     types1 = sorted([manifold_type(manifold) for manifold in manifold1.manifolds])
     types2 = sorted([manifold_type(manifold) for manifold in manifold2.manifolds])
 
-    """
-    NOTE: This doesn't seem necessary if you just sort and then perform a linear search!
-          It also is just returning incorrect values.
-
-    # Create the cost matrix based on the distances between manifold types
-    cost_matrix = [[distances.get((t1, t2), 1.0) for t2 in types2] for t1 in types1]
-
-    # Use the Hungarian algorithm to find the minimum weight matching
-    row_ind, col_ind = linear_sum_assignment(cost_matrix)
-    weight = sum(cost_matrix[i][j] for i, j in zip(row_ind, col_ind))
-    """
     i = 0
 
     while i < len(types1):

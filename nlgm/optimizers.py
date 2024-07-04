@@ -3,6 +3,27 @@ import random
 
 
 class RandomWalkOptimizer:
+    """
+    RandomWalkOptimizer class for optimizing a given objective function using random walk algorithm.
+
+    Args:
+        graph (numpy.ndarray): The adjacency matrix of the graph.
+        signatures (list): List of signatures corresponding to each node in the graph.
+        start (int): The starting node for the random walk.
+        criterion (str): The criterion for optimization.
+
+    Attributes:
+        graph (numpy.ndarray): The adjacency matrix of the graph.
+        start (int): The starting node for the random walk.
+        signatures (list): List of signatures corresponding to each node in the graph.
+        criterion (str): The criterion for optimization.
+
+    Methods:
+        optimize(objective, max_iters, callback=None): Optimizes the objective function using random walk algorithm.
+        normalize_graph(): Normalizes the graph by dividing each row by its sum.
+        optimize_with_backtracking(objective, max_iters, callback=None): Optimizes the objective function using random walk algorithm with backtracking.
+    """
+
     def __init__(self, graph, signatures, start, criterion):
         if graph.shape[0] != graph.shape[1]:
             raise ValueError("Graph adjacency matrix dimensions must be square.")
@@ -13,6 +34,17 @@ class RandomWalkOptimizer:
         self.criterion = criterion
 
     def optimize(self, objective, max_iters, callback=None):
+        """
+        Optimizes the objective function using random walk algorithm.
+
+        Args:
+            objective (function): The objective function to be optimized.
+            max_iters (int): The maximum number of iterations for the optimization.
+            callback (function, optional): A callback function to be called after each iteration. Defaults to None.
+
+        Returns:
+            tuple: A tuple containing the best node, metric, and loss.
+        """
         visited = set()
         current_node = self.start
         best_node = (None, float("inf"), float("inf"))
@@ -47,10 +79,24 @@ class RandomWalkOptimizer:
         return best_node
 
     def normalize_graph(self):
+        """
+        Normalizes the graph by dividing each row by its sum.
+        """
         rowsums = self.graph.sum(axis=1)
         self.graph = self.graph / rowsums[:, np.newaxis]
 
     def optimize_with_backtracking(self, objective, max_iters, callback=None):
+        """
+        Optimizes the objective function using random walk algorithm with backtracking.
+
+        Args:
+            objective (function): The objective function to be optimized.
+            max_iters (int): The maximum number of iterations for the optimization.
+            callback (function, optional): A callback function to be called after each iteration. Defaults to None.
+
+        Returns:
+            tuple: A tuple containing the best node, metric, and loss.
+        """
         visited = set()
         current_node = self.start
         best_node = (None, float("inf"), float("inf"))
