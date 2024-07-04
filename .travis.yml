@@ -1,19 +1,23 @@
 language: python
 python:
   - "3.11"
+dist: jammy
 install:
   - pip install -r requirements.txt
   - travis_retry pip install -U -r doc/requirements.txt
+  - travis_retry pip install -e .
 after_success:
   - make -C doc html
 script:
   - pytest
+branches:
+  only:
+    - main
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN
+  github_token: $GH_TOKEN
   keep_history: true
   on:
     branch: main
   local_dir: doc/build/html
-dist: jammy
