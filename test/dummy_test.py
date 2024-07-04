@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function
 
 
 def test_assert():
-    '''Dummy test.'''
+    """Dummy test."""
     assert "Hello" == "Hello"
 
 
