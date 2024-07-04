@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from manifolds import ProductManifold
+from nlgm.manifolds import ProductManifold
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -52,15 +52,36 @@ class ImageAutoEncoder(nn.Module):
         self.decoder = nn.Sequential(*decoder)
 
     def forward(self, x):
+        """
+        Forward pass of the autoencoder.
+
+        Args:
+            x (torch.Tensor): Input tensor.
+
+        Returns:
+            torch.Tensor: Decoded output tensor.
+        """
         encoding = self.encoder(x)
         decoding = self.decoder(encoding)
         return decoding
 
 
 def train(model, name, epochs, optimizer, train_dataloader, val_dataloader=None):
-    """Training Function
+    """
+    Training Function
     Trains a provided PyTorch model for classification over given dataset.
     By default uses Cross Entropy Loss.
+
+    Args:
+        model (nn.Module): The model to be trained.
+        name (str): Name of the model.
+        epochs (int): Number of training epochs.
+        optimizer (torch.optim.Optimizer): The optimizer to use for training.
+        train_dataloader (torch.utils.data.DataLoader): DataLoader for training data.
+        val_dataloader (torch.utils.data.DataLoader, optional): DataLoader for validation data. Defaults to None.
+
+    Returns:
+        tuple: Tuple containing training loss, validation loss, and validation accuracy.
     """
     # Use cross entropy loss for all models for multiclass classification!
     loss_fn = nn.CrossEntropyLoss()
@@ -143,7 +164,13 @@ def train(model, name, epochs, optimizer, train_dataloader, val_dataloader=None)
 
 
 def test(model, dataloader):
-    """Test a given model on a training dataset."""
+    """
+    Test a given model on a training dataset.
+
+    Args:
+        model (nn.Module): The model to be tested.
+        dataloader (torch.utils.data.DataLoader): DataLoader for test data.
+    """
     # Set model to evaluation mode, disabling things like dropout
     model.eval()
     # test_loss = 0
@@ -192,6 +219,15 @@ class Encoder(nn.Module):
         )
 
     def forward(self, x):
+        """
+        Forward pass of the encoder.
+
+        Args:
+            x (torch.Tensor): Input tensor.
+
+        Returns:
+            torch.Tensor: Encoded output tensor.
+        """
         z = self.encoder(x)
         return z
 
@@ -219,6 +255,15 @@ class Decoder(nn.Module):
         )
 
     def forward(self, z):
+        """
+        Forward pass of the decoder.
+
+        Args:
+            z (torch.Tensor): Encoded input tensor.
+
+        Returns:
+            torch.Tensor: Decoded output tensor.
+        """
         x_recon = self.decoder(z)
         return x_recon
 
@@ -231,6 +276,15 @@ class GeometricAutoencoder(nn.Module):
         self.decoder = Decoder(hidden_dim, latent_dim)
 
     def forward(self, x):
+        """
+        Forward pass of the geometric autoencoder.
+
+        Args:
+            x (torch.Tensor): Input tensor.
+
+        Returns:
+            torch.Tensor: Decoded output tensor.
+        """
         z = self.encoder(x)
         z = self.geometry.exponential_map(z)
         x_recon = self.decoder(z)

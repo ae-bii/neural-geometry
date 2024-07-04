@@ -121,16 +121,22 @@ class ProductManifold:
     each characterized by its dimension and curvature.
 
     Args:
-        curvatures (List[float]): A list containing the curvautes of component manifolds
+        curvatures (List[float]): A list containing the curvatures of component manifolds.
 
     Attributes:
-        manifolds (List[BasicManifold]): A list of manifold objects representing the components
-                                         of the product manifold.
+        manifolds (List[BasicManifold]): A list of manifold objects representing the components of the product manifold.
         dimensions (List[int]): A list of dimensions of each component manifold.
-    Note: dimension of each component manifold is assumed to be 2
+
+    Note: dimension of each component manifold is assumed to be 2.
     """
 
     def __init__(self, curvatures: List[Tuple[float]]):
+        """
+        Initializes a ProductManifold object.
+
+        Args:
+            curvatures (List[float]): A list containing the curvatures of component manifolds.
+        """
         self.manifolds = []
         self.dimensions = [2 for _ in curvatures]
         for dimension, curvature in zip(self.dimensions, curvatures):
@@ -154,7 +160,6 @@ class ProductManifold:
             torch.Tensor: A tensor representing the projection of the input latent vector into the product manifold space,
                           preserving the differentiability for gradient-based optimization.
         """
-
         # Apply mapping projection of component manifold to corresponding segment of latent vector
         segments = self._get_segments(latent_vector)
 
