@@ -1,13 +1,21 @@
-# Neural Latent Geometry Manifolds
+<h3 align="center">
+    <img src="https://raw.githubusercontent.com/ae-bii/nlgm/main/assets/nlgm_banner.png" alt="nlgm banner"/>
+</h3>
+
+--------------------------------------------------------------------------------
+
+<!-- # Neural Latent Geometry Manifolds -->
 
 > [!CAUTION]
 > The package is not yet fully implemented for use.
 
-This is a Python implementation heavily inspired by the approach taken in [Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization](https://arxiv.org/pdf/2309.04810.pdf).
+Neural Latent Geometry Manifolds (`nlgm`) is a Python package inspired by the approach taken in [Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization](https://arxiv.org/pdf/2309.04810.pdf).
 
-## Description
+The main high-level features include:
+- Implementation of the neural latent geometry search framework, a novel approach to infer product manifolds by leveraging Gromov-Hausdorff distances.
+- Various optimization methods to suit different requirements.
 
-`nlgm` is a Python package that implements the neural latent geometry search framework. This algorithm is a novel approach to infer product manifolds by leveraging Gromov-Hausdorff distances.
+This package is compatible with libraries like NumPy and PyTorch.
 
 ## Installation
 
@@ -19,19 +27,7 @@ pip install nlgm
 
 ## Usage
 
-After installing, you can import the package and use it as follows:
-
-```python
-from nlgm import NLGM
-
-# Initialize the NLGM optimizer
-optimizer = NLGM()
-
-# Use the optimizer on your data
-optimized_data = optimizer.optimize(your_data)
-```
-
-Replace `your_data` with the data you want to optimize.
+After installing, you can import the package and use it by following the [example](https://github.com/ae-bii/nlgm/blob/main/examples/example.py).
 
 ## Contributing
 
