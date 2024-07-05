@@ -280,7 +280,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -296,6 +298,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.train.train_and_evaluate"><code class="docutils literal notranslate"><span class="pre">train_and_evaluate()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -305,8 +315,25 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="nlgm-train-module">
-<h1><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module<a class="headerlink" href="#nlgm-train-module" title="Link to this heading">#</a></h1>
+  <section id="module-nlgm.train">
+<span id="nlgm-train-module"></span><h1><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module<a class="headerlink" href="#module-nlgm.train" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="nlgm.train.train_and_evaluate">
+<span class="sig-prename descclassname"><span class="pre">nlgm.train.</span></span><span class="sig-name descname"><span class="pre">train_and_evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">device(type='cpu')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/train.html#train_and_evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.train.train_and_evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Trains and evaluates a model using the given train and test data loaders.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model (nn.Module): The model to train and evaluate.
+train_loader (torch.utils.data.DataLoader): The data loader for training data.
+test_loader (torch.utils.data.DataLoader): The data loader for test data.
+epochs (int, optional): The number of epochs to train the model. Defaults to 10.
+device (torch.device, optional): The device to use for training. Defaults to torch.device(“cpu”).
+progress_bar (bool, optional): Whether to display a progress bar during training. Defaults to True.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing the list of train losses and the test loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -344,6 +371,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.train.train_and_evaluate"><code class="docutils literal notranslate"><span class="pre">train_and_evaluate()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

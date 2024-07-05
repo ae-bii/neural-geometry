@@ -280,7 +280,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -296,6 +298,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.compute_weight"><code class="docutils literal notranslate"><span class="pre">compute_weight()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.construct_graph_search_space"><code class="docutils literal notranslate"><span class="pre">construct_graph_search_space()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.manifold_to_curvature"><code class="docutils literal notranslate"><span class="pre">manifold_to_curvature()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.manifold_type"><code class="docutils literal notranslate"><span class="pre">manifold_type()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -305,8 +318,72 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="nlgm-graph-search-space-module">
-<h1><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module<a class="headerlink" href="#nlgm-graph-search-space-module" title="Link to this heading">#</a></h1>
+  <section id="module-nlgm.graph_search_space">
+<span id="nlgm-graph-search-space-module"></span><h1><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module<a class="headerlink" href="#module-nlgm.graph_search_space" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="nlgm.graph_search_space.compute_weight">
+<span class="sig-prename descclassname"><span class="pre">nlgm.graph_search_space.</span></span><span class="sig-name descname"><span class="pre">compute_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifold1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nlgm.manifolds.html#nlgm.manifolds.ProductManifold" title="nlgm.manifolds.ProductManifold"><span class="pre">ProductManifold</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifold2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nlgm.manifolds.html#nlgm.manifolds.ProductManifold" title="nlgm.manifolds.ProductManifold"><span class="pre">ProductManifold</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/graph_search_space.html#compute_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.graph_search_space.compute_weight" title="Link to this definition">#</a></dt>
+<dd><p>Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
+between their component manifolds using the Hungarian algorithm.</p>
+<dl>
+<dt>Args:</dt><dd><p>manifold1 (ProductManifold): The first ProductManifold object.
+manifold2 (ProductManifold): The second ProductManifold object.</p>
+</dd>
+<dt>Returns:</dt><dd><p>float: The inverse Gromov-Haustorff distance between manifold1 and manifold2. If the manifolds
+have mismatching dimensions, returns 0.</p>
+</dd>
+<dt>Note:</dt><dd><p>The weight computation is formulated as an optimal matching problem because we want to find
+the best alignment between the component manifolds of the two ProductManifold objects that
+minimizes the total distance. Each component manifold from manifold1 should be matched with
+exactly one component manifold from manifold2 in a way that minimizes the sum of the distances
+between the matched pairs.</p>
+<p>The Hungarian algorithm is used to solve this optimal matching problem efficiently. It finds
+the minimum weight perfect matching in a bipartite graph, where the nodes represent the component
+manifolds and the edges represent the distances between them.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nlgm.graph_search_space.construct_graph_search_space">
+<span class="sig-prename descclassname"><span class="pre">nlgm.graph_search_space.</span></span><span class="sig-name descname"><span class="pre">construct_graph_search_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature_choices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[-1,</span> <span class="pre">0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/graph_search_space.html#construct_graph_search_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.graph_search_space.construct_graph_search_space" title="Link to this definition">#</a></dt>
+<dd><p>Constructs the graph search space for finding the optimal latent geometry.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_p (int): The number of model spaces in each product manifold.
+curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).</p>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.</p></li>
+<li><dl class="simple">
+<dt>signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.</dt><dd><p>The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>Note:</dt><dd><ul class="simple">
+<li><p>All model spaces have dimension 2.</p></li>
+<li><p>Nodes in the graph represent different geometries (product manifolds).</p></li>
+<li><p>Edges between nodes represent the distances between the corresponding product manifolds.</p></li>
+<li><p>A distance of 0.0 means there is no edge between the nodes.</p></li>
+<li><p>All product manifolds have n_p model spaces, ensuring a constant total dimension throughout the graph.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nlgm.graph_search_space.manifold_to_curvature">
+<span class="sig-prename descclassname"><span class="pre">nlgm.graph_search_space.</span></span><span class="sig-name descname"><span class="pre">manifold_to_curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/graph_search_space.html#manifold_to_curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.graph_search_space.manifold_to_curvature" title="Link to this definition">#</a></dt>
+<dd><p>Helper function to convert dimension 2 manifold type to arbitrary curvature that matches.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nlgm.graph_search_space.manifold_type">
+<span class="sig-prename descclassname"><span class="pre">nlgm.graph_search_space.</span></span><span class="sig-name descname"><span class="pre">manifold_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">manifold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nlgm.manifolds.html#nlgm.manifolds.BasicManifold" title="nlgm.manifolds.BasicManifold"><span class="pre">BasicManifold</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/graph_search_space.html#manifold_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.graph_search_space.manifold_type" title="Link to this definition">#</a></dt>
+<dd><p>Helper function to identify manifold type based on curvature. Assumes dimension 2.</p>
+</dd></dl>
+
 </section>
 
 
@@ -344,6 +421,24 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.compute_weight"><code class="docutils literal notranslate"><span class="pre">compute_weight()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.construct_graph_search_space"><code class="docutils literal notranslate"><span class="pre">construct_graph_search_space()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.manifold_to_curvature"><code class="docutils literal notranslate"><span class="pre">manifold_to_curvature()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.graph_search_space.manifold_type"><code class="docutils literal notranslate"><span class="pre">manifold_type()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -280,7 +280,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -296,6 +298,38 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold"><code class="docutils literal notranslate"><span class="pre">BasicManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold.distance"><code class="docutils literal notranslate"><span class="pre">BasicManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">BasicManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.EuclideanManifold"><code class="docutils literal notranslate"><span class="pre">EuclideanManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.EuclideanManifold.distance"><code class="docutils literal notranslate"><span class="pre">EuclideanManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.EuclideanManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">EuclideanManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.HyperbolicManifold"><code class="docutils literal notranslate"><span class="pre">HyperbolicManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.HyperbolicManifold.distance"><code class="docutils literal notranslate"><span class="pre">HyperbolicManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.HyperbolicManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">HyperbolicManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.ProductManifold"><code class="docutils literal notranslate"><span class="pre">ProductManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.ProductManifold.distance"><code class="docutils literal notranslate"><span class="pre">ProductManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.ProductManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">ProductManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.SphericalManifold"><code class="docutils literal notranslate"><span class="pre">SphericalManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.SphericalManifold.distance"><code class="docutils literal notranslate"><span class="pre">SphericalManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.SphericalManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">SphericalManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -305,8 +339,182 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="nlgm-manifolds-module">
-<h1><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module<a class="headerlink" href="#nlgm-manifolds-module" title="Link to this heading">#</a></h1>
+  <section id="module-nlgm.manifolds">
+<span id="nlgm-manifolds-module"></span><h1><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module<a class="headerlink" href="#module-nlgm.manifolds" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="nlgm.manifolds.BasicManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">BasicManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold" title="Link to this definition">#</a></dt>
+<dd><p>A base class for manifolds, providing a common interface for dimension, curvature, and base point.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dimension (int): The dimension of the manifold.
+curvature (float): The curvature of the manifold.
+base_point (torch.Tensor): The origin point of the tangent space.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.BasicManifold.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold.distance" title="Link to this definition">#</a></dt>
+<dd><p>Computes the geodesic distance between two points.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
+point_y (torch.Tensor): The second point.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.BasicManifold.exponential_map">
+<span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold.exponential_map" title="Link to this definition">#</a></dt>
+<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">EuclideanManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold.distance" title="Link to this definition">#</a></dt>
+<dd><p>Computes the geodesic distance between two points.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
+point_y (torch.Tensor): The second point.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold.exponential_map">
+<span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold.exponential_map" title="Link to this definition">#</a></dt>
+<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">HyperbolicManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold.distance" title="Link to this definition">#</a></dt>
+<dd><p>Computes the geodesic distance between two points.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
+point_y (torch.Tensor): The second point.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold.exponential_map">
+<span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold.exponential_map" title="Link to this definition">#</a></dt>
+<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nlgm.manifolds.ProductManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">ProductManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curvatures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold" title="Link to this definition">#</a></dt>
+<dd><p>Represents a product manifold constructed from multiple manifold components,
+each characterized by its dimension and curvature.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>curvatures (List[float]): A list containing the curvatures of component manifolds.</p>
+</dd>
+<dt>Attributes:</dt><dd><p>manifolds (List[BasicManifold]): A list of manifold objects representing the components of the product manifold.
+dimensions (List[int]): A list of dimensions of each component manifold.</p>
+</dd>
+</dl>
+<p>Note: dimension of each component manifold is assumed to be 2.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.ProductManifold.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold.distance" title="Link to this definition">#</a></dt>
+<dd><p>Computes the distance between two points in the product manifold space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point in the product manifold space.
+point_y (torch.Tensor): The second point in the product manifold space.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The distance between the two points in the product manifold space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.ProductManifold.exponential_map">
+<span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold.exponential_map" title="Link to this definition">#</a></dt>
+<dd><p>Applies the exponential map of each component manifold to the corresponding segment of the input latent vector
+and returns a concatenated tensor representing the projection into the product manifold space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>latent_vector (torch.Tensor): A latent vector in Euclidean space to be mapped to the product manifold space.</dt><dd><p>Its dimension should match the sum of the dimensions of the component manifolds.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>torch.Tensor: A tensor representing the projection of the input latent vector into the product manifold space,</dt><dd><p>preserving the differentiability for gradient-based optimization.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">SphericalManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold.distance" title="Link to this definition">#</a></dt>
+<dd><p>Computes the geodesic distance between two points.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
+point_y (torch.Tensor): The second point.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold.exponential_map">
+<span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold.exponential_map" title="Link to this definition">#</a></dt>
+<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -344,6 +552,45 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold"><code class="docutils literal notranslate"><span class="pre">BasicManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold.distance"><code class="docutils literal notranslate"><span class="pre">BasicManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">BasicManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.EuclideanManifold"><code class="docutils literal notranslate"><span class="pre">EuclideanManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.EuclideanManifold.distance"><code class="docutils literal notranslate"><span class="pre">EuclideanManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.EuclideanManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">EuclideanManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.HyperbolicManifold"><code class="docutils literal notranslate"><span class="pre">HyperbolicManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.HyperbolicManifold.distance"><code class="docutils literal notranslate"><span class="pre">HyperbolicManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.HyperbolicManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">HyperbolicManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.ProductManifold"><code class="docutils literal notranslate"><span class="pre">ProductManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.ProductManifold.distance"><code class="docutils literal notranslate"><span class="pre">ProductManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.ProductManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">ProductManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.SphericalManifold"><code class="docutils literal notranslate"><span class="pre">SphericalManifold</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.SphericalManifold.distance"><code class="docutils literal notranslate"><span class="pre">SphericalManifold.distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.SphericalManifold.exponential_map"><code class="docutils literal notranslate"><span class="pre">SphericalManifold.exponential_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

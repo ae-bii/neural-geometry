@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nlgm.graph_search_space &#8212; nlgm 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nlgm/graph_search_space';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nlgm 0.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nlgm.graph_search_space</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">nlgm.manifolds</span> <span class="kn">import</span> <span class="n">BasicManifold</span><span class="p">,</span> <span class="n">ProductManifold</span>
+
+
+<div class="viewcode-block" id="manifold_to_curvature">
+<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.manifold_to_curvature">[docs]</a>
+<span class="k">def</span> <span class="nf">manifold_to_curvature</span><span class="p">(</span><span class="n">manifold</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to convert dimension 2 manifold type to arbitrary curvature that matches.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">manifold</span> <span class="o">==</span> <span class="s2">&quot;E2&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">manifold</span> <span class="o">==</span> <span class="s2">&quot;S2&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># manifold == &#39;H2&#39;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="manifold_type">
+<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.manifold_type">[docs]</a>
+<span class="k">def</span> <span class="nf">manifold_type</span><span class="p">(</span><span class="n">manifold</span><span class="p">:</span> <span class="n">BasicManifold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to identify manifold type based on curvature. Assumes dimension 2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">manifold</span><span class="o">.</span><span class="n">dimension</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Dimension must be 2, found manifold.dimension=</span><span class="si">{</span><span class="n">manifold</span><span class="o">.</span><span class="n">dimension</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">manifold</span><span class="o">.</span><span class="n">curvature</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;E2&quot;</span>
+    <span class="k">elif</span> <span class="n">manifold</span><span class="o">.</span><span class="n">curvature</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;S2&quot;</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># manifold.curvature &lt; 0</span>
+        <span class="k">return</span> <span class="s2">&quot;H2&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="compute_weight">
+<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.compute_weight">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_weight</span><span class="p">(</span><span class="n">manifold1</span><span class="p">:</span> <span class="n">ProductManifold</span><span class="p">,</span> <span class="n">manifold2</span><span class="p">:</span> <span class="n">ProductManifold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances</span>
+<span class="sd">    between their component manifolds using the Hungarian algorithm.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        manifold1 (ProductManifold): The first ProductManifold object.</span>
+<span class="sd">        manifold2 (ProductManifold): The second ProductManifold object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The inverse Gromov-Haustorff distance between manifold1 and manifold2. If the manifolds</span>
+<span class="sd">        have mismatching dimensions, returns 0.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The weight computation is formulated as an optimal matching problem because we want to find</span>
+<span class="sd">        the best alignment between the component manifolds of the two ProductManifold objects that</span>
+<span class="sd">        minimizes the total distance. Each component manifold from manifold1 should be matched with</span>
+<span class="sd">        exactly one component manifold from manifold2 in a way that minimizes the sum of the distances</span>
+<span class="sd">        between the matched pairs.</span>
+
+<span class="sd">        The Hungarian algorithm is used to solve this optimal matching problem efficiently. It finds</span>
+<span class="sd">        the minimum weight perfect matching in a bipartite graph, where the nodes represent the component</span>
+<span class="sd">        manifolds and the edges represent the distances between them.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># GH distances between pairs of geometric spaces</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">(</span><span class="s2">&quot;E2&quot;</span><span class="p">,</span> <span class="s2">&quot;S2&quot;</span><span class="p">):</span> <span class="mf">0.23</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;S2&quot;</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">):</span> <span class="mf">0.23</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;E2&quot;</span><span class="p">,</span> <span class="s2">&quot;H2&quot;</span><span class="p">):</span> <span class="mf">0.77</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;H2&quot;</span><span class="p">,</span> <span class="s2">&quot;E2&quot;</span><span class="p">):</span> <span class="mf">0.77</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;S2&quot;</span><span class="p">,</span> <span class="s2">&quot;H2&quot;</span><span class="p">):</span> <span class="mf">0.84</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">&quot;H2&quot;</span><span class="p">,</span> <span class="s2">&quot;S2&quot;</span><span class="p">):</span> <span class="mf">0.84</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Check if the product manifolds have the same number of component manifolds</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">manifold1</span><span class="o">.</span><span class="n">manifolds</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">manifold2</span><span class="o">.</span><span class="n">manifolds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># No connection between product manifolds of different dimensions</span>
+
+    <span class="c1"># Identifying the types of manifolds in each ProductManifold</span>
+    <span class="n">types1</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">manifold_type</span><span class="p">(</span><span class="n">manifold</span><span class="p">)</span> <span class="k">for</span> <span class="n">manifold</span> <span class="ow">in</span> <span class="n">manifold1</span><span class="o">.</span><span class="n">manifolds</span><span class="p">])</span>
+    <span class="n">types2</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">manifold_type</span><span class="p">(</span><span class="n">manifold</span><span class="p">)</span> <span class="k">for</span> <span class="n">manifold</span> <span class="ow">in</span> <span class="n">manifold2</span><span class="o">.</span><span class="n">manifolds</span><span class="p">])</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">types1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">types1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">types2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="k">break</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">distances</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">types1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">types2</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span></div>
+
+
+
+<div class="viewcode-block" id="construct_graph_search_space">
+<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.construct_graph_search_space">[docs]</a>
+<span class="k">def</span> <span class="nf">construct_graph_search_space</span><span class="p">(</span><span class="n">n_p</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">curvature_choices</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Constructs the graph search space for finding the optimal latent geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_p (int): The number of model spaces in each product manifold.</span>
+<span class="sd">        curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.</span>
+<span class="sd">        - signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.</span>
+<span class="sd">                    The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.</span>
+
+
+<span class="sd">    Note:</span>
+<span class="sd">        - All model spaces have dimension 2.</span>
+<span class="sd">        - Nodes in the graph represent different geometries (product manifolds).</span>
+<span class="sd">        - Edges between nodes represent the distances between the corresponding product manifolds.</span>
+<span class="sd">        - A distance of 0.0 means there is no edge between the nodes.</span>
+<span class="sd">        - All product manifolds have n_p model spaces, ensuring a constant total dimension throughout the graph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Generate all possible combinations of curvatures for the given number of model spaces</span>
+    <span class="n">curvature_combinations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">curvature_choices</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">n_p</span><span class="p">))</span>
+
+    <span class="c1"># Deduplicate: Sort the curvatures within each combination to avoid duplicates</span>
+    <span class="n">curvature_combinations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">set</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">combination</span><span class="p">))</span> <span class="k">for</span> <span class="n">combination</span> <span class="ow">in</span> <span class="n">curvature_combinations</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create nodes (product manifolds) for each curvature combination</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ProductManifold</span><span class="p">(</span><span class="n">curvatures</span><span class="p">)</span> <span class="k">for</span> <span class="n">curvatures</span> <span class="ow">in</span> <span class="n">curvature_combinations</span><span class="p">]</span>
+
+    <span class="c1"># Initialize the adjacency matrix with zeros</span>
+    <span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)))</span>
+
+    <span class="c1"># Compute the distances between nodes and add edges to the adjacency matrix</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Constructing Graph Search Space&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">compute_weight</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">nodes</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">weight</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+                <span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+
+    <span class="k">return</span> <span class="n">adjacency_matrix</span><span class="p">,</span> <span class="n">curvature_combinations</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Anupam Bhakta, Adam Mehdi, Kevin Qiu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Anupam Bhakta, Adam Mehdi, Kevin Qiu.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
