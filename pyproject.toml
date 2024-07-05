@@ -25,7 +25,7 @@ Homepage = "https://github.com/ae-bii/nlgm"
 Issues = "https://github.com/ae-bii/nlgm/issues"
 
 [tool.setuptools]
-packages = ["nlgm]
+packages = ["nlgm"]
 
 [tool.setuptools.dynamic]
 version = {attr = "nlgm.__version__"}
