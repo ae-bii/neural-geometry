@@ -7,7 +7,7 @@
 <!-- # Neural Latent Geometry Manifolds -->
 
 > [!CAUTION]
-> The package is not yet fully implemented for use.
+> The package is not yet fully implemented for use. Updates may cause breaking changes.
 
 Neural Latent Geometry Manifolds (`nlgm`) is a Python package inspired by the approach taken in [Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization](https://arxiv.org/pdf/2309.04810.pdf).
 
