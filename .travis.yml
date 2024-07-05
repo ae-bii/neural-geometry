@@ -3,9 +3,10 @@ python:
   - "3.11"
 dist: jammy
 install:
-  - pip install -r requirements.txt
-  - travis_retry pip install -U -r doc/requirements.txt
-  - travis_retry pip install -e .
+  - pip install uv
+  - uv pip install -r requirements.txt
+  - travis_retry uv pip install -U -r doc/requirements.txt
+  - travis_retry uv pip install -e .
 after_success:
   - make -C doc html
   - touch /home/travis/build/ae-bii/nlgm/doc/build/html/.nojekyll
