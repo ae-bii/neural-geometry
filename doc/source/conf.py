@@ -13,7 +13,7 @@ from nlgm import __version__
 
 
 project = "nlgm"
-copyright = "2024, Anupam Bhakta, Adam Mehdi, Kevin Qiu"
+copyright = "2024-present, Anupam Bhakta, Adam Mehdi, Kevin Qiu"
 author = "Anupam Bhakta, Adam Mehdi, Kevin Qiu"
 version = __version__
 release = version
