@@ -8,6 +8,7 @@ install:
   - travis_retry pip install -e .
 after_success:
   - make -C doc html
+  - touch /home/travis/build/ae-bii/nlgm/doc/build/html/.nojekyll
 script:
   - pytest
 branches:
