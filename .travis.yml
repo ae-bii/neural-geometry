@@ -5,6 +5,7 @@ dist: jammy
 install:
   - pip install -r requirements.txt
   - travis_retry pip install -U -r doc/requirements.txt
+  - travis_retry pip install -e .
 after_success:
   - make -C doc html
 script:
@@ -15,7 +16,7 @@ branches:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $GH_TOKEN
+  github_token: $GITHUB_TOKEN
   keep_history: true
   on:
     branch: main
