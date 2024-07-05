@@ -7,15 +7,16 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import os
 import sys
-import pkg_resources
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
+from nlgm import __version__
 
 
 project = "nlgm"
 copyright = "2024, Anupam Bhakta, Adam Mehdi, Kevin Qiu"
 author = "Anupam Bhakta, Adam Mehdi, Kevin Qiu"
-release = pkg_resources.require(project)[0].version
+version = __version__
+release = version
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
