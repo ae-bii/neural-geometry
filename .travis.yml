@@ -14,10 +14,10 @@ branches:
   only:
     - main
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
+  provider: pages:git
+  token: $GITHUB_TOKEN
   keep_history: true
   on:
     branch: main
   local_dir: doc/build/html
+  edge: true
