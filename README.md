@@ -15,7 +15,7 @@ The main high-level features include:
 - Implementation of the neural latent geometry search framework, a novel approach to infer product manifolds by leveraging Gromov-Hausdorff distances.
 - Various optimization methods to suit different requirements.
 
-This package is compatible with libraries like NumPy and PyTorch.
+This package is compatible with libraries like NumPy and PyTorch. For documentation, see [docs](https://ae-bii.github.io/nlgm/).
 
 ## Installation
 
