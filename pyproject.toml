@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nlgm"
 dynamic = ["version"]
-description = "Implementation of the neural latent geometry search framework"
+description = "Latent Space Geometry Search for Neural Networks"
 authors = [
   { name="Anupam Bhakta", email="ab5494@columbia.edu" },
   { name="Adam Mehdi", email="adm2243@columbia.edu" },
