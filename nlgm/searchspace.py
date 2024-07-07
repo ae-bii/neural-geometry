@@ -38,7 +38,7 @@ def manifold_type(manifold: BasicManifold):
 
 def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     """
-    Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
+    Deprecated: Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
     between their component manifolds using the Hungarian algorithm.
 
     Args:
@@ -143,7 +143,25 @@ def construct_graph_search_space(
     connectivity: bool = False,
 ):
     """
-    Computes a connectivity graph for adjacent product spaces for spaces and maxdim.
+    Constructs the graph search space for finding the optimal latent geometry.
+
+    Args:
+        n_p (int): The number of model spaces in each product manifold.
+        curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).
+        connectivity (bool): Whether or not to return a connectivity graph instead of a weighted graph (default: False).
+
+    Returns:
+        - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.
+        - signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.
+                    The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.
+
+
+    Note:
+        - All model spaces have dimension 2.
+        - Nodes in the graph represent different geometries (product manifolds).
+        - Edges between nodes represent the distances between the corresponding product manifolds.
+        - A distance of 0.0 means there is no edge between the nodes.
+        - All product manifolds have up to n_p model spaces.
     """
     if n_p <= 0 or len(curvature_choices) <= 0:
         return np.array([]), []
@@ -205,7 +223,18 @@ def construct_graph_search_space(
 
 def adj_product_spaces(s1: list, s2: list) -> bool:
     """
-    Compare whether encoded product spaces are adjacent.
+    Checks whether two given manifold signatures are adjacent product spaces. 
+
+    Args:
+        s1 (list): The first manifold signature.
+        s2 (list): The second manifold signature.
+
+    Returns:
+        - is_adjacent (bool): A boolean describing whether the manifold signatures are adjacent.
+
+    Note:
+        Adjacency is defined as a difference of at most one manifold between signatures. We use
+        an approximation of Levenshtein (edit) distance to compute this more efficiently.
     """
     if s1 == s2:
         return True
@@ -225,6 +254,9 @@ def adj_product_spaces(s1: list, s2: list) -> bool:
 
 
 def get_color(weight: float) -> str:
+    """
+    Return a color based on the edge weight when visualizing the graph searchspace.
+    """
     if isclose(weight, 1.0):  # diff dim
         return "grey"
     elif isclose(weight, 4.34782600402832):
