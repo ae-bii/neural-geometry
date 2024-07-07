@@ -138,24 +138,24 @@ def construct_graph_search_space(
 
 
 def define_space_search_graph(
-    spaces: list[str | int] = ["E2", "S2", "H2"],
-    maxdim: int = 7,
-    connectivity: bool = True,
-) -> tuple[np.ndarray, list[AnyStr | int]]:
+    n_p: int = 7,
+    curvature_choices: list = [-1, 0, 1],
+    connectivity: bool = False,
+):
     """
     Computes a connectivity graph for adjacent product spaces for spaces and maxdim.
     """
-    if maxdim <= 0 or len(spaces) <= 0:
+    if n_p <= 0 or len(curvature_choices) <= 0:
         return np.array([]), []
 
-    spaces = sorted(spaces)
+    curvature_choices = sorted(curvature_choices)
 
     # evil python trickery!!
     # unpacking is faster than type conversion or list comprehension
     # choose without replacement sum from i=1 to n_r of (n_s + i - 1 choose i)
     product_spaces = {
-        dim: [*combinations_with_replacement(spaces, dim)]
-        for dim in range(1, maxdim + 1)
+        dim: [*combinations_with_replacement(curvature_choices, dim)]
+        for dim in range(1, n_p + 1)
     }
 
     indices = list(chain.from_iterable(product_spaces.values()))
@@ -171,7 +171,7 @@ def define_space_search_graph(
         for curnode in s:
             # compare against adjacent and current dimensions (make sure this is working properly)
             for i in range(-1, 2):
-                if dim + i < 1 or dim + i > maxdim:
+                if dim + i < 1 or dim + i > n_p:
                     continue
 
                 for compnode in product_spaces[dim + i]:
@@ -194,17 +194,16 @@ def define_space_search_graph(
             if distances[i][j] != 1:
                 continue
 
-            pm1 = ProductManifold([manifold_to_curvature(m) for m in indices[i]])
-            pm2 = ProductManifold([manifold_to_curvature(m) for m in indices[j]])
+            pm1 = ProductManifold(indices[i])
+            pm2 = ProductManifold(indices[j])
             dgh = compute_weight(pm1, pm2)
 
             distances[i][j] = dgh if dgh != 0 else 1  # different dims
 
-    # compute
     return distances, indices
 
 
-def adj_product_spaces(s1: list[str | int], s2: list[str | int]) -> bool:
+def adj_product_spaces(s1: list, s2: list) -> bool:
     """
     Compare whether encoded product spaces are adjacent.
     """
@@ -220,9 +219,6 @@ def adj_product_spaces(s1: list[str | int], s2: list[str | int]) -> bool:
     matcher = SequenceMatcher()
     matcher.set_seqs(s1, s2)
 
-    # print(f'diff ratio: {1 - matcher.ratio()}')
-    # print(f'dist: {(1.0 if len_delta == 1 else 2.0) / total_len}')
-
     # if equal length, check that approx. Levenshtein distance is 2
     # if length differs by 1, check that approx. Levenshtein distance is 1
     return isclose(1 - matcher.ratio(), (1.0 if len_delta == 1 else 2.0) / total_len)
@@ -231,9 +227,12 @@ def adj_product_spaces(s1: list[str | int], s2: list[str | int]) -> bool:
 def get_color(weight: float) -> str:
     if isclose(weight, 1.0):  # diff dim
         return "grey"
-    elif isclose(weight, 4.34782600402832):  # d_GH(E2, S2)^{-1} = 1.0 / 0.23
+    elif isclose(weight, 4.34782600402832):
+        # d_GH(E2, S2)^{-1} = 1.0 / 0.23
         return "black"
-    elif isclose(weight, 1.298701286315918):  # d_GH(E2, H2)^{-1} = 1.0 / 0.77
+    elif isclose(weight, 1.298701286315918):
+        # d_GH(E2, H2)^{-1} = 1.0 / 0.77
         return "red"
-    else:  # d_GH(S2, H2)^{-1} = 1.0 / 0.84
+    else:
+        # d_GH(S2, H2)^{-1} = 1.0 / 0.84
         return "blue"
