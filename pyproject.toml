@@ -22,6 +22,8 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/ae-bii/nlgm"
+Documentation = "https://ae-bii.github.io/nlgm/"
+"Release notes" = "https://github.com/ae-bii/nlgm/releases"
 Issues = "https://github.com/ae-bii/nlgm/issues"
 
 [tool.setuptools]
