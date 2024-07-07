@@ -104,6 +104,13 @@ class RandomWalkOptimizer:
         path = []  # to keep track of the path taken
 
         while it < max_iters:
+            if current_node in visited:
+                if path:
+                    current_node = path.pop()
+                else:
+                    break
+                continue
+
             print("--------------------")
             print("Iteration: " + str(it + 1))
             print("--------------------")
@@ -124,15 +131,17 @@ class RandomWalkOptimizer:
             # filter out visited neighbors
             neighbors = [node for node in neighbors if node not in visited]
 
-            if len(neighbors) == 0:
+            if not neighbors:
+                path.pop()
+
                 if path:
                     # backtrack to the previous node if there are no unvisited neighbors
-                    current_node = path.pop()
-                    continue
+                    current_node = path[-1]
                 else:
                     break
+            else:
+                current_node = random.choice(neighbors)
 
-            current_node = random.choice(neighbors)
             it += 1
 
         return best_node
