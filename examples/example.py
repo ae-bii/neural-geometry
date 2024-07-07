@@ -4,7 +4,7 @@ import random
 from nlgm.optimizers import RandomWalkOptimizer
 from nlgm.autoencoder import GeometricAutoencoder
 from nlgm.train import train_and_evaluate
-from nlgm.graph_search_space import construct_graph_search_space
+from nlgm.searchspace import construct_graph_search_space
 
 # Define the data transforms
 transform = transforms.Compose(
