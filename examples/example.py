@@ -78,8 +78,8 @@ optimizer = RandomWalkOptimizer(
 )
 
 # Optimize the objective function
-optimal_signature, optimal_val_metric, optimal_train_metric = optimizer.optimize_with_backtracking(
-    objective_function, 10, callback
+optimal_signature, optimal_val_metric, optimal_train_metric = (
+    optimizer.optimize_with_backtracking(objective_function, 10, callback)
 )
 
 # Print the optimal signature and validation metric

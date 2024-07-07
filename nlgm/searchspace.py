@@ -223,7 +223,7 @@ def construct_graph_search_space(
 
 def adj_product_spaces(s1: list, s2: list) -> bool:
     """
-    Checks whether two given manifold signatures are adjacent product spaces. 
+    Checks whether two given manifold signatures are adjacent product spaces.
 
     Args:
         s1 (list): The first manifold signature.
