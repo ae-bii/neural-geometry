@@ -15,6 +15,14 @@ class BasicManifold:
     def __init__(
         self, dimension: int, curvature: float, base_point: torch.Tensor = None
     ):
+        """
+        Initializes a BasicManifold object.
+
+        Args:
+            dimension (int): The dimension of the manifold.
+            curvature (float): The curvature of the manifold.
+            base_point (torch.Tensor, optional): The origin point of the tangent space. Defaults to None.
+        """
         self.dimension = dimension
         self.curvature = torch.tensor(curvature)
         self.base_point = (
@@ -49,16 +57,44 @@ class BasicManifold:
 
 class EuclideanManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
+        """
+        Applies the exponential map to the given tangent vector in Euclidean space.
+
+        Args:
+            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+
+        Returns:
+            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        """
         # For Euclidean, the exponential map is an identity function
         return tangent_vector
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
+        """
+        Computes the geodesic distance between two points in Euclidean space.
+
+        Args:
+            point_x (torch.Tensor): The first point.
+            point_y (torch.Tensor): The second point.
+
+        Returns:
+            torch.Tensor: The Euclidean distance between the two points.
+        """
         # Compute the Euclidean distance between point_x and point_y
         return torch.norm(point_x - point_y, dim=-1)
 
 
 class SphericalManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
+        """
+        Applies the exponential map to the given tangent vector in Spherical space.
+
+        Args:
+            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+
+        Returns:
+            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        """
         # Compute the L2 norm of the tangent vector
         # $\sqrt{K_S}|x|$
         norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(
@@ -74,6 +110,16 @@ class SphericalManifold(BasicManifold):
         return torch.cos(norm_v) * self.base_point + torch.sin(norm_v) * direction
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
+        """
+        Computes the geodesic distance between two points in Spherical space.
+
+        Args:
+            point_x (torch.Tensor): The first point.
+            point_y (torch.Tensor): The second point.
+
+        Returns:
+            torch.Tensor: The geodesic distance between the two points.
+        """
         # Compute the inner product between point_x and point_y
         # $(x,y)_2 := \langle\mathbf{x}, \mathbf{y}\rangle$
         inner_product = (point_x * point_y).sum(dim=-1)
@@ -87,6 +133,15 @@ class SphericalManifold(BasicManifold):
 
 class HyperbolicManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
+        """
+        Applies the exponential map to the given tangent vector in Hyperbolic space.
+
+        Args:
+            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+
+        Returns:
+            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        """
         # Compute the L2 norm of the tangent vector
         # $\sqrt{-K_H}|x|$
         norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(
@@ -102,6 +157,16 @@ class HyperbolicManifold(BasicManifold):
         return torch.cosh(norm_v) * self.base_point + torch.sinh(norm_v) * direction
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
+        """
+        Computes the geodesic distance between two points in Hyperbolic space.
+
+        Args:
+            point_x (torch.Tensor): The first point.
+            point_y (torch.Tensor): The second point.
+
+        Returns:
+            torch.Tensor: The geodesic distance between the two points.
+        """
         # Compute the Lorentz inner product between point_x and point_y
         # $-(x_p,y_1)_L$, where $(x,y)_L$ denotes the Lorentz inner product
         inner_product = -(point_x[..., 0] * point_y[..., 0]) + (

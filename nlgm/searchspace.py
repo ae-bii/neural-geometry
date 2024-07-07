@@ -9,7 +9,13 @@ from nlgm.manifolds import BasicManifold, ProductManifold
 
 def manifold_to_curvature(manifold: str):
     """
-    Helper function to convert dimension 2 manifold type to arbitrary curvature that matches.
+    Convert a dimension 2 manifold type to an arbitrary curvature that matches.
+
+    Args:
+        manifold (str): The manifold type.
+
+    Returns:
+        int: The curvature that matches the manifold type.
     """
     if manifold == "E2":
         return 0
@@ -21,7 +27,16 @@ def manifold_to_curvature(manifold: str):
 
 def manifold_type(manifold: BasicManifold):
     """
-    Helper function to identify manifold type based on curvature. Assumes dimension 2.
+    Identify the type of a manifold based on its curvature. Assumes dimension 2.
+
+    Args:
+        manifold (BasicManifold): The manifold object.
+
+    Returns:
+        str: The type of the manifold based on its curvature.
+
+    Raises:
+        ValueError: If the dimension of the manifold is not 2.
     """
     if manifold.dimension != 2:
         raise ValueError(
@@ -38,7 +53,7 @@ def manifold_type(manifold: BasicManifold):
 
 def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     """
-    Deprecated: Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
+    Deprecated: Compute the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
     between their component manifolds using the Hungarian algorithm.
 
     Args:
@@ -92,7 +107,7 @@ def __construct_graph_search_space(
     n_p: int, curvature_choices: list = [-1, 0, 1], connectivity: bool = False
 ):
     """
-    Constructs the graph search space for finding the optimal latent geometry.
+    Construct the graph search space for finding the optimal latent geometry.
 
     Args:
         n_p (int): The number of model spaces in each product manifold.
@@ -101,7 +116,7 @@ def __construct_graph_search_space(
 
     Returns:
         - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.
-        - signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.
+        - signatures: A list of product manifold curvatures. With model space dimension 2, this specifies the signature.
                     The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.
 
 
@@ -143,7 +158,7 @@ def construct_graph_search_space(
     connectivity: bool = False,
 ):
     """
-    Constructs the graph search space for finding the optimal latent geometry.
+    Construct the graph search space for finding the optimal latent geometry.
 
     Args:
         n_p (int): The number of model spaces in each product manifold.
@@ -152,7 +167,7 @@ def construct_graph_search_space(
 
     Returns:
         - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.
-        - signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.
+        - signatures: A list of product manifold curvatures. With model space dimension 2, this specifies the signature.
                     The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.
 
 
@@ -223,14 +238,14 @@ def construct_graph_search_space(
 
 def adj_product_spaces(s1: list, s2: list) -> bool:
     """
-    Checks whether two given manifold signatures are adjacent product spaces.
+    Check whether two given manifold signatures are adjacent product spaces.
 
     Args:
         s1 (list): The first manifold signature.
         s2 (list): The second manifold signature.
 
     Returns:
-        - is_adjacent (bool): A boolean describing whether the manifold signatures are adjacent.
+        bool: True if the manifold signatures are adjacent, False otherwise.
 
     Note:
         Adjacency is defined as a difference of at most one manifold between signatures. We use
@@ -255,7 +270,13 @@ def adj_product_spaces(s1: list, s2: list) -> bool:
 
 def get_color(weight: float) -> str:
     """
-    Return a color based on the edge weight when visualizing the graph searchspace.
+    Return a color based on the edge weight when visualizing the graph search space.
+
+    Args:
+        weight (float): The weight of the edge.
+
+    Returns:
+        str: The color corresponding to the edge weight.
     """
     if isclose(weight, 1.0):  # diff dim
         return "grey"
