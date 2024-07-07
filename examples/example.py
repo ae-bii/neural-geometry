@@ -4,7 +4,7 @@ import random
 from nlgm.optimizers import RandomWalkOptimizer
 from nlgm.autoencoder import GeometricAutoencoder
 from nlgm.train import train_and_evaluate
-from nlgm.graph_search_space import construct_graph_search_space
+from nlgm.searchspace import construct_graph_search_space
 
 # Define the data transforms
 transform = transforms.Compose(
@@ -43,7 +43,6 @@ train_loader = torch.utils.data.DataLoader(
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
 
 n_p = 5
-latent_dim = n_p * 2
 
 # Construct the adjacency matrix and signatures for the graph search space
 adjacency_matrix, signatures = construct_graph_search_space(n_p=n_p)
@@ -53,6 +52,7 @@ epochs = 10
 
 # Define the objective function
 def objective_function(signature):
+    latent_dim = len(signature) * 2
     model = GeometricAutoencoder(signature, latent_dim=latent_dim)
     train_losses, test_loss = train_and_evaluate(
         model, train_loader, test_loader, epochs=epochs
@@ -78,8 +78,8 @@ optimizer = RandomWalkOptimizer(
 )
 
 # Optimize the objective function
-optimal_signature, optimal_val_metric, optimal_train_metric = optimizer.optimize(
-    objective_function, 10, callback
+optimal_signature, optimal_val_metric, optimal_train_metric = (
+    optimizer.optimize_with_backtracking(objective_function, 10, callback)
 )
 
 # Print the optimal signature and validation metric
