@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>nlgm.graph_search_space &#8212; nlgm 0.1.0 documentation</title>
+    <title>nlgm.searchspace &#8212; nlgm 0.1.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nlgm/graph_search_space';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nlgm/searchspace';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -149,9 +149,9 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
 </ul>
@@ -256,18 +256,27 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for nlgm.graph_search_space</h1><div class="highlight"><pre>
+  <h1>Source code for nlgm.searchspace</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">difflib</span> <span class="kn">import</span> <span class="n">SequenceMatcher</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">isclose</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations_with_replacement</span><span class="p">,</span> <span class="n">chain</span>
 <span class="kn">from</span> <span class="nn">nlgm.manifolds</span> <span class="kn">import</span> <span class="n">BasicManifold</span><span class="p">,</span> <span class="n">ProductManifold</span>
 
 
 <div class="viewcode-block" id="manifold_to_curvature">
-<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.manifold_to_curvature">[docs]</a>
+<a class="viewcode-back" href="../../nlgm.searchspace.html#nlgm.searchspace.manifold_to_curvature">[docs]</a>
 <span class="k">def</span> <span class="nf">manifold_to_curvature</span><span class="p">(</span><span class="n">manifold</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function to convert dimension 2 manifold type to arbitrary curvature that matches.</span>
+<span class="sd">    Convert a dimension 2 manifold type to an arbitrary curvature that matches.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        manifold (str): The manifold type.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: The curvature that matches the manifold type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">manifold</span> <span class="o">==</span> <span class="s2">&quot;E2&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
@@ -279,10 +288,19 @@ document.write(`
 
 
 <div class="viewcode-block" id="manifold_type">
-<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.manifold_type">[docs]</a>
+<a class="viewcode-back" href="../../nlgm.searchspace.html#nlgm.searchspace.manifold_type">[docs]</a>
 <span class="k">def</span> <span class="nf">manifold_type</span><span class="p">(</span><span class="n">manifold</span><span class="p">:</span> <span class="n">BasicManifold</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function to identify manifold type based on curvature. Assumes dimension 2.</span>
+<span class="sd">    Identify the type of a manifold based on its curvature. Assumes dimension 2.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        manifold (BasicManifold): The manifold object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The type of the manifold based on its curvature.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the dimension of the manifold is not 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">manifold</span><span class="o">.</span><span class="n">dimension</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -299,10 +317,10 @@ document.write(`
 
 
 <div class="viewcode-block" id="compute_weight">
-<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.compute_weight">[docs]</a>
+<a class="viewcode-back" href="../../nlgm.searchspace.html#nlgm.searchspace.compute_weight">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_weight</span><span class="p">(</span><span class="n">manifold1</span><span class="p">:</span> <span class="n">ProductManifold</span><span class="p">,</span> <span class="n">manifold2</span><span class="p">:</span> <span class="n">ProductManifold</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the weight between two ProductManifold objects based on the Gromov-Hausdorff distances</span>
+<span class="sd">    Deprecated: Compute the weight between two ProductManifold objects based on the Gromov-Hausdorff distances</span>
 <span class="sd">    between their component manifolds using the Hungarian algorithm.</span>
 
 <span class="sd">    Args:</span>
@@ -353,19 +371,20 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="construct_graph_search_space">
-<a class="viewcode-back" href="../../nlgm.graph_search_space.html#nlgm.graph_search_space.construct_graph_search_space">[docs]</a>
-<span class="k">def</span> <span class="nf">construct_graph_search_space</span><span class="p">(</span><span class="n">n_p</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">curvature_choices</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
+<span class="k">def</span> <span class="nf">__construct_graph_search_space</span><span class="p">(</span>
+    <span class="n">n_p</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">curvature_choices</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">connectivity</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Constructs the graph search space for finding the optimal latent geometry.</span>
+<span class="sd">    Construct the graph search space for finding the optimal latent geometry.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        n_p (int): The number of model spaces in each product manifold.</span>
 <span class="sd">        curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).</span>
+<span class="sd">        connectivity (bool): Whether or not to return a connectivity graph instead of a weighted graph (default: False).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.</span>
-<span class="sd">        - signatures: A list product manifold curvatures. With model space dimension 2, this specifies the signature.</span>
+<span class="sd">        - signatures: A list of product manifold curvatures. With model space dimension 2, this specifies the signature.</span>
 <span class="sd">                    The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.</span>
 
 
@@ -398,7 +417,154 @@ document.write(`
                 <span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
                 <span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
 
-    <span class="k">return</span> <span class="n">adjacency_matrix</span><span class="p">,</span> <span class="n">curvature_combinations</span></div>
+    <span class="k">return</span> <span class="n">adjacency_matrix</span><span class="p">,</span> <span class="n">curvature_combinations</span>
+
+
+<div class="viewcode-block" id="construct_graph_search_space">
+<a class="viewcode-back" href="../../nlgm.searchspace.html#nlgm.searchspace.construct_graph_search_space">[docs]</a>
+<span class="k">def</span> <span class="nf">construct_graph_search_space</span><span class="p">(</span>
+    <span class="n">n_p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="n">curvature_choices</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">connectivity</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Construct the graph search space for finding the optimal latent geometry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_p (int): The number of model spaces in each product manifold.</span>
+<span class="sd">        curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).</span>
+<span class="sd">        connectivity (bool): Whether or not to return a connectivity graph instead of a weighted graph (default: False).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.</span>
+<span class="sd">        - signatures: A list of product manifold curvatures. With model space dimension 2, this specifies the signature.</span>
+<span class="sd">                    The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.</span>
+
+
+<span class="sd">    Note:</span>
+<span class="sd">        - All model spaces have dimension 2.</span>
+<span class="sd">        - Nodes in the graph represent different geometries (product manifolds).</span>
+<span class="sd">        - Edges between nodes represent the distances between the corresponding product manifolds.</span>
+<span class="sd">        - A distance of 0.0 means there is no edge between the nodes.</span>
+<span class="sd">        - All product manifolds have up to n_p model spaces.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_p</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">curvature_choices</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="p">[]</span>
+
+    <span class="n">curvature_choices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">curvature_choices</span><span class="p">)</span>
+
+    <span class="c1"># evil python trickery!!</span>
+    <span class="c1"># unpacking is faster than type conversion or list comprehension</span>
+    <span class="c1"># choose without replacement sum from i=1 to n_r of (n_s + i - 1 choose i)</span>
+    <span class="n">product_spaces</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="p">[</span><span class="o">*</span><span class="n">combinations_with_replacement</span><span class="p">(</span><span class="n">curvature_choices</span><span class="p">,</span> <span class="n">dim</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">product_spaces</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="n">inv_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">))}</span>
+
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">nodes</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="p">)</span>  <span class="c1"># + np.diag(np.ones(nodes) * np.inf)</span>
+
+    <span class="c1"># compute distance between all product spaces</span>
+    <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">product_spaces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">curnode</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+            <span class="c1"># compare against adjacent and current dimensions (make sure this is working properly)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">dim</span> <span class="o">+</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dim</span> <span class="o">+</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">n_p</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="k">for</span> <span class="n">compnode</span> <span class="ow">in</span> <span class="n">product_spaces</span><span class="p">[</span><span class="n">dim</span> <span class="o">+</span> <span class="n">i</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">inv_map</span><span class="p">[</span><span class="n">compnode</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">inv_map</span><span class="p">[</span><span class="n">curnode</span><span class="p">]:</span>
+                        <span class="k">continue</span>
+
+                    <span class="k">if</span> <span class="n">adj_product_spaces</span><span class="p">(</span><span class="n">curnode</span><span class="p">,</span> <span class="n">compnode</span><span class="p">):</span>
+                        <span class="n">distances</span><span class="p">[</span><span class="n">inv_map</span><span class="p">[</span><span class="n">compnode</span><span class="p">]][</span><span class="n">inv_map</span><span class="p">[</span><span class="n">curnode</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># flip upper triangle onto bottom triangle</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span> <span class="o">+</span> <span class="n">distances</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">distances</span><span class="p">))</span>
+
+    <span class="c1"># if we only want an adjacency matrix, return early</span>
+    <span class="k">if</span> <span class="n">connectivity</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span>
+
+    <span class="c1"># inefficiently compute the inverse d_GH between product spaces</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">pm1</span> <span class="o">=</span> <span class="n">ProductManifold</span><span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">pm2</span> <span class="o">=</span> <span class="n">ProductManifold</span><span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">dgh</span> <span class="o">=</span> <span class="n">compute_weight</span><span class="p">(</span><span class="n">pm1</span><span class="p">,</span> <span class="n">pm2</span><span class="p">)</span>
+
+            <span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dgh</span> <span class="k">if</span> <span class="n">dgh</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>  <span class="c1"># different dims</span>
+
+    <span class="k">return</span> <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span></div>
+
+
+
+<div class="viewcode-block" id="adj_product_spaces">
+<a class="viewcode-back" href="../../nlgm.searchspace.html#nlgm.searchspace.adj_product_spaces">[docs]</a>
+<span class="k">def</span> <span class="nf">adj_product_spaces</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check whether two given manifold signatures are adjacent product spaces.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        s1 (list): The first manifold signature.</span>
+<span class="sd">        s2 (list): The second manifold signature.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the manifold signatures are adjacent, False otherwise.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Adjacency is defined as a difference of at most one manifold between signatures. We use</span>
+<span class="sd">        an approximation of Levenshtein (edit) distance to compute this more efficiently.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">s1</span> <span class="o">==</span> <span class="n">s2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">len_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))</span>
+    <span class="n">total_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">len_delta</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">matcher</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">()</span>
+    <span class="n">matcher</span><span class="o">.</span><span class="n">set_seqs</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+
+    <span class="c1"># if equal length, check that approx. Levenshtein distance is 2</span>
+    <span class="c1"># if length differs by 1, check that approx. Levenshtein distance is 1</span>
+    <span class="k">return</span> <span class="n">isclose</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">matcher</span><span class="o">.</span><span class="n">ratio</span><span class="p">(),</span> <span class="p">(</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">len_delta</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_len</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_color">
+<a class="viewcode-back" href="../../nlgm.searchspace.html#nlgm.searchspace.get_color">[docs]</a>
+<span class="k">def</span> <span class="nf">get_color</span><span class="p">(</span><span class="n">weight</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a color based on the edge weight when visualizing the graph search space.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weight (float): The weight of the edge.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The color corresponding to the edge weight.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">isclose</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>  <span class="c1"># diff dim</span>
+        <span class="k">return</span> <span class="s2">&quot;grey&quot;</span>
+    <span class="k">elif</span> <span class="n">isclose</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mf">4.34782600402832</span><span class="p">):</span>
+        <span class="c1"># d_GH(E2, S2)^{-1} = 1.0 / 0.23</span>
+        <span class="k">return</span> <span class="s2">&quot;black&quot;</span>
+    <span class="k">elif</span> <span class="n">isclose</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mf">1.298701286315918</span><span class="p">):</span>
+        <span class="c1"># d_GH(E2, H2)^{-1} = 1.0 / 0.77</span>
+        <span class="k">return</span> <span class="s2">&quot;red&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># d_GH(S2, H2)^{-1} = 1.0 / 0.84</span>
+        <span class="k">return</span> <span class="s2">&quot;blue&quot;</span></div>
 
 </pre></div>
 

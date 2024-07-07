@@ -149,9 +149,9 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
 </ul>
@@ -257,204 +257,8 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for nlgm.autoencoder</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">nlgm.manifolds</span> <span class="kn">import</span> <span class="n">ProductManifold</span>
-
-<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
-
-
-<div class="viewcode-block" id="ImageAutoEncoder">
-<a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.ImageAutoEncoder">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageAutoEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Image auto-encoder architecture as described in Appendix section D.2 Table 4 of</span>
-<span class="sd">    https://arxiv.org/pdf/2309.04810.</span>
-
-<span class="sd">    TODO: fix the dimensions based on the dataset</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="n">encoder</span> <span class="o">=</span> <span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">LazyBatchNorm2d</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">()]</span>
-
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-            <span class="n">encoder</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">LazyBatchNorm2d</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">()])</span>
-
-        <span class="n">encoder</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">LazyBatchNorm2d</span><span class="p">(),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">(),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">LazyLinear</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">6</span><span class="p">),</span>  <span class="c1"># TODO: figure out the dims here?</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">(),</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">encoder</span><span class="p">)</span>
-
-        <span class="n">decoder</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">LazyLinear</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Unflatten</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>  <span class="c1"># TODO: figure out the dims here?</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">LazyBatchNorm2d</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">(),</span>
-        <span class="p">]</span>
-
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-            <span class="n">decoder</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">LazyBatchNorm2d</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">()])</span>
-
-        <span class="n">decoder</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">ConvTranspose2d</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">LazyBatchNorm2d</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()]</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">decoder</span><span class="p">)</span>
-
-<div class="viewcode-block" id="ImageAutoEncoder.forward">
-<a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.ImageAutoEncoder.forward">[docs]</a>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Forward pass of the autoencoder.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            x (torch.Tensor): Input tensor.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            torch.Tensor: Decoded output tensor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">encoding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">decoding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">decoding</span></div>
-</div>
-
-
-
-<div class="viewcode-block" id="train">
-<a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.train">[docs]</a>
-<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">val_dataloader</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Training Function</span>
-<span class="sd">    Trains a provided PyTorch model for classification over given dataset.</span>
-<span class="sd">    By default uses Cross Entropy Loss.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module): The model to be trained.</span>
-<span class="sd">        name (str): Name of the model.</span>
-<span class="sd">        epochs (int): Number of training epochs.</span>
-<span class="sd">        optimizer (torch.optim.Optimizer): The optimizer to use for training.</span>
-<span class="sd">        train_dataloader (torch.utils.data.DataLoader): DataLoader for training data.</span>
-<span class="sd">        val_dataloader (torch.utils.data.DataLoader, optional): DataLoader for validation data. Defaults to None.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        tuple: Tuple containing training loss, validation loss, and validation accuracy.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Use cross entropy loss for all models for multiclass classification!</span>
-    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
-
-    <span class="c1"># Initializing arrays for tracking training loss, validation loss, validation accuracy</span>
-    <span class="n">train_loss</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="n">val_acc</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
-    <span class="c1"># best_val_loss = float(&quot;inf&quot;)</span>
-
-    <span class="c1"># Iterate over all epochs!</span>
-    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-        <span class="c1"># set model to training mode, enables dropout and adjusting gradient</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-        <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="c1"># Iterating over all minibatches in data (randomly shuffled each epoch)</span>
-        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
-            <span class="c1"># Predict output of minibatch</span>
-            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
-            <span class="c1"># Calculate softmax loss of output</span>
-            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
-            <span class="c1"># Update epoch loss by batched softmax loss</span>
-            <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-
-            <span class="c1"># backpropagate and update gradient</span>
-            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-
-        <span class="c1"># Keep track of training loss</span>
-        <span class="n">train_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">))</span>
-
-        <span class="c1"># Calculating validation loss at end of epoch</span>
-        <span class="k">if</span> <span class="n">val_dataloader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Disable gradient modification</span>
-            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-                <span class="c1"># Set model in evaluation mode (disables things like dropout)</span>
-                <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-                <span class="n">loss</span><span class="p">,</span> <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-                <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">val_dataloader</span><span class="p">:</span>
-                    <span class="c1"># Get predictions on validation minibatches and calculate loss + accuracy</span>
-                    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
-                    <span class="n">loss</span> <span class="o">+=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span>
-                        <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-                    <span class="p">)</span>
-                <span class="n">val_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">))</span>
-                <span class="n">val_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correct</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">))</span>
-
-                <span class="c1"># If the validation loss is better than previously, save this model!</span>
-                <span class="c1"># if val_loss[-1] &lt; best_val_loss:</span>
-                <span class="c1">#     best_val_loss = val_loss[-1]</span>
-                <span class="c1">#     torch.save(</span>
-                <span class="c1">#         {</span>
-                <span class="c1">#             &quot;epoch&quot;: e + 1,</span>
-                <span class="c1">#             &quot;model_state_dict&quot;: model.state_dict(),  # weights of model</span>
-                <span class="c1">#             &quot;optimizer_state_dict&quot;: optimizer.state_dict(),  # optimizer params</span>
-                <span class="c1">#             &quot;loss&quot;: loss_fn,</span>
-                <span class="c1">#         },</span>
-                <span class="c1">#         &quot;/content/drive/MyDrive/Colab Notebooks/dlforcv/models/&quot; + name,</span>
-                <span class="c1">#     )</span>
-
-        <span class="c1"># print out training and validation loss every 1/10th of the epochs!</span>
-        <span class="k">if</span> <span class="n">e</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">epochs</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">e</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2"> =&gt; Train Loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, Val. Loss: </span><span class="si">{</span><span class="n">val_loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-    <span class="c1"># Save final model after all training</span>
-    <span class="c1"># torch.save(</span>
-    <span class="c1">#     {</span>
-    <span class="c1">#         &quot;epoch&quot;: epochs,</span>
-    <span class="c1">#         &quot;model_state_dict&quot;: model.state_dict(),</span>
-    <span class="c1">#         &quot;optimizer_state_dict&quot;: optimizer.state_dict(),</span>
-    <span class="c1">#         &quot;loss&quot;: loss_fn,</span>
-    <span class="c1">#     },</span>
-    <span class="c1">#     &quot;./trained_&quot; + name,</span>
-    <span class="c1"># )</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">train_loss</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="test">
-<a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.test">[docs]</a>
-<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test a given model on a training dataset.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module): The model to be tested.</span>
-<span class="sd">        dataloader (torch.utils.data.DataLoader): DataLoader for test data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Set model to evaluation mode, disabling things like dropout</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="c1"># test_loss = 0</span>
-    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="c1"># Disable gradient updating</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
-            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
-            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-
-    <span class="n">correct</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test Accuracy: </span><span class="si">{</span><span class="n">correct</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
 
 
 <span class="c1"># ==========================================================================================</span>
@@ -466,6 +270,13 @@ document.write(`
 <a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.Encoder">[docs]</a>
 <span class="k">class</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">latent_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Encoder class for the geometric autoencoder.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hidden_dim (int): Number of hidden dimensions.</span>
+<span class="sd">            latent_dim (int): Number of latent dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Encoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
@@ -513,6 +324,13 @@ document.write(`
 <a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.Decoder">[docs]</a>
 <span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">latent_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decoder class for the geometric autoencoder.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hidden_dim (int): Number of hidden dimensions.</span>
+<span class="sd">            latent_dim (int): Number of latent dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Decoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
@@ -555,6 +373,14 @@ document.write(`
 <a class="viewcode-back" href="../../nlgm.autoencoder.html#nlgm.autoencoder.GeometricAutoencoder">[docs]</a>
 <span class="k">class</span> <span class="nc">GeometricAutoencoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">latent_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Geometric Autoencoder class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            signature (list): List of signature dimensions.</span>
+<span class="sd">            hidden_dim (int): Number of hidden dimensions.</span>
+<span class="sd">            latent_dim (int): Number of latent dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GeometricAutoencoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">ProductManifold</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">Encoder</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)</span>

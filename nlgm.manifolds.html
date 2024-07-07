@@ -44,7 +44,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="nlgm.optimizers Module" href="nlgm.optimizers.html" />
-    <link rel="prev" title="nlgm.graph_search_space Module" href="nlgm.graph_search_space.html" />
+    <link rel="prev" title="nlgm.autoencoder Module" href="nlgm.autoencoder.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -150,9 +150,9 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
 </ul>
@@ -384,7 +384,7 @@ point_y (torch.Tensor): The second point.</p>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points.</p>
+<dd><p>Computes the geodesic distance between two points in Euclidean space.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
 point_y (torch.Tensor): The second point.</p>
@@ -414,12 +414,12 @@ point_y (torch.Tensor): The second point.</p>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points.</p>
+<dd><p>Computes the geodesic distance between two points in Hyperbolic space.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
 point_y (torch.Tensor): The second point.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The geodesic distance between the two points.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -427,7 +427,7 @@ point_y (torch.Tensor): The second point.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
+<dd><p>Applies the exponential map to the given tangent vector in Hyperbolic space.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
 </dd>
@@ -491,12 +491,12 @@ and returns a concatenated tensor representing the projection into the product m
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points.</p>
+<dd><p>Computes the geodesic distance between two points in Spherical space.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
 point_y (torch.Tensor): The second point.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The geodesic distance between the two points.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -504,7 +504,7 @@ point_y (torch.Tensor): The second point.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
+<dd><p>Applies the exponential map to the given tangent vector in Spherical space.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
 </dd>
@@ -529,12 +529,12 @@ point_y (torch.Tensor): The second point.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="nlgm.graph_search_space.html"
+       href="nlgm.autoencoder.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</p>
       </div>
     </a>
     <a class="right-next"

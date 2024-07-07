@@ -149,9 +149,9 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
 </ul>
@@ -260,14 +260,14 @@ document.write(`
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#B"><strong>B</strong></a>
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
- | <a href="#I"><strong>I</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -278,6 +278,14 @@ document.write(`
  | <a href="#V"><strong>V</strong></a>
  
 </div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nlgm.searchspace.html#nlgm.searchspace.adj_product_spaces">adj_product_spaces() (in module nlgm.searchspace)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -289,11 +297,11 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nlgm.graph_search_space.html#nlgm.graph_search_space.compute_weight">compute_weight() (in module nlgm.graph_search_space)</a>
+      <li><a href="nlgm.searchspace.html#nlgm.searchspace.compute_weight">compute_weight() (in module nlgm.searchspace)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nlgm.graph_search_space.html#nlgm.graph_search_space.construct_graph_search_space">construct_graph_search_space() (in module nlgm.graph_search_space)</a>
+      <li><a href="nlgm.searchspace.html#nlgm.searchspace.construct_graph_search_space">construct_graph_search_space() (in module nlgm.searchspace)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -350,8 +358,6 @@ document.write(`
 </li>
         <li><a href="nlgm.autoencoder.html#nlgm.autoencoder.GeometricAutoencoder.forward">(nlgm.autoencoder.GeometricAutoencoder method)</a>
 </li>
-        <li><a href="nlgm.autoencoder.html#nlgm.autoencoder.ImageAutoEncoder.forward">(nlgm.autoencoder.ImageAutoEncoder method)</a>
-</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -360,6 +366,10 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nlgm.autoencoder.html#nlgm.autoencoder.GeometricAutoencoder">GeometricAutoencoder (class in nlgm.autoencoder)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nlgm.searchspace.html#nlgm.searchspace.get_color">get_color() (in module nlgm.searchspace)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -372,34 +382,24 @@ document.write(`
   </ul></td>
 </tr></table>
 
-<h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nlgm.autoencoder.html#nlgm.autoencoder.ImageAutoEncoder">ImageAutoEncoder (class in nlgm.autoencoder)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nlgm.graph_search_space.html#nlgm.graph_search_space.manifold_to_curvature">manifold_to_curvature() (in module nlgm.graph_search_space)</a>
+      <li><a href="nlgm.searchspace.html#nlgm.searchspace.manifold_to_curvature">manifold_to_curvature() (in module nlgm.searchspace)</a>
 </li>
-      <li><a href="nlgm.graph_search_space.html#nlgm.graph_search_space.manifold_type">manifold_type() (in module nlgm.graph_search_space)</a>
+      <li><a href="nlgm.searchspace.html#nlgm.searchspace.manifold_type">manifold_type() (in module nlgm.searchspace)</a>
 </li>
       <li>
     module
 
       <ul>
-        <li><a href="index.html#module-nlgm">nlgm</a>
-</li>
         <li><a href="nlgm.autoencoder.html#module-nlgm.autoencoder">nlgm.autoencoder</a>
-</li>
-        <li><a href="nlgm.graph_search_space.html#module-nlgm.graph_search_space">nlgm.graph_search_space</a>
 </li>
         <li><a href="nlgm.manifolds.html#module-nlgm.manifolds">nlgm.manifolds</a>
 </li>
         <li><a href="nlgm.optimizers.html#module-nlgm.optimizers">nlgm.optimizers</a>
+</li>
+        <li><a href="nlgm.searchspace.html#module-nlgm.searchspace">nlgm.searchspace</a>
 </li>
         <li><a href="nlgm.train.html#module-nlgm.train">nlgm.train</a>
 </li>
@@ -413,24 +413,10 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    nlgm
-
-      <ul>
-        <li><a href="index.html#module-nlgm">module</a>
-</li>
-      </ul></li>
-      <li>
     nlgm.autoencoder
 
       <ul>
         <li><a href="nlgm.autoencoder.html#module-nlgm.autoencoder">module</a>
-</li>
-      </ul></li>
-      <li>
-    nlgm.graph_search_space
-
-      <ul>
-        <li><a href="nlgm.graph_search_space.html#module-nlgm.graph_search_space">module</a>
 </li>
       </ul></li>
       <li>
@@ -440,13 +426,20 @@ document.write(`
         <li><a href="nlgm.manifolds.html#module-nlgm.manifolds">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     nlgm.optimizers
 
       <ul>
         <li><a href="nlgm.optimizers.html#module-nlgm.optimizers">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    nlgm.searchspace
+
+      <ul>
+        <li><a href="nlgm.searchspace.html#module-nlgm.searchspace">module</a>
 </li>
       </ul></li>
       <li>
@@ -507,12 +500,6 @@ document.write(`
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nlgm.autoencoder.html#nlgm.autoencoder.test">test() (in module nlgm.autoencoder)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nlgm.autoencoder.html#nlgm.autoencoder.train">train() (in module nlgm.autoencoder)</a>
-</li>
       <li><a href="nlgm.train.html#nlgm.train.train_and_evaluate">train_and_evaluate() (in module nlgm.train)</a>
 </li>
   </ul></td>

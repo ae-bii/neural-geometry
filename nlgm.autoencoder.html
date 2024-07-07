@@ -43,7 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nlgm.autoencoder';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="nlgm.graph_search_space Module" href="nlgm.graph_search_space.html" />
+    <link rel="next" title="nlgm.manifolds Module" href="nlgm.manifolds.html" />
     <link rel="prev" title="Welcome to nlgm’s documentation!" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -150,9 +150,9 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
 </ul>
@@ -315,12 +315,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.GeometricAutoencoder.forward"><code class="docutils literal notranslate"><span class="pre">GeometricAutoencoder.forward()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.ImageAutoEncoder"><code class="docutils literal notranslate"><span class="pre">ImageAutoEncoder</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.ImageAutoEncoder.forward"><code class="docutils literal notranslate"><span class="pre">ImageAutoEncoder.forward()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -385,56 +379,6 @@ document.write(`
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="nlgm.autoencoder.ImageAutoEncoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.autoencoder.</span></span><span class="sig-name descname"><span class="pre">ImageAutoEncoder</span></span><a class="reference internal" href="_modules/nlgm/autoencoder.html#ImageAutoEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.autoencoder.ImageAutoEncoder" title="Link to this definition">#</a></dt>
-<dd><p>Image auto-encoder architecture as described in Appendix section D.2 Table 4 of
-<a class="reference external" href="https://arxiv.org/pdf/2309.04810">https://arxiv.org/pdf/2309.04810</a>.</p>
-<p>TODO: fix the dimensions based on the dataset</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="nlgm.autoencoder.ImageAutoEncoder.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/autoencoder.html#ImageAutoEncoder.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.autoencoder.ImageAutoEncoder.forward" title="Link to this definition">#</a></dt>
-<dd><p>Forward pass of the autoencoder.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>x (torch.Tensor): Input tensor.</p>
-</dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: Decoded output tensor.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="nlgm.autoencoder.test">
-<span class="sig-prename descclassname"><span class="pre">nlgm.autoencoder.</span></span><span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/autoencoder.html#test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.autoencoder.test" title="Link to this definition">#</a></dt>
-<dd><p>Test a given model on a training dataset.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>model (nn.Module): The model to be tested.
-dataloader (torch.utils.data.DataLoader): DataLoader for test data.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="nlgm.autoencoder.train">
-<span class="sig-prename descclassname"><span class="pre">nlgm.autoencoder.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/autoencoder.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.autoencoder.train" title="Link to this definition">#</a></dt>
-<dd><p>Training Function
-Trains a provided PyTorch model for classification over given dataset.
-By default uses Cross Entropy Loss.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>model (nn.Module): The model to be trained.
-name (str): Name of the model.
-epochs (int): Number of training epochs.
-optimizer (torch.optim.Optimizer): The optimizer to use for training.
-train_dataloader (torch.utils.data.DataLoader): DataLoader for training data.
-val_dataloader (torch.utils.data.DataLoader, optional): DataLoader for validation data. Defaults to None.</p>
-</dd>
-<dt>Returns:</dt><dd><p>tuple: Tuple containing training loss, validation loss, and validation accuracy.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -458,11 +402,11 @@ val_dataloader (torch.utils.data.DataLoader, optional): DataLoader for validatio
       </div>
     </a>
     <a class="right-next"
-       href="nlgm.graph_search_space.html"
+       href="nlgm.manifolds.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -494,12 +438,6 @@ val_dataloader (torch.utils.data.DataLoader, optional): DataLoader for validatio
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.GeometricAutoencoder.forward"><code class="docutils literal notranslate"><span class="pre">GeometricAutoencoder.forward()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.ImageAutoEncoder"><code class="docutils literal notranslate"><span class="pre">ImageAutoEncoder</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.ImageAutoEncoder.forward"><code class="docutils literal notranslate"><span class="pre">ImageAutoEncoder.forward()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.autoencoder.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
 </ul>
   </nav></div>
 

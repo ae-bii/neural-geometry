@@ -149,9 +149,9 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.graph_search_space.html"><code class="docutils literal notranslate"><span class="pre">nlgm.graph_search_space</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
 </ul>
@@ -276,6 +276,14 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dimension</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">curvature</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">base_point</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a BasicManifold object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dimension (int): The dimension of the manifold.</span>
+<span class="sd">            curvature (float): The curvature of the manifold.</span>
+<span class="sd">            base_point (torch.Tensor, optional): The origin point of the tangent space. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="n">dimension</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">curvature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">curvature</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_point</span> <span class="o">=</span> <span class="p">(</span>
@@ -321,6 +329,15 @@ document.write(`
 <div class="viewcode-block" id="EuclideanManifold.exponential_map">
 <a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold.exponential_map">[docs]</a>
     <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the exponential map to the given tangent vector in Euclidean space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tangent_vector (torch.Tensor): The tangent vector to be mapped.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The result of applying the exponential map to the tangent vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># For Euclidean, the exponential map is an identity function</span>
         <span class="k">return</span> <span class="n">tangent_vector</span></div>
 
@@ -328,6 +345,16 @@ document.write(`
 <div class="viewcode-block" id="EuclideanManifold.distance">
 <a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold.distance">[docs]</a>
     <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the geodesic distance between two points in Euclidean space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point_x (torch.Tensor): The first point.</span>
+<span class="sd">            point_y (torch.Tensor): The second point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The Euclidean distance between the two points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Compute the Euclidean distance between point_x and point_y</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point_x</span> <span class="o">-</span> <span class="n">point_y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
 </div>
@@ -340,6 +367,15 @@ document.write(`
 <div class="viewcode-block" id="SphericalManifold.exponential_map">
 <a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold.exponential_map">[docs]</a>
     <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the exponential map to the given tangent vector in Spherical space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tangent_vector (torch.Tensor): The tangent vector to be mapped.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The result of applying the exponential map to the tangent vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Compute the L2 norm of the tangent vector</span>
         <span class="c1"># $\sqrt{K_S}|x|$</span>
         <span class="n">norm_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
@@ -358,6 +394,16 @@ document.write(`
 <div class="viewcode-block" id="SphericalManifold.distance">
 <a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold.distance">[docs]</a>
     <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the geodesic distance between two points in Spherical space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point_x (torch.Tensor): The first point.</span>
+<span class="sd">            point_y (torch.Tensor): The second point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The geodesic distance between the two points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Compute the inner product between point_x and point_y</span>
         <span class="c1"># $(x,y)_2 := \langle\mathbf{x}, \mathbf{y}\rangle$</span>
         <span class="n">inner_product</span> <span class="o">=</span> <span class="p">(</span><span class="n">point_x</span> <span class="o">*</span> <span class="n">point_y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
@@ -377,6 +423,15 @@ document.write(`
 <div class="viewcode-block" id="HyperbolicManifold.exponential_map">
 <a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold.exponential_map">[docs]</a>
     <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the exponential map to the given tangent vector in Hyperbolic space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tangent_vector (torch.Tensor): The tangent vector to be mapped.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The result of applying the exponential map to the tangent vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Compute the L2 norm of the tangent vector</span>
         <span class="c1"># $\sqrt{-K_H}|x|$</span>
         <span class="n">norm_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
@@ -395,6 +450,16 @@ document.write(`
 <div class="viewcode-block" id="HyperbolicManifold.distance">
 <a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold.distance">[docs]</a>
     <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the geodesic distance between two points in Hyperbolic space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            point_x (torch.Tensor): The first point.</span>
+<span class="sd">            point_y (torch.Tensor): The second point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The geodesic distance between the two points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Compute the Lorentz inner product between point_x and point_y</span>
         <span class="c1"># $-(x_p,y_1)_L$, where $(x,y)_L$ denotes the Lorentz inner product</span>
         <span class="n">inner_product</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">point_x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">point_y</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span>
