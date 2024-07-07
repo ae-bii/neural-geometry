@@ -88,7 +88,7 @@ def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     return 1 / distances.get((types1[i], types2[i]))
 
 
-def construct_graph_search_space(
+def __construct_graph_search_space(
     n_p: int, curvature_choices: list = [-1, 0, 1], connectivity: bool = False
 ):
     """
@@ -137,7 +137,7 @@ def construct_graph_search_space(
     return adjacency_matrix, curvature_combinations
 
 
-def define_space_search_graph(
+def construct_graph_search_space(
     n_p: int = 7,
     curvature_choices: list = [-1, 0, 1],
     connectivity: bool = False,
