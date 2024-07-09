@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 
 def train_and_evaluate(
