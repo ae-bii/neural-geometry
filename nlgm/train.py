@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 
 def train_and_evaluate(
@@ -29,6 +29,8 @@ def train_and_evaluate(
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
     train_losses = []
+
+    model.to(device)
 
     it = tqdm(range(epochs), desc="Epochs") if progress_bar else range(epochs)
     for epoch in it:

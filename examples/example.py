@@ -55,7 +55,7 @@ def objective_function(signature):
     latent_dim = len(signature) * 2
     model = GeometricAutoencoder(signature, latent_dim=latent_dim)
     train_losses, test_loss = train_and_evaluate(
-        model, train_loader, test_loader, epochs=epochs
+        model, train_loader, test_loader, epochs=epochs, device=torch.device("cuda")
     )
     return train_losses, test_loss
 

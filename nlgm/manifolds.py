@@ -95,9 +95,11 @@ class SphericalManifold(BasicManifold):
         Returns:
             torch.Tensor: The result of applying the exponential map to the tangent vector.
         """
+        device = torch.get_device(tangent_vector)
+
         # Compute the L2 norm of the tangent vector
         # $\sqrt{K_S}|x|$
-        norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(
+        norm_v = torch.sqrt(torch.abs(self.curvature.to(device))) * torch.norm(
             tangent_vector, dim=-1, keepdim=True
         )
 
@@ -107,7 +109,10 @@ class SphericalManifold(BasicManifold):
 
         # Apply the exponential map formula for spherical manifold
         # $\cos(\sqrt{K_S}\|x\|)x_p + \sin(\sqrt{K_S}\|x\|)\frac{x}{\sqrt{K_S}\|x\|}$
-        return torch.cos(norm_v) * self.base_point + torch.sin(norm_v) * direction
+        return (
+            torch.cos(norm_v) * self.base_point.to(device)
+            + torch.sin(norm_v) * direction
+        )
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
@@ -120,15 +125,17 @@ class SphericalManifold(BasicManifold):
         Returns:
             torch.Tensor: The geodesic distance between the two points.
         """
+        device = torch.get_device(point_x)
+
         # Compute the inner product between point_x and point_y
         # $(x,y)_2 := \langle\mathbf{x}, \mathbf{y}\rangle$
         inner_product = (point_x * point_y).sum(dim=-1)
 
         # Compute the geodesic distance using the arc-cosine of the inner product
         # $\arccos(K_S * (x,y)_2) / \sqrt{|K|}$
-        return torch.acos(self.curvature * inner_product.clamp(-1.0, 1.0)) / torch.sqrt(
-            self.curvature
-        )
+        return torch.acos(
+            self.curvature.to(device) * inner_product.clamp(-1.0, 1.0)
+        ) / torch.sqrt(self.curvature)
 
 
 class HyperbolicManifold(BasicManifold):
@@ -142,9 +149,11 @@ class HyperbolicManifold(BasicManifold):
         Returns:
             torch.Tensor: The result of applying the exponential map to the tangent vector.
         """
+        device = torch.get_device(tangent_vector)
+
         # Compute the L2 norm of the tangent vector
         # $\sqrt{-K_H}|x|$
-        norm_v = torch.sqrt(torch.abs(self.curvature)) * torch.norm(
+        norm_v = torch.sqrt(torch.abs(self.curvature.to(device))) * torch.norm(
             tangent_vector, dim=-1, keepdim=True
         )
 
@@ -154,7 +163,10 @@ class HyperbolicManifold(BasicManifold):
 
         # Apply the exponential map formula for hyperbolic manifold
         # $\cosh(\sqrt{-K_H}\|x\|)x_p + \sinh(\sqrt{-K_H}\|x\|)\frac{x}{\sqrt{-K_H}\|x\|}$
-        return torch.cosh(norm_v) * self.base_point + torch.sinh(norm_v) * direction
+        return (
+            torch.cosh(norm_v) * self.base_point.to(device)
+            + torch.sinh(norm_v) * direction
+        )
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
@@ -167,6 +179,8 @@ class HyperbolicManifold(BasicManifold):
         Returns:
             torch.Tensor: The geodesic distance between the two points.
         """
+        device = torch.get_device(point_x)
+
         # Compute the Lorentz inner product between point_x and point_y
         # $-(x_p,y_1)_L$, where $(x,y)_L$ denotes the Lorentz inner product
         inner_product = -(point_x[..., 0] * point_y[..., 0]) + (
@@ -175,9 +189,9 @@ class HyperbolicManifold(BasicManifold):
 
         # Compute the geodesic distance using the arc-hyperbolic cosine of the inner product
         # $\frac{1}{\sqrt{-K_H}} \mathrm{arccosh}(K_H*(x,y)_L)$
-        return torch.acosh(self.curvature * inner_product.clamp_min(1.0)) / torch.sqrt(
-            -self.curvature
-        )
+        return torch.acosh(
+            self.curvature.to(device) * inner_product.clamp_min(1.0)
+        ) / torch.sqrt(-self.curvature)
 
 
 class ProductManifold:
