@@ -105,9 +105,14 @@ class SphericalManifold(BasicManifold):
         # $\frac{x}{\sqrt{K_S}\|x\|}$
         direction = tangent_vector / norm_v.clamp_min(1e-6)
 
+        device = torch.get_device(direction)
+
         # Apply the exponential map formula for spherical manifold
         # $\cos(\sqrt{K_S}\|x\|)x_p + \sin(\sqrt{K_S}\|x\|)\frac{x}{\sqrt{K_S}\|x\|}$
-        return torch.cos(norm_v) * self.base_point + torch.sin(norm_v) * direction
+        return (
+            torch.cos(norm_v) * self.base_point.to(device)
+            + torch.sin(norm_v) * direction
+        )
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
@@ -124,11 +129,13 @@ class SphericalManifold(BasicManifold):
         # $(x,y)_2 := \langle\mathbf{x}, \mathbf{y}\rangle$
         inner_product = (point_x * point_y).sum(dim=-1)
 
+        device = torch.get_device(inner_product)
+
         # Compute the geodesic distance using the arc-cosine of the inner product
         # $\arccos(K_S * (x,y)_2) / \sqrt{|K|}$
-        return torch.acos(self.curvature * inner_product.clamp(-1.0, 1.0)) / torch.sqrt(
-            self.curvature
-        )
+        return torch.acos(
+            self.curvature.to(device) * inner_product.clamp(-1.0, 1.0)
+        ) / torch.sqrt(self.curvature)
 
 
 class HyperbolicManifold(BasicManifold):
@@ -152,9 +159,14 @@ class HyperbolicManifold(BasicManifold):
         # $\frac{x}{\sqrt{-K_H}\|x\|}$
         direction = tangent_vector / norm_v.clamp_min(1e-6)
 
+        device = torch.get_device(direction)
+
         # Apply the exponential map formula for hyperbolic manifold
         # $\cosh(\sqrt{-K_H}\|x\|)x_p + \sinh(\sqrt{-K_H}\|x\|)\frac{x}{\sqrt{-K_H}\|x\|}$
-        return torch.cosh(norm_v) * self.base_point + torch.sinh(norm_v) * direction
+        return (
+            torch.cosh(norm_v) * self.base_point.to(device)
+            + torch.sinh(norm_v) * direction
+        )
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
@@ -173,11 +185,13 @@ class HyperbolicManifold(BasicManifold):
             point_x[..., 1:] * point_y[..., 1:]
         ).sum(dim=-1)
 
+        device = torch.get_device(inner_product)
+
         # Compute the geodesic distance using the arc-hyperbolic cosine of the inner product
         # $\frac{1}{\sqrt{-K_H}} \mathrm{arccosh}(K_H*(x,y)_L)$
-        return torch.acosh(self.curvature * inner_product.clamp_min(1.0)) / torch.sqrt(
-            -self.curvature
-        )
+        return torch.acosh(
+            self.curvature.to(device) * inner_product.clamp_min(1.0)
+        ) / torch.sqrt(-self.curvature)
 
 
 class ProductManifold:

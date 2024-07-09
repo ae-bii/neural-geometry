@@ -30,6 +30,8 @@ def train_and_evaluate(
 
     train_losses = []
 
+    model.to(device)
+
     it = tqdm(range(epochs), desc="Epochs") if progress_bar else range(epochs)
     for epoch in it:
         model.train()
