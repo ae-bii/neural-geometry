@@ -376,9 +376,11 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: The result of applying the exponential map to the tangent vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">get_device</span><span class="p">(</span><span class="n">tangent_vector</span><span class="p">)</span>
+
         <span class="c1"># Compute the L2 norm of the tangent vector</span>
         <span class="c1"># $\sqrt{K_S}|x|$</span>
-        <span class="n">norm_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+        <span class="n">norm_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
             <span class="n">tangent_vector</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
@@ -388,7 +390,10 @@ document.write(`
 
         <span class="c1"># Apply the exponential map formula for spherical manifold</span>
         <span class="c1"># $\cos(\sqrt{K_S}\|x\|)x_p + \sin(\sqrt{K_S}\|x\|)\frac{x}{\sqrt{K_S}\|x\|}$</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_point</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">direction</span></div>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_point</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">direction</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SphericalManifold.distance">
@@ -404,15 +409,17 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: The geodesic distance between the two points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">get_device</span><span class="p">(</span><span class="n">point_x</span><span class="p">)</span>
+
         <span class="c1"># Compute the inner product between point_x and point_y</span>
         <span class="c1"># $(x,y)_2 := \langle\mathbf{x}, \mathbf{y}\rangle$</span>
         <span class="n">inner_product</span> <span class="o">=</span> <span class="p">(</span><span class="n">point_x</span> <span class="o">*</span> <span class="n">point_y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="c1"># Compute the geodesic distance using the arc-cosine of the inner product</span>
         <span class="c1"># $\arccos(K_S * (x,y)_2) / \sqrt{|K|}$</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span> <span class="o">*</span> <span class="n">inner_product</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">curvature</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">inner_product</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span></div>
 </div>
 
 
@@ -432,9 +439,11 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: The result of applying the exponential map to the tangent vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">get_device</span><span class="p">(</span><span class="n">tangent_vector</span><span class="p">)</span>
+
         <span class="c1"># Compute the L2 norm of the tangent vector</span>
         <span class="c1"># $\sqrt{-K_H}|x|$</span>
-        <span class="n">norm_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+        <span class="n">norm_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
             <span class="n">tangent_vector</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
@@ -444,7 +453,10 @@ document.write(`
 
         <span class="c1"># Apply the exponential map formula for hyperbolic manifold</span>
         <span class="c1"># $\cosh(\sqrt{-K_H}\|x\|)x_p + \sinh(\sqrt{-K_H}\|x\|)\frac{x}{\sqrt{-K_H}\|x\|}$</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_point</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">direction</span></div>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_point</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">direction</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HyperbolicManifold.distance">
@@ -460,6 +472,8 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: The geodesic distance between the two points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">get_device</span><span class="p">(</span><span class="n">point_x</span><span class="p">)</span>
+
         <span class="c1"># Compute the Lorentz inner product between point_x and point_y</span>
         <span class="c1"># $-(x_p,y_1)_L$, where $(x,y)_L$ denotes the Lorentz inner product</span>
         <span class="n">inner_product</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">point_x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">point_y</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span>
@@ -468,9 +482,9 @@ document.write(`
 
         <span class="c1"># Compute the geodesic distance using the arc-hyperbolic cosine of the inner product</span>
         <span class="c1"># $\frac{1}{\sqrt{-K_H}} \mathrm{arccosh}(K_H*(x,y)_L)$</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">acosh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span> <span class="o">*</span> <span class="n">inner_product</span><span class="o">.</span><span class="n">clamp_min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-            <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">acosh</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">inner_product</span><span class="o">.</span><span class="n">clamp_min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span></div>
 </div>
 
 
