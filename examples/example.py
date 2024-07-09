@@ -6,6 +6,8 @@ from nlgm.autoencoder import GeometricAutoencoder
 from nlgm.train import train_and_evaluate
 from nlgm.searchspace import construct_graph_search_space
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # Define the data transforms
 transform = transforms.Compose(
     [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
@@ -55,7 +57,7 @@ def objective_function(signature):
     latent_dim = len(signature) * 2
     model = GeometricAutoencoder(signature, latent_dim=latent_dim)
     train_losses, test_loss = train_and_evaluate(
-        model, train_loader, test_loader, epochs=epochs, device=torch.device("cuda")
+        model, train_loader, test_loader, epochs=epochs, device=device
     )
     return train_losses, test_loss
 
