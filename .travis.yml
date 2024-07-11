@@ -4,9 +4,8 @@ python:
 dist: jammy
 install:
   - pip install uv
-  - uv pip install -r requirements.txt
   - travis_retry uv pip install -U -r doc/requirements.txt
-  - travis_retry uv pip install -e .
+  - travis_retry uv pip install -e ".[dev,vis]"
 after_success:
   - make -C doc html
   - touch /home/travis/build/ae-bii/nlgm/doc/build/html/.nojekyll

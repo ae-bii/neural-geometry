@@ -25,6 +25,13 @@ To install `nlgm`, you can use pip:
 pip install nlgm
 ```
 
+You can install optional packages for development or visualization using:
+
+```bash
+pip install .[dev,vis]     # install from pyproject.toml
+pip install nlgm[dev,vis]  # install from pypi
+```
+
 ## Usage
 
 After installing, you can import the package and use it by following the [example](https://github.com/ae-bii/nlgm/blob/main/examples/example.py).

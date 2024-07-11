@@ -19,6 +19,16 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "torch",
+    "numpy",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+vis = ["matplotlib", "networkx"]
+dev = ["pytest"]
+
 
 [project.urls]
 Homepage = "https://github.com/ae-bii/nlgm"

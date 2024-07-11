@@ -1,7 +1,0 @@
-torch
-numpy
-setuptools
-requests
-tqdm
-matplotlib
-networkx
