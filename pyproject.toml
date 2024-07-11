@@ -22,7 +22,6 @@ classifiers = [
 dependencies = [
     "torch",
     "numpy",
-    "requests",
     "tqdm",
 ]
 
