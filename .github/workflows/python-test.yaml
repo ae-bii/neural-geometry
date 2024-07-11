@@ -3,11 +3,7 @@
 
 name: Python Test
 
-on:
-  push:
-    branches: [ "main", "release/*" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -30,6 +26,6 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install uv
         python -m uv pip install -e ".[dev,vis]"
-    - name: Test with pytest
+    - name: Test with tox
       run: |
-        pytest
+        tox -e py
