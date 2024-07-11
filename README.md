@@ -22,14 +22,14 @@ This package is compatible with libraries like NumPy and PyTorch. For documentat
 To install `nlgm`, you can use pip:
 
 ```bash
-pip install nlgm # from pypi
+pip install nlgm
 ```
 
 You can install optional packages for development or visualization using:
 
 ```bash
-pip install .[dev, vis]    # install from pyproject.toml
-pip install nlgm[dev, vis] # install from pypi
+pip install .[dev, vis]     # install from pyproject.toml
+pip install nlgm[dev, vis]  # install from pypi
 ```
 
 ## Usage
