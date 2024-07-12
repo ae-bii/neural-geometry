@@ -4,8 +4,8 @@
 
 --------------------------------------------------------------------------------
 
-> [!CAUTION]
-> The package is still in its early stages. Updates may cause breaking changes.
+> [!WARNING]
+> This package is still in its early stages. Updates may cause breaking changes.
 
 Neural Geometry is a Python package inspired by the approach taken in [Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization](https://arxiv.org/pdf/2309.04810.pdf).
 
