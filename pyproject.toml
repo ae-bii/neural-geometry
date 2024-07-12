@@ -27,7 +27,7 @@ dependencies = [
 
 [project.optional-dependencies]
 vis = ["matplotlib", "networkx"]
-dev = ["pytest"]
+dev = ["pytest", "tox", "tox-uv", "pre-commit"]
 
 
 [project.urls]

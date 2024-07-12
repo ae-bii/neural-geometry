@@ -1,5 +1,5 @@
 import torch
-from typing import List, Tuple
+from typing import List
 
 
 class BasicManifold:
@@ -209,7 +209,7 @@ class ProductManifold:
     Note: dimension of each component manifold is assumed to be 2.
     """
 
-    def __init__(self, curvatures: List[Tuple[float]]):
+    def __init__(self, curvatures: List[float]):
         """
         Initializes a ProductManifold object.
 
