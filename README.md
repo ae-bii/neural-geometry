@@ -7,13 +7,15 @@
 > [!WARNING]
 > This package is still in its early stages. Updates may cause breaking changes.
 
-Neural Geometry is a Python package inspired by the approach taken in [Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization](https://arxiv.org/pdf/2309.04810.pdf).
+Neural Geometry is a Python library designed to explore and manipulate the geometric properties of neural network latent spaces. It provides a set of tools and methods to understand the complex, high-dimensional spaces that neural networks operate in, inspired by recent approaches (e.g. Borde et al., [2023](https://arxiv.org/pdf/2309.04810.pdf)).
 
-The main high-level features include:
-- Implementation of the neural latent geometry search framework, a novel approach to infer product manifolds by leveraging Gromov-Hausdorff distances.
-- Various optimization methods to suit different requirements.
 
-This package is compatible with libraries like NumPy and PyTorch. For documentation, see [docs](https://ae-bii.github.io/neural-geometry/).
+The primary features of Neural Geometry include:
+
+- An implementation of the neural latent geometry search framework. This framework provides a unique approach to product manifold inference, which can be beneficial in various fields such as machine learning and data analysis.
+- A selection of optimization methods to cater to different needs and requirements. These methods can be used to fine-tune the performance of the neural latent geometry search framework.
+
+This package is designed to be compatible with popular scientific computing libraries such as NumPy and PyTorch, making it a versatile tool for researchers and developers working in these environments. Comprehensive documentation is available at [docs](https://ae-bii.github.io/neural-geometry/).
 
 ## Installation
 

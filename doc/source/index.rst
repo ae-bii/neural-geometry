@@ -6,17 +6,17 @@ Welcome to Neural Geometry's documentation!
 .. warning::
    The package is still in its early stages. Updates may cause breaking changes.
 
-Neural Geometry is a Python package inspired by the approach taken in `Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization <https://arxiv.org/pdf/2309.04810.pdf>`_.
+Neural Geometry is a Python library designed to explore and manipulate the geometric properties of neural network latent spaces. It provides a set of tools and methods to understand the complex, high-dimensional spaces that neural networks operate in, inspired by recent approaches (e.g. Borde et al., `2023 <https://arxiv.org/pdf/2309.04810.pdf>`_).
 
 Features
 --------
 
-The main high-level features include:
+The primary features of Neural Geometry include:
 
-- Implementation of the neural latent geometry search framework, a novel approach to infer product manifolds by leveraging Gromov-Hausdorff distances.
-- Various optimization methods to suit different requirements.
+- An implementation of the neural latent geometry search framework. This framework provides a unique approach to product manifold inference, which can be beneficial in various fields such as machine learning and data analysis.
+- A selection of optimization methods to cater to different needs and requirements. These methods can be used to fine-tune the performance of the neural latent geometry search framework.
 
-This package is compatible with libraries like NumPy and PyTorch.
+This package is designed to be compatible with popular scientific computing libraries such as NumPy and PyTorch, making it a versatile tool for researchers and developers working in these environments.
 
 Installation
 ------------
@@ -31,7 +31,7 @@ You can install optional packages for development or visualization using:
 
 .. code-block:: bash
 
-   pip install .[dev,vis]     # install from pyproject.toml
+   pip install .[dev,vis]                # install from pyproject.toml
    pip install neural-geometry[dev,vis]  # install from pypi
 
 Usage
@@ -55,7 +55,7 @@ Before submitting your pull request, please make sure your changes pass all test
 License
 -------
 
-Please refer to the `LICENSE <https://github.com/ae-bii/nlgm/blob/main/LICENSE>`_ file in the repository for information on the project's license.
+Please refer to the `LICENSE <https://github.com/ae-bii/neural-geometry/blob/main/LICENSE>`_ file in the repository for information on the project's license.
 
 -------------------
 
