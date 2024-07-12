@@ -38,7 +38,7 @@ dev = ["pytest"]
 
 [project.urls]
 Homepage = "https://github.com/ae-bii/neural-geometry"
-Documentation = "https://ae-bii.github.io/nlgm/"
+Documentation = "https://ae-bii.github.io/neural-geometry/"
 "Release notes" = "https://github.com/ae-bii/neural-geometry/releases"
 Issues = "https://github.com/ae-bii/neural-geometry/issues"
 
