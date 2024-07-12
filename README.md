@@ -26,7 +26,7 @@ pip install neural-geometry
 You can install optional packages for development or visualization using:
 
 ```bash
-pip install .[dev,vis]     # install from pyproject.toml
+pip install .[dev,vis]                # install from pyproject.toml
 pip install neural-geometry[dev,vis]  # install from pypi
 ```
 
