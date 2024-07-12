@@ -21,8 +21,10 @@ def manifold_to_curvature(manifold: str):
         return 0
     elif manifold == "S2":
         return 1
-    else:  # manifold == 'H2'
+    elif manifold == "H2":
         return -1
+    else:
+        raise ValueError("Only E2, S2, and H2 manifolds supported.")
 
 
 def manifold_type(manifold: BasicManifold):
