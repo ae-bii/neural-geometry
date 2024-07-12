@@ -1,12 +1,12 @@
 .. nlgm documentation master file, created by on Thu Jul  4 16:03:45 2024.
 
-Welcome to ``nlgm``'s documentation!
+Welcome to Neural Geometry's documentation!
 =======================================
 
 .. warning::
    The package is still in its early stages. Updates may cause breaking changes.
 
-Neural Latent Geometry Manifolds (``nlgm``) is a Python package inspired by the approach taken in `Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization <https://arxiv.org/pdf/2309.04810.pdf>`_.
+Neural Geometry is a Python package inspired by the approach taken in `Neural Latent Geometry Search: Product Manifold Inference via Gromov-Hausdorff-Informed Bayesian Optimization <https://arxiv.org/pdf/2309.04810.pdf>`_.
 
 Features
 --------
@@ -21,21 +21,28 @@ This package is compatible with libraries like NumPy and PyTorch.
 Installation
 ------------
 
-To install ``nlgm``, you can use pip:
+To install Neural Geometry, you can use pip:
 
 .. code-block:: bash
 
-   pip install nlgm
+   pip install neural-geometry
+
+You can install optional packages for development or visualization using:
+
+.. code-block:: bash
+
+   pip install .[dev,vis]     # install from pyproject.toml
+   pip install neural-geometry[dev,vis]  # install from pypi
 
 Usage
 -----
 
-After installing, you can import the package and use it by following the `example <https://github.com/ae-bii/nlgm/blob/main/examples/example.py>`_.
+After installing, you can import the package and use it by following the `example <https://github.com/ae-bii/neural-geometry/blob/main/examples/example.py>`_.
 
 Contributing
 ------------
 
-Contributions to ``nlgm`` are welcome! To contribute:
+Contributions to Neural Geometry are welcome! To contribute:
 
 1. Fork the repository.
 2. Install the pre-commit hooks using ``pre-commit install``.
