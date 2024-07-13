@@ -1,7 +1,7 @@
 .. nlgm documentation master file, created by on Thu Jul  4 16:03:45 2024.
 
 Welcome to Neural Geometry's documentation!
-=======================================
+==================================================
 
 .. warning::
    The package is still in its early stages. Updates may cause breaking changes.
