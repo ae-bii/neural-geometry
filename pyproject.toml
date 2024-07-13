@@ -12,7 +12,7 @@ authors = [
   { name="Kevin Qiu", email="kzq2000@columbia.edu" }
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 3 - Alpha",
