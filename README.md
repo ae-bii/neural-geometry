@@ -1,5 +1,5 @@
 <h3 align="center">
-    <img src="assets/nlgm_banner.png" alt="nlgm banner"/>
+    <img src="https://raw.githubusercontent.com/ae-bii/neural-geometry/main/assets/nlgm_banner.png" alt="nlgm banner"/>
 </h3>
 
 --------------------------------------------------------------------------------
