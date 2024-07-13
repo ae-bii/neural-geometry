@@ -1,269 +1,189 @@
-
 <!DOCTYPE html>
 
-
-<html lang="en" data-content_root="../../" >
-
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>nlgm.manifolds &#8212; nlgm 0.1.1 documentation</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
-  </script>
-  
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
-  
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css?v=a123c646" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
 
-    <script src="../../_static/documentation_options.js?v=1a9ffd16"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nlgm/manifolds';</script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e936e8a8"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js?v=dbd2e957"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
-  
-  
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
-<form class="bd-search d-flex align-items-center"
-      action="../../search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         id="search-input"
-         placeholder="Search..."
-         aria-label="Search..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
-  
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
-    </header>
-  
-
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
-      
-      
-      
-        
-      
-      <div class="bd-sidebar-primary bd-sidebar">
-        
-
-  
-  <div class="sidebar-header-items sidebar-primary__section">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
 
-  
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
-  
-
-<a class="navbar-brand logo" href="../../index.html">
-  
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
   
   
+  <h1 class="site-logo" id="site-title">nlgm 0.1.1 documentation</h1>
   
-  
-  
-    <p class="title logo__title">nlgm 0.1.1 documentation</p>
-  
-</a></div>
-        <div class="sidebar-primary-item">
-
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.autoencoder.html"><code class="docutils literal notranslate"><span class="pre">nlgm.autoencoder</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.manifolds.html"><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.optimizers.html"><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.searchspace.html"><code class="docutils literal notranslate"><span class="pre">nlgm.searchspace</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.train.html"><code class="docutils literal notranslate"><span class="pre">nlgm.train</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlgm.visualize.html"><code class="docutils literal notranslate"><span class="pre">nlgm.visualize</span></code> Module</a></li>
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nlgm.autoencoder.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nlgm.autoencoder
+    </span>
+   </code>
+   Module
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nlgm.manifolds.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nlgm.manifolds
+    </span>
+   </code>
+   Module
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nlgm.optimizers.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nlgm.optimizers
+    </span>
+   </code>
+   Module
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nlgm.searchspace.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nlgm.searchspace
+    </span>
+   </code>
+   Module
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nlgm.train.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nlgm.train
+    </span>
+   </code>
+   Module
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nlgm.visualize.html">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     nlgm.visualize
+    </span>
+   </code>
+   Module
+  </a>
+ </li>
 </ul>
 
-    </div>
-</nav></div>
-    </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-  </div>
-  
-  <div id="rtd-footer-container"></div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
 
 
-      </div>
-      
-      <main id="main-content" class="bd-main" role="main">
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
         
         
+        <!-- Source interaction buttons -->
 
-<div class="sbt-scroll-pixel-helper"></div>
 
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article d-print-none">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</button></div>
-      
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
     </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
 
-<div class="article-header-buttons">
-
-
-
-<button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-
-</div></div>
-      
-    </div>
-  
-</div>
-</div>
-              
-              
-
-<div id="jb-print-docs-body" class="onlyprint">
-    <h1></h1>
     <!-- Table of contents -->
-    <div id="print-main-content">
-        <div id="jb-print-toc">
-            
-        </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
     </div>
 </div>
-
-              
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
                 
-<div id="searchbox"></div>
-                <article class="bd-article">
-                  
   <h1>Source code for nlgm.manifolds</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 
-<div class="viewcode-block" id="BasicManifold">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.BasicManifold">[docs]</a>
-<span class="k">class</span> <span class="nc">BasicManifold</span><span class="p">:</span>
+<div class="viewcode-block" id="BasicManifold"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.BasicManifold">[docs]</a><span class="k">class</span> <span class="nc">BasicManifold</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A base class for manifolds, providing a common interface for dimension, curvature, and base point.</span>
 
@@ -290,9 +210,7 @@ document.write(`
             <span class="n">base_point</span> <span class="k">if</span> <span class="n">base_point</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="BasicManifold.exponential_map">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.BasicManifold.exponential_map">[docs]</a>
-    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="BasicManifold.exponential_map"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.BasicManifold.exponential_map">[docs]</a>    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies the exponential map to the given tangent vector in Euclidean space.</span>
 
@@ -304,10 +222,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-
-<div class="viewcode-block" id="BasicManifold.distance">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.BasicManifold.distance">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="BasicManifold.distance"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.BasicManifold.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the geodesic distance between two points.</span>
 
@@ -318,17 +233,11 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: The Euclidean distance between the two points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
-</div>
+        <span class="k">pass</span></div></div>
 
 
-
-<div class="viewcode-block" id="EuclideanManifold">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold">[docs]</a>
-<span class="k">class</span> <span class="nc">EuclideanManifold</span><span class="p">(</span><span class="n">BasicManifold</span><span class="p">):</span>
-<div class="viewcode-block" id="EuclideanManifold.exponential_map">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold.exponential_map">[docs]</a>
-    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="EuclideanManifold"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold">[docs]</a><span class="k">class</span> <span class="nc">EuclideanManifold</span><span class="p">(</span><span class="n">BasicManifold</span><span class="p">):</span>
+<div class="viewcode-block" id="EuclideanManifold.exponential_map"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold.exponential_map">[docs]</a>    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies the exponential map to the given tangent vector in Euclidean space.</span>
 
@@ -341,10 +250,7 @@ document.write(`
         <span class="c1"># For Euclidean, the exponential map is an identity function</span>
         <span class="k">return</span> <span class="n">tangent_vector</span></div>
 
-
-<div class="viewcode-block" id="EuclideanManifold.distance">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold.distance">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="EuclideanManifold.distance"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.EuclideanManifold.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the geodesic distance between two points in Euclidean space.</span>
 
@@ -356,17 +262,11 @@ document.write(`
 <span class="sd">            torch.Tensor: The Euclidean distance between the two points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Compute the Euclidean distance between point_x and point_y</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point_x</span> <span class="o">-</span> <span class="n">point_y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
-</div>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point_x</span> <span class="o">-</span> <span class="n">point_y</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div></div>
 
 
-
-<div class="viewcode-block" id="SphericalManifold">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold">[docs]</a>
-<span class="k">class</span> <span class="nc">SphericalManifold</span><span class="p">(</span><span class="n">BasicManifold</span><span class="p">):</span>
-<div class="viewcode-block" id="SphericalManifold.exponential_map">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold.exponential_map">[docs]</a>
-    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="SphericalManifold"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold">[docs]</a><span class="k">class</span> <span class="nc">SphericalManifold</span><span class="p">(</span><span class="n">BasicManifold</span><span class="p">):</span>
+<div class="viewcode-block" id="SphericalManifold.exponential_map"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold.exponential_map">[docs]</a>    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies the exponential map to the given tangent vector in Spherical space.</span>
 
@@ -395,10 +295,7 @@ document.write(`
             <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">direction</span>
         <span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="SphericalManifold.distance">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold.distance">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="SphericalManifold.distance"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.SphericalManifold.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the geodesic distance between two points in Spherical space.</span>
 
@@ -419,17 +316,11 @@ document.write(`
         <span class="c1"># $\arccos(K_S * (x,y)_2) / \sqrt{|K|}$</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">inner_product</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-        <span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span></div>
-</div>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span></div></div>
 
 
-
-<div class="viewcode-block" id="HyperbolicManifold">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold">[docs]</a>
-<span class="k">class</span> <span class="nc">HyperbolicManifold</span><span class="p">(</span><span class="n">BasicManifold</span><span class="p">):</span>
-<div class="viewcode-block" id="HyperbolicManifold.exponential_map">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold.exponential_map">[docs]</a>
-    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="HyperbolicManifold"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold">[docs]</a><span class="k">class</span> <span class="nc">HyperbolicManifold</span><span class="p">(</span><span class="n">BasicManifold</span><span class="p">):</span>
+<div class="viewcode-block" id="HyperbolicManifold.exponential_map"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold.exponential_map">[docs]</a>    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies the exponential map to the given tangent vector in Hyperbolic space.</span>
 
@@ -458,10 +349,7 @@ document.write(`
             <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">norm_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">direction</span>
         <span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="HyperbolicManifold.distance">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold.distance">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="HyperbolicManifold.distance"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.HyperbolicManifold.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the geodesic distance between two points in Hyperbolic space.</span>
 
@@ -484,14 +372,10 @@ document.write(`
         <span class="c1"># $\frac{1}{\sqrt{-K_H}} \mathrm{arccosh}(K_H*(x,y)_L)$</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">acosh</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">inner_product</span><span class="o">.</span><span class="n">clamp_min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-        <span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span></div>
-</div>
+        <span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span></div></div>
 
 
-
-<div class="viewcode-block" id="ProductManifold">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.ProductManifold">[docs]</a>
-<span class="k">class</span> <span class="nc">ProductManifold</span><span class="p">:</span>
+<div class="viewcode-block" id="ProductManifold"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.ProductManifold">[docs]</a><span class="k">class</span> <span class="nc">ProductManifold</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a product manifold constructed from multiple manifold components,</span>
 <span class="sd">    each characterized by its dimension and curvature.</span>
@@ -523,9 +407,7 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># curvature &lt; 0</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">manifolds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HyperbolicManifold</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">curvature</span><span class="p">))</span>
 
-<div class="viewcode-block" id="ProductManifold.exponential_map">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.ProductManifold.exponential_map">[docs]</a>
-    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="ProductManifold.exponential_map"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.ProductManifold.exponential_map">[docs]</a>    <span class="k">def</span> <span class="nf">exponential_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latent_vector</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies the exponential map of each component manifold to the corresponding segment of the input latent vector</span>
 <span class="sd">        and returns a concatenated tensor representing the projection into the product manifold space.</span>
@@ -549,7 +431,6 @@ document.write(`
         <span class="c1"># Concatenate the mapped segments along the last dimension to form a single tensor</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">mapped_segments</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
 
-
     <span class="k">def</span> <span class="nf">_get_segments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tangent_vector</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Aligns component manifolds with corresponding segments of input tangent vector.</span>
@@ -569,9 +450,7 @@ document.write(`
             <span class="n">start</span> <span class="o">=</span> <span class="n">end</span>
         <span class="k">return</span> <span class="n">segments</span>
 
-<div class="viewcode-block" id="ProductManifold.distance">
-<a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.ProductManifold.distance">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="ProductManifold.distance"><a class="viewcode-back" href="../../nlgm.manifolds.html#nlgm.manifolds.ProductManifold.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">point_y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the distance between two points in the product manifold space.</span>
 
@@ -594,75 +473,39 @@ document.write(`
         <span class="p">]</span>
 
         <span class="c1"># Sum the squared distances and take the square root</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">squared_distances</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span></div>
-</div>
-
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">squared_distances</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span></div></div>
 </pre></div>
 
-                </article>
+              </div>
               
-
-              
-              
-              
-              
-                <footer class="prev-next-footer d-print-none">
-                  
-<div class="prev-next-area">
-</div>
-                </footer>
-              
-            </div>
-            
-            
-              
-            
-          </div>
-          <footer class="bd-footer-content">
-            
-<div class="bd-footer-content__inner container">
-  
-  <div class="footer-item">
+        </div>
+    </div>
     
-<p class="component-author">
-By Anupam Bhakta, Adam Mehdi, Kevin Qiu
-</p>
-
-  </div>
-  
-  <div class="footer-item">
     
-
-  <p class="copyright">
-    
-      © Copyright 2024-present, Anupam Bhakta, Adam Mehdi, Kevin Qiu.
-      <br/>
-    
-  </p>
-
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-</div>
-          </footer>
+    <div class='prev-next-bottom'>
         
 
-      </main>
     </div>
-  </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
-
-  <footer class="bd-footer">
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Anupam Bhakta, Adam Mehdi, Kevin Qiu<br/>
+        
+            &copy; Copyright 2024-present, Anupam Bhakta, Adam Mehdi, Kevin Qiu.<br/>
+      </p>
+    </div>
   </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
   </body>
 </html>
