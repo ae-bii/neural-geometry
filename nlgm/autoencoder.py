@@ -77,7 +77,6 @@ class Decoder(nn.Module):
             Number of hidden dimensions.
         latent_dim : int
             Number of latent dimensions.
-
         
         Attributes
         ----------
