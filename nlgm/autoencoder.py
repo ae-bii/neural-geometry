@@ -77,7 +77,7 @@ class Decoder(nn.Module):
             Number of hidden dimensions.
         latent_dim : int
             Number of latent dimensions.
-        
+
         Attributes
         ----------
         decoder
@@ -133,7 +133,7 @@ class GeometricAutoencoder(nn.Module):
             Number of hidden dimensions.
         latent_dim : int
             Number of latent dimensions.
-        
+
         Attributes
         ----------
         geometry
