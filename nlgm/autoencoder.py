@@ -12,9 +12,16 @@ class Encoder(nn.Module):
         """
         Encoder class for the geometric autoencoder.
 
-        Args:
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
+        Parameters
+        ----------
+        hidden_dim : int
+            Number of hidden dimensions.
+        latent_dim : int
+            Number of latent dimensions.
+
+        Attributes
+        ----------
+        encoder
         """
         super(Encoder, self).__init__()
 
@@ -45,11 +52,15 @@ class Encoder(nn.Module):
         """
         Forward pass of the encoder.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor.
 
-        Returns:
-            torch.Tensor: Encoded output tensor.
+        Returns
+        -------
+        tensor : torch.Tensor
+            Encoded output tensor.
         """
         z = self.encoder(x)
         return z
@@ -60,9 +71,17 @@ class Decoder(nn.Module):
         """
         Decoder class for the geometric autoencoder.
 
-        Args:
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
+        Parameters
+        ----------
+        hidden_dim : int
+            Number of hidden dimensions.
+        latent_dim : int
+            Number of latent dimensions.
+
+        
+        Attributes
+        ----------
+        decoder
         """
         super(Decoder, self).__init__()
 
@@ -88,11 +107,15 @@ class Decoder(nn.Module):
         """
         Forward pass of the decoder.
 
-        Args:
-            z (torch.Tensor): Encoded input tensor.
+        Parameters
+        ----------
+        z : torch.Tensor
+            Encoded input tensor.
 
-        Returns:
-            torch.Tensor: Decoded output tensor.
+        Returns
+        -------
+        tensor : torch.Tensor
+            Decoded output tensor.
         """
         x_recon = self.decoder(z)
         return x_recon
@@ -103,10 +126,20 @@ class GeometricAutoencoder(nn.Module):
         """
         Geometric Autoencoder class.
 
-        Args:
-            signature (list): List of signature dimensions.
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
+        Parameters
+        ----------
+        signature : list
+            List of signature dimensions.
+        hidden_dim : int
+            Number of hidden dimensions.
+        latent_dim : int
+            Number of latent dimensions.
+        
+        Attributes
+        ----------
+        geometry
+        encoder
+        decoder
         """
         super(GeometricAutoencoder, self).__init__()
         self.geometry = ProductManifold(signature)
@@ -117,11 +150,15 @@ class GeometricAutoencoder(nn.Module):
         """
         Forward pass of the geometric autoencoder.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor.
 
-        Returns:
-            torch.Tensor: Decoded output tensor.
+        Returns
+        -------
+        tensor : torch.Tensor
+            Decoded output tensor.
         """
         z = self.encoder(x)
         z = self.geometry.exponential_map(z)
