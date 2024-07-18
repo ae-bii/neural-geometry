@@ -8,21 +8,26 @@ from nlgm.manifolds import ProductManifold
 
 
 class Encoder(nn.Module):
+    """
+    Encoder class for the geometric autoencoder.
+
+    Parameters
+    ----------
+    hidden_dim : int
+        Number of hidden dimensions.
+    latent_dim : int
+        Number of latent dimensions.
+
+    Methods
+    -------
+    forward
+
+    Attributes
+    ----------
+    encoder
+    """
+
     def __init__(self, hidden_dim=20, latent_dim=2):
-        """
-        Encoder class for the geometric autoencoder.
-
-        Parameters
-        ----------
-        hidden_dim : int
-            Number of hidden dimensions.
-        latent_dim : int
-            Number of latent dimensions.
-
-        Attributes
-        ----------
-        encoder
-        """
         super(Encoder, self).__init__()
 
         self.encoder = nn.Sequential(
@@ -67,21 +72,26 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
+    """
+    Decoder class for the geometric autoencoder.
+
+    Parameters
+    ----------
+    hidden_dim : int
+        Number of hidden dimensions.
+    latent_dim : int
+        Number of latent dimensions.
+
+    Methods
+    -------
+    forward
+
+    Attributes
+    ----------
+    decoder
+    """
+
     def __init__(self, hidden_dim=20, latent_dim=2):
-        """
-        Decoder class for the geometric autoencoder.
-
-        Parameters
-        ----------
-        hidden_dim : int
-            Number of hidden dimensions.
-        latent_dim : int
-            Number of latent dimensions.
-
-        Attributes
-        ----------
-        decoder
-        """
         super(Decoder, self).__init__()
 
         self.decoder = nn.Sequential(
@@ -121,25 +131,30 @@ class Decoder(nn.Module):
 
 
 class GeometricAutoencoder(nn.Module):
+    """
+    Geometric Autoencoder class.
+
+    Parameters
+    ----------
+    signature : list
+        List of signature dimensions.
+    hidden_dim : int
+        Number of hidden dimensions.
+    latent_dim : int
+        Number of latent dimensions.
+
+    Methods
+    -------
+    forward
+
+    Attributes
+    ----------
+    geometry
+    encoder
+    decoder
+    """
+
     def __init__(self, signature, hidden_dim=20, latent_dim=2):
-        """
-        Geometric Autoencoder class.
-
-        Parameters
-        ----------
-        signature : list
-            List of signature dimensions.
-        hidden_dim : int
-            Number of hidden dimensions.
-        latent_dim : int
-            Number of latent dimensions.
-
-        Attributes
-        ----------
-        geometry
-        encoder
-        decoder
-        """
         super(GeometricAutoencoder, self).__init__()
         self.geometry = ProductManifold(signature)
         self.encoder = Encoder(hidden_dim, latent_dim)
