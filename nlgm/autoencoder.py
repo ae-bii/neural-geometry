@@ -8,14 +8,26 @@ from nlgm.manifolds import ProductManifold
 
 
 class Encoder(nn.Module):
-    def __init__(self, hidden_dim=20, latent_dim=2):
-        """
-        Encoder class for the geometric autoencoder.
+    """
+    Encoder class for the geometric autoencoder.
 
-        Args:
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
-        """
+    Parameters
+    ----------
+    hidden_dim : int
+        Number of hidden dimensions.
+    latent_dim : int
+        Number of latent dimensions.
+
+    Methods
+    -------
+    forward
+
+    Attributes
+    ----------
+    encoder
+    """
+
+    def __init__(self, hidden_dim=20, latent_dim=2):
         super(Encoder, self).__init__()
 
         self.encoder = nn.Sequential(
@@ -45,25 +57,41 @@ class Encoder(nn.Module):
         """
         Forward pass of the encoder.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor.
 
-        Returns:
-            torch.Tensor: Encoded output tensor.
+        Returns
+        -------
+        tensor : torch.Tensor
+            Encoded output tensor.
         """
         z = self.encoder(x)
         return z
 
 
 class Decoder(nn.Module):
-    def __init__(self, hidden_dim=20, latent_dim=2):
-        """
-        Decoder class for the geometric autoencoder.
+    """
+    Decoder class for the geometric autoencoder.
 
-        Args:
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
-        """
+    Parameters
+    ----------
+    hidden_dim : int
+        Number of hidden dimensions.
+    latent_dim : int
+        Number of latent dimensions.
+
+    Methods
+    -------
+    forward
+
+    Attributes
+    ----------
+    decoder
+    """
+
+    def __init__(self, hidden_dim=20, latent_dim=2):
         super(Decoder, self).__init__()
 
         self.decoder = nn.Sequential(
@@ -88,26 +116,45 @@ class Decoder(nn.Module):
         """
         Forward pass of the decoder.
 
-        Args:
-            z (torch.Tensor): Encoded input tensor.
+        Parameters
+        ----------
+        z : torch.Tensor
+            Encoded input tensor.
 
-        Returns:
-            torch.Tensor: Decoded output tensor.
+        Returns
+        -------
+        tensor : torch.Tensor
+            Decoded output tensor.
         """
         x_recon = self.decoder(z)
         return x_recon
 
 
 class GeometricAutoencoder(nn.Module):
-    def __init__(self, signature, hidden_dim=20, latent_dim=2):
-        """
-        Geometric Autoencoder class.
+    """
+    Geometric Autoencoder class.
 
-        Args:
-            signature (list): List of signature dimensions.
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
-        """
+    Parameters
+    ----------
+    signature : list
+        List of signature dimensions.
+    hidden_dim : int
+        Number of hidden dimensions.
+    latent_dim : int
+        Number of latent dimensions.
+
+    Methods
+    -------
+    forward
+
+    Attributes
+    ----------
+    geometry
+    encoder
+    decoder
+    """
+
+    def __init__(self, signature, hidden_dim=20, latent_dim=2):
         super(GeometricAutoencoder, self).__init__()
         self.geometry = ProductManifold(signature)
         self.encoder = Encoder(hidden_dim, latent_dim)
@@ -117,11 +164,15 @@ class GeometricAutoencoder(nn.Module):
         """
         Forward pass of the geometric autoencoder.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor.
 
-        Returns:
-            torch.Tensor: Decoded output tensor.
+        Returns
+        -------
+        tensor : torch.Tensor
+            Decoded output tensor.
         """
         z = self.encoder(x)
         z = self.geometry.exponential_map(z)
