@@ -9,13 +9,17 @@ from nlgm.manifolds import BasicManifold, ProductManifold
 
 def manifold_to_curvature(manifold: str):
     """
-    Convert a dimension 2 manifold type to an arbitrary curvature that matches.
+    Map a 2D manifold code to its representative curvature.
 
-    Args:
-        manifold (str): The manifold type.
+    Parameters
+    ----------
+    manifold : str
+        Manifold code. Supported values are ``"E2"``, ``"S2"``, and ``"H2"``.
 
-    Returns:
-        int: The curvature that matches the manifold type.
+    Returns
+    -------
+    int
+        Curvature representative for the manifold code.
     """
     if manifold == "E2":
         return 0
@@ -29,16 +33,22 @@ def manifold_to_curvature(manifold: str):
 
 def manifold_type(manifold: BasicManifold):
     """
-    Identify the type of a manifold based on its curvature. Assumes dimension 2.
+    Identify manifold code from curvature, assuming dimension 2.
 
-    Args:
-        manifold (BasicManifold): The manifold object.
+    Parameters
+    ----------
+    manifold : BasicManifold
+        Manifold instance.
 
-    Returns:
-        str: The type of the manifold based on its curvature.
+    Returns
+    -------
+    str
+        One of ``"E2"``, ``"S2"``, or ``"H2"``.
 
-    Raises:
-        ValueError: If the dimension of the manifold is not 2.
+    Raises
+    ------
+    ValueError
+        If ``manifold.dimension`` is not 2.
     """
     if manifold.dimension != 2:
         raise ValueError(
@@ -55,27 +65,23 @@ def manifold_type(manifold: BasicManifold):
 
 def compute_weight(manifold1: ProductManifold, manifold2: ProductManifold):
     """
-    Deprecated: Compute the weight between two ProductManifold objects based on the Gromov-Hausdorff distances
-    between their component manifolds using the Hungarian algorithm.
+    Compute inverse Gromov-Hausdorff weight between product manifolds.
 
-    Args:
-        manifold1 (ProductManifold): The first ProductManifold object.
-        manifold2 (ProductManifold): The second ProductManifold object.
+    Parameters
+    ----------
+    manifold1 : ProductManifold
+        First manifold.
+    manifold2 : ProductManifold
+        Second manifold.
 
-    Returns:
-        float: The inverse Gromov-Haustorff distance between manifold1 and manifold2. If the manifolds
-        have mismatching dimensions, returns 0.
+    Returns
+    -------
+    float
+        Inverse distance weight. Returns ``0.0`` when manifold dimensions differ.
 
-    Note:
-        The weight computation is formulated as an optimal matching problem because we want to find
-        the best alignment between the component manifolds of the two ProductManifold objects that
-        minimizes the total distance. Each component manifold from manifold1 should be matched with
-        exactly one component manifold from manifold2 in a way that minimizes the sum of the distances
-        between the matched pairs.
-
-        The Hungarian algorithm is used to solve this optimal matching problem efficiently. It finds
-        the minimum weight perfect matching in a bipartite graph, where the nodes represent the component
-        manifolds and the edges represent the distances between them.
+    Notes
+    -----
+    This implementation uses a fixed lookup table between manifold type pairs.
     """
     # GH distances between pairs of geometric spaces
     distances = {
@@ -109,25 +115,23 @@ def __construct_graph_search_space(
     n_p: int, curvature_choices: list = [-1, 0, 1], connectivity: bool = False
 ):
     """
-    Construct the graph search space for finding the optimal latent geometry.
+    Construct graph search space using full Cartesian curvature combinations.
 
-    Args:
-        n_p (int): The number of model spaces in each product manifold.
-        curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).
-        connectivity (bool): Whether or not to return a connectivity graph instead of a weighted graph (default: False).
+    Parameters
+    ----------
+    n_p : int
+        Number of model spaces in each product manifold.
+    curvature_choices : list, default=[-1, 0, 1]
+        Curvature values to combine.
+    connectivity : bool, default=False
+        Present for API compatibility; this helper returns weighted adjacency.
 
-    Returns:
-        - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.
-        - signatures: A list of product manifold curvatures. With model space dimension 2, this specifies the signature.
-                    The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.
-
-
-    Note:
-        - All model spaces have dimension 2.
-        - Nodes in the graph represent different geometries (product manifolds).
-        - Edges between nodes represent the distances between the corresponding product manifolds.
-        - A distance of 0.0 means there is no edge between the nodes.
-        - All product manifolds have n_p model spaces, ensuring a constant total dimension throughout the graph.
+    Returns
+    -------
+    numpy.ndarray
+        Weighted adjacency matrix for candidate product manifolds.
+    list[tuple]
+        Signature list corresponding to matrix indices.
     """
     # Generate all possible combinations of curvatures for the given number of model spaces
     curvature_combinations = list(itertools.product(curvature_choices, repeat=n_p))
@@ -160,25 +164,23 @@ def construct_graph_search_space(
     connectivity: bool = False,
 ):
     """
-    Construct the graph search space for finding the optimal latent geometry.
+    Construct graph search space over product-manifold signatures.
 
-    Args:
-        n_p (int): The number of model spaces in each product manifold.
-        curvature_choices (list): The possible curvatures to choose from (default: [-1, 0, 1]).
-        connectivity (bool): Whether or not to return a connectivity graph instead of a weighted graph (default: False).
+    Parameters
+    ----------
+    n_p : int, default=7
+        Maximum number of model spaces in each product manifold.
+    curvature_choices : list, default=[-1, 0, 1]
+        Allowed curvature values.
+    connectivity : bool, default=False
+        If ``True``, return unweighted connectivity only.
 
-    Returns:
-        - adjacency_matrix: A 2D numpy array representing the adjacency matrix of the graph search space.
-        - signatures: A list of product manifold curvatures. With model space dimension 2, this specifies the signature.
-                    The index of the tuple in the list corresponds to the index of the node in the adjacency matrix.
-
-
-    Note:
-        - All model spaces have dimension 2.
-        - Nodes in the graph represent different geometries (product manifolds).
-        - Edges between nodes represent the distances between the corresponding product manifolds.
-        - A distance of 0.0 means there is no edge between the nodes.
-        - All product manifolds have up to n_p model spaces.
+    Returns
+    -------
+    numpy.ndarray
+        Adjacency or weighted-distance matrix.
+    list[tuple]
+        Signature list aligned with returned matrix indices.
     """
     if n_p <= 0 or len(curvature_choices) <= 0:
         return np.array([]), []
@@ -240,18 +242,24 @@ def construct_graph_search_space(
 
 def adj_product_spaces(s1: list, s2: list) -> bool:
     """
-    Check whether two given manifold signatures are adjacent product spaces.
+    Check whether two manifold signatures are adjacent product spaces.
 
-    Args:
-        s1 (list): The first manifold signature.
-        s2 (list): The second manifold signature.
+    Parameters
+    ----------
+    s1 : list
+        First signature.
+    s2 : list
+        Second signature.
 
-    Returns:
-        bool: True if the manifold signatures are adjacent, False otherwise.
+    Returns
+    -------
+    bool
+        ``True`` if signatures are adjacent, otherwise ``False``.
 
-    Note:
-        Adjacency is defined as a difference of at most one manifold between signatures. We use
-        an approximation of Levenshtein (edit) distance to compute this more efficiently.
+    Notes
+    -----
+    Adjacency allows a maximum edit-distance approximation corresponding to
+    one manifold insertion/deletion or one replacement.
     """
     if s1 == s2:
         return True
@@ -272,13 +280,17 @@ def adj_product_spaces(s1: list, s2: list) -> bool:
 
 def get_color(weight: float) -> str:
     """
-    Return a color based on the edge weight when visualizing the graph search space.
+    Map an edge weight to the plotting color used in search-space visualizations.
 
-    Args:
-        weight (float): The weight of the edge.
+    Parameters
+    ----------
+    weight : float
+        Edge weight.
 
-    Returns:
-        str: The color corresponding to the edge weight.
+    Returns
+    -------
+    str
+        Matplotlib-compatible color name.
     """
     if isclose(weight, 1.0):  # diff dim
         return "grey"

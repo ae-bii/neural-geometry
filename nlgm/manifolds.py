@@ -4,24 +4,33 @@ from typing import List
 
 class BasicManifold:
     """
-    A base class for manifolds, providing a common interface for dimension, curvature, and base point.
+    Base manifold class with shared geometry attributes.
 
-    Args:
-        dimension (int): The dimension of the manifold.
-        curvature (float): The curvature of the manifold.
-        base_point (torch.Tensor): The origin point of the tangent space.
+    Parameters
+    ----------
+    dimension : int
+        Dimension of the manifold.
+    curvature : float
+        Scalar curvature of the manifold.
+    base_point : torch.Tensor, optional
+        Origin point of the tangent space. If omitted, a zero vector of
+        length ``dimension`` is used.
     """
 
     def __init__(
         self, dimension: int, curvature: float, base_point: torch.Tensor = None
     ):
         """
-        Initializes a BasicManifold object.
+        Initialize a manifold descriptor.
 
-        Args:
-            dimension (int): The dimension of the manifold.
-            curvature (float): The curvature of the manifold.
-            base_point (torch.Tensor, optional): The origin point of the tangent space. Defaults to None.
+        Parameters
+        ----------
+        dimension : int
+            Dimension of the manifold.
+        curvature : float
+            Scalar curvature of the manifold.
+        base_point : torch.Tensor, optional
+            Origin point of the tangent space.
         """
         self.dimension = dimension
         self.curvature = torch.tensor(curvature)
@@ -31,26 +40,35 @@ class BasicManifold:
 
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         """
-        Applies the exponential map to the given tangent vector in Euclidean space.
+        Map a tangent-space vector onto the manifold.
 
-        Args:
-            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+        Parameters
+        ----------
+        tangent_vector : torch.Tensor
+            Tangent vector to map.
 
-        Returns:
-            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        Returns
+        -------
+        torch.Tensor
+            Mapped point on the manifold.
         """
         pass
 
-    def distance(self, tangent_vector: torch.Tensor) -> torch.Tensor:
+    def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
-        Computes the geodesic distance between two points.
+        Compute geodesic distance between two points on the manifold.
 
-        Args:
-            point_x (torch.Tensor): The first point.
-            point_y (torch.Tensor): The second point.
+        Parameters
+        ----------
+        point_x : torch.Tensor
+            First point.
+        point_y : torch.Tensor
+            Second point.
 
-        Returns:
-            torch.Tensor: The Euclidean distance between the two points.
+        Returns
+        -------
+        torch.Tensor
+            Geodesic distance between ``point_x`` and ``point_y``.
         """
         pass
 
@@ -58,27 +76,36 @@ class BasicManifold:
 class EuclideanManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         """
-        Applies the exponential map to the given tangent vector in Euclidean space.
+        Map a tangent vector in Euclidean space.
 
-        Args:
-            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+        Parameters
+        ----------
+        tangent_vector : torch.Tensor
+            Tangent vector to map.
 
-        Returns:
-            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        Returns
+        -------
+        torch.Tensor
+            The mapped point, equal to ``tangent_vector`` in Euclidean space.
         """
         # For Euclidean, the exponential map is an identity function
         return tangent_vector
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
-        Computes the geodesic distance between two points in Euclidean space.
+        Compute Euclidean distance between two points.
 
-        Args:
-            point_x (torch.Tensor): The first point.
-            point_y (torch.Tensor): The second point.
+        Parameters
+        ----------
+        point_x : torch.Tensor
+            First point.
+        point_y : torch.Tensor
+            Second point.
 
-        Returns:
-            torch.Tensor: The Euclidean distance between the two points.
+        Returns
+        -------
+        torch.Tensor
+            Euclidean distance between ``point_x`` and ``point_y``.
         """
         # Compute the Euclidean distance between point_x and point_y
         return torch.norm(point_x - point_y, dim=-1)
@@ -87,13 +114,17 @@ class EuclideanManifold(BasicManifold):
 class SphericalManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         """
-        Applies the exponential map to the given tangent vector in Spherical space.
+        Map a tangent vector onto a spherical manifold.
 
-        Args:
-            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+        Parameters
+        ----------
+        tangent_vector : torch.Tensor
+            Tangent vector to map.
 
-        Returns:
-            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        Returns
+        -------
+        torch.Tensor
+            Point on the spherical manifold after exponential mapping.
         """
         device = torch.get_device(tangent_vector)
 
@@ -116,14 +147,19 @@ class SphericalManifold(BasicManifold):
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
-        Computes the geodesic distance between two points in Spherical space.
+        Compute spherical geodesic distance between two points.
 
-        Args:
-            point_x (torch.Tensor): The first point.
-            point_y (torch.Tensor): The second point.
+        Parameters
+        ----------
+        point_x : torch.Tensor
+            First point.
+        point_y : torch.Tensor
+            Second point.
 
-        Returns:
-            torch.Tensor: The geodesic distance between the two points.
+        Returns
+        -------
+        torch.Tensor
+            Geodesic distance between ``point_x`` and ``point_y``.
         """
         device = torch.get_device(point_x)
 
@@ -141,13 +177,17 @@ class SphericalManifold(BasicManifold):
 class HyperbolicManifold(BasicManifold):
     def exponential_map(self, tangent_vector: torch.Tensor) -> torch.Tensor:
         """
-        Applies the exponential map to the given tangent vector in Hyperbolic space.
+        Map a tangent vector onto a hyperbolic manifold.
 
-        Args:
-            tangent_vector (torch.Tensor): The tangent vector to be mapped.
+        Parameters
+        ----------
+        tangent_vector : torch.Tensor
+            Tangent vector to map.
 
-        Returns:
-            torch.Tensor: The result of applying the exponential map to the tangent vector.
+        Returns
+        -------
+        torch.Tensor
+            Point on the hyperbolic manifold after exponential mapping.
         """
         device = torch.get_device(tangent_vector)
 
@@ -170,14 +210,19 @@ class HyperbolicManifold(BasicManifold):
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
-        Computes the geodesic distance between two points in Hyperbolic space.
+        Compute hyperbolic geodesic distance between two points.
 
-        Args:
-            point_x (torch.Tensor): The first point.
-            point_y (torch.Tensor): The second point.
+        Parameters
+        ----------
+        point_x : torch.Tensor
+            First point.
+        point_y : torch.Tensor
+            Second point.
 
-        Returns:
-            torch.Tensor: The geodesic distance between the two points.
+        Returns
+        -------
+        torch.Tensor
+            Geodesic distance between ``point_x`` and ``point_y``.
         """
         device = torch.get_device(point_x)
 
@@ -196,25 +241,26 @@ class HyperbolicManifold(BasicManifold):
 
 class ProductManifold:
     """
-    Represents a product manifold constructed from multiple manifold components,
-    each characterized by its dimension and curvature.
+    Product manifold assembled from fixed-size component manifolds.
 
-    Args:
-        curvatures (List[float]): A list containing the curvatures of component manifolds.
+    Parameters
+    ----------
+    curvatures : list[float]
+        Curvatures for each component manifold.
 
-    Attributes:
-        manifolds (List[BasicManifold]): A list of manifold objects representing the components of the product manifold.
-        dimensions (List[int]): A list of dimensions of each component manifold.
-
-    Note: dimension of each component manifold is assumed to be 2.
+    Notes
+    -----
+    Each component manifold is assumed to have dimension 2.
     """
 
     def __init__(self, curvatures: List[float]):
         """
-        Initializes a ProductManifold object.
+        Initialize a product manifold from curvature values.
 
-        Args:
-            curvatures (List[float]): A list containing the curvatures of component manifolds.
+        Parameters
+        ----------
+        curvatures : list[float]
+            Curvatures for each component manifold.
         """
         self.manifolds = []
         self.dimensions = [2 for _ in curvatures]
@@ -228,16 +274,18 @@ class ProductManifold:
 
     def exponential_map(self, latent_vector: torch.Tensor) -> torch.Tensor:
         """
-        Applies the exponential map of each component manifold to the corresponding segment of the input latent vector
-        and returns a concatenated tensor representing the projection into the product manifold space.
+        Apply per-component exponential maps and concatenate the result.
 
-        Args:
-            latent_vector (torch.Tensor): A latent vector in Euclidean space to be mapped to the product manifold space.
-                                          Its dimension should match the sum of the dimensions of the component manifolds.
+        Parameters
+        ----------
+        latent_vector : torch.Tensor
+            Latent vector in Euclidean space. Its last dimension should match
+            the sum of component manifold dimensions.
 
-        Returns:
-            torch.Tensor: A tensor representing the projection of the input latent vector into the product manifold space,
-                          preserving the differentiability for gradient-based optimization.
+        Returns
+        -------
+        torch.Tensor
+            Projection of ``latent_vector`` into the product manifold space.
         """
         # Apply mapping projection of component manifold to corresponding segment of latent vector
         segments = self._get_segments(latent_vector)
@@ -252,13 +300,17 @@ class ProductManifold:
 
     def _get_segments(self, tangent_vector):
         """
-        Aligns component manifolds with corresponding segments of input tangent vector.
+        Split a vector into per-component manifold segments.
 
-        Args:
-            tangent_vector (torch.Tensor): The input tangent vector.
+        Parameters
+        ----------
+        tangent_vector : torch.Tensor
+            Vector to segment.
 
-        Returns:
-            List[torch.Tensor]: A list of tensor segments, each corresponding to a component manifold.
+        Returns
+        -------
+        list[torch.Tensor]
+            Segments matching ``self.dimensions``.
         """
         segments = []
         start = 0
@@ -271,14 +323,19 @@ class ProductManifold:
 
     def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
-        Computes the distance between two points in the product manifold space.
+        Compute product-manifold distance between two points.
 
-        Args:
-            point_x (torch.Tensor): The first point in the product manifold space.
-            point_y (torch.Tensor): The second point in the product manifold space.
+        Parameters
+        ----------
+        point_x : torch.Tensor
+            First point in product-manifold coordinates.
+        point_y : torch.Tensor
+            Second point in product-manifold coordinates.
 
-        Returns:
-            torch.Tensor: The distance between the two points in the product manifold space.
+        Returns
+        -------
+        torch.Tensor
+            Distance between ``point_x`` and ``point_y``.
         """
         x_segments = self._get_segments(point_x)
         y_segments = self._get_segments(point_y)

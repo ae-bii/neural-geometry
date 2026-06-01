@@ -8,14 +8,18 @@ from nlgm.manifolds import ProductManifold
 
 
 class Encoder(nn.Module):
-    def __init__(self, hidden_dim=20, latent_dim=2):
-        """
-        Encoder class for the geometric autoencoder.
+    """
+    Encoder network for the geometric autoencoder.
 
-        Args:
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
-        """
+    Parameters
+    ----------
+    hidden_dim : int
+        Number of hidden channels in intermediate convolution layers.
+    latent_dim : int
+        Size of the latent representation.
+    """
+
+    def __init__(self, hidden_dim=20, latent_dim=2):
         super(Encoder, self).__init__()
 
         self.encoder = nn.Sequential(
@@ -43,27 +47,35 @@ class Encoder(nn.Module):
 
     def forward(self, x):
         """
-        Forward pass of the encoder.
+        Encode an input batch.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor of images.
 
-        Returns:
-            torch.Tensor: Encoded output tensor.
+        Returns
+        -------
+        torch.Tensor
+            Latent representation.
         """
         z = self.encoder(x)
         return z
 
 
 class Decoder(nn.Module):
-    def __init__(self, hidden_dim=20, latent_dim=2):
-        """
-        Decoder class for the geometric autoencoder.
+    """
+    Decoder network for the geometric autoencoder.
 
-        Args:
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
-        """
+    Parameters
+    ----------
+    hidden_dim : int
+        Number of hidden channels in intermediate layers.
+    latent_dim : int
+        Size of the latent representation.
+    """
+
+    def __init__(self, hidden_dim=20, latent_dim=2):
         super(Decoder, self).__init__()
 
         self.decoder = nn.Sequential(
@@ -86,28 +98,37 @@ class Decoder(nn.Module):
 
     def forward(self, z):
         """
-        Forward pass of the decoder.
+        Decode latent vectors back to image space.
 
-        Args:
-            z (torch.Tensor): Encoded input tensor.
+        Parameters
+        ----------
+        z : torch.Tensor
+            Latent tensor.
 
-        Returns:
-            torch.Tensor: Decoded output tensor.
+        Returns
+        -------
+        torch.Tensor
+            Reconstructed image tensor.
         """
         x_recon = self.decoder(z)
         return x_recon
 
 
 class GeometricAutoencoder(nn.Module):
-    def __init__(self, signature, hidden_dim=20, latent_dim=2):
-        """
-        Geometric Autoencoder class.
+    """
+    Autoencoder with latent projection to a product manifold.
 
-        Args:
-            signature (list): List of signature dimensions.
-            hidden_dim (int): Number of hidden dimensions.
-            latent_dim (int): Number of latent dimensions.
-        """
+    Parameters
+    ----------
+    signature : list
+        Curvature signature for the product manifold.
+    hidden_dim : int
+        Number of hidden channels in intermediate layers.
+    latent_dim : int
+        Size of the latent representation.
+    """
+
+    def __init__(self, signature, hidden_dim=20, latent_dim=2):
         super(GeometricAutoencoder, self).__init__()
         self.geometry = ProductManifold(signature)
         self.encoder = Encoder(hidden_dim, latent_dim)
@@ -115,13 +136,17 @@ class GeometricAutoencoder(nn.Module):
 
     def forward(self, x):
         """
-        Forward pass of the geometric autoencoder.
+        Encode, project to manifold, and decode.
 
-        Args:
-            x (torch.Tensor): Input tensor.
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input image tensor.
 
-        Returns:
-            torch.Tensor: Decoded output tensor.
+        Returns
+        -------
+        torch.Tensor
+            Reconstructed image tensor.
         """
         z = self.encoder(x)
         z = self.geometry.exponential_map(z)
