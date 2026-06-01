@@ -19,8 +19,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade uv
-          uv pip install -U -r doc/requirements.txt
-          uv pip install -e ".[dev,vis]"
+          uv pip install --system -U -r doc/requirements.txt
+          uv pip install --system -e ".[dev,vis]"
 
       - run: make -C doc html
 
