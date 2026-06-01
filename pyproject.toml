@@ -12,7 +12,7 @@ authors = [
   { name="Kevin Qiu", email="kzq2000@columbia.edu" }
 ]
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -21,6 +21,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Software Development :: Libraries"
@@ -33,7 +34,7 @@ dependencies = [
 
 [project.optional-dependencies]
 vis = ["matplotlib", "networkx"]
-dev = ["pytest", "tox", "tox-uv", "pre-commit"]
+dev = ["pytest", "pre-commit"]
 
 
 [project.urls]

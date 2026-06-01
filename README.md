@@ -19,17 +19,20 @@ This package is designed to be compatible with popular scientific computing libr
 
 ## Installation
 
-To install Neural Geometry, you can use pip:
+Neural Geometry requires Python 3.12 or newer.
+
+To install Neural Geometry, use `uv`:
 
 ```bash
-pip install neural-geometry
+uv pip install neural-geometry
 ```
 
 You can install optional packages for development or visualization using:
 
 ```bash
-pip install .[dev,vis]                # install from pyproject.toml
-pip install neural-geometry[dev,vis]  # install from pypi
+uv sync --extra dev --extra vis
+uv pip install -e ".[dev,vis]"        # editable install from pyproject.toml
+uv pip install neural-geometry[dev,vis]  # install from pypi
 ```
 
 ## Usage
@@ -47,6 +50,10 @@ Contributions to Neural Geometry are welcome! To contribute:
 5. Submit a pull request.
 
 Before submitting your pull request, please make sure your changes pass all tests.
+
+```bash
+uv run pytest
+```
 
 ## License
 
