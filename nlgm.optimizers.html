@@ -16,30 +16,33 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
-  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="_static/documentation_options.js?v=0deb7d70"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'nlgm.optimizers';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,6 +50,7 @@
     <link rel="prev" title="nlgm.manifolds Module" href="nlgm.manifolds.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.2" />
   </head>
   
   
@@ -62,19 +66,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -82,7 +75,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -90,8 +82,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -107,7 +99,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -137,15 +130,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
@@ -163,9 +152,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -248,7 +242,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -262,25 +256,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -324,40 +310,63 @@ document.write(`
 <span id="nlgm-optimizers-module"></span><h1><code class="docutils literal notranslate"><span class="pre">nlgm.optimizers</span></code> Module<a class="headerlink" href="#module-nlgm.optimizers" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="nlgm.optimizers.RandomWalkOptimizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.optimizers.</span></span><span class="sig-name descname"><span class="pre">RandomWalkOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/optimizers.html#RandomWalkOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.optimizers.RandomWalkOptimizer" title="Link to this definition">#</a></dt>
-<dd><p>RandomWalkOptimizer class for optimizing a given objective function using random walk algorithm.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>graph (numpy.ndarray): The adjacency matrix of the graph.
-signatures (list): List of signatures corresponding to each node in the graph.
-start (int): The starting node for the random walk.
-criterion (str): The criterion for optimization.</p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">nlgm.optimizers.</span></span><span class="sig-name descname"><span class="pre">RandomWalkOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/optimizers.html#RandomWalkOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.optimizers.RandomWalkOptimizer" title="Link to this definition">#</a></dt>
+<dd><p>Random-walk optimizer over a graph of candidate signatures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>graph</strong><span class="classifier">numpy.ndarray</span></dt><dd><p>Square adjacency matrix.</p>
 </dd>
-<dt>Attributes:</dt><dd><p>graph (numpy.ndarray): The adjacency matrix of the graph.
-start (int): The starting node for the random walk.
-signatures (list): List of signatures corresponding to each node in the graph.
-criterion (str): The criterion for optimization.</p>
+<dt><strong>signatures</strong><span class="classifier">list</span></dt><dd><p>Signature values indexed by graph node.</p>
 </dd>
-<dt>Methods:</dt><dd><p>optimize(objective, max_iters, callback=None): Optimizes the objective function using random walk algorithm.
-normalize_graph(): Normalizes the graph by dividing each row by its sum.
-optimize_with_backtracking(objective, max_iters, callback=None): Optimizes the objective function using random walk algorithm with backtracking.</p>
+<dt><strong>start</strong><span class="classifier">int</span></dt><dd><p>Starting node index.</p>
+</dd>
+<dt><strong>criterion</strong><span class="classifier">str</span></dt><dd><p>Optimization criterion label.</p>
 </dd>
 </dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.optimizers.RandomWalkOptimizer.normalize_graph" title="nlgm.optimizers.RandomWalkOptimizer.normalize_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize_graph</span></code></a>()</p></td>
+<td><p>Normalize transition weights row-wise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nlgm.optimizers.RandomWalkOptimizer.optimize" title="nlgm.optimizers.RandomWalkOptimizer.optimize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimize</span></code></a>(objective, max_iters[, callback])</p></td>
+<td><p>Optimize objective with random-neighbor traversal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.optimizers.RandomWalkOptimizer.optimize_with_backtracking" title="nlgm.optimizers.RandomWalkOptimizer.optimize_with_backtracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimize_with_backtracking</span></code></a>(objective, max_iters)</p></td>
+<td><p>Optimize objective using random walk with path backtracking.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.optimizers.RandomWalkOptimizer.normalize_graph">
 <span class="sig-name descname"><span class="pre">normalize_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/optimizers.html#RandomWalkOptimizer.normalize_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.optimizers.RandomWalkOptimizer.normalize_graph" title="Link to this definition">#</a></dt>
-<dd><p>Normalizes the graph by dividing each row by its sum.</p>
+<dd><p>Normalize transition weights row-wise.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.optimizers.RandomWalkOptimizer.optimize">
 <span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/optimizers.html#RandomWalkOptimizer.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.optimizers.RandomWalkOptimizer.optimize" title="Link to this definition">#</a></dt>
-<dd><p>Optimizes the objective function using random walk algorithm.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>objective (function): The objective function to be optimized.
-max_iters (int): The maximum number of iterations for the optimization.
-callback (function, optional): A callback function to be called after each iteration. Defaults to None.</p>
+<dd><p>Optimize objective with random-neighbor traversal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>objective</strong><span class="classifier">callable</span></dt><dd><p>Function taking a signature and returning <code class="docutils literal notranslate"><span class="pre">(metric,</span> <span class="pre">loss)</span></code>.</p>
 </dd>
-<dt>Returns:</dt><dd><p>tuple: A tuple containing the best node, metric, and loss.</p>
+<dt><strong>max_iters</strong><span class="classifier">int</span></dt><dd><p>Maximum number of walk iterations.</p>
+</dd>
+<dt><strong>callback</strong><span class="classifier">callable, optional</span></dt><dd><p>Callback invoked as <code class="docutils literal notranslate"><span class="pre">callback(signature,</span> <span class="pre">(metric,</span> <span class="pre">loss))</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>tuple</dt><dd><p>Best result as <code class="docutils literal notranslate"><span class="pre">(signature,</span> <span class="pre">metric,</span> <span class="pre">loss)</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -365,13 +374,23 @@ callback (function, optional): A callback function to be called after each itera
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.optimizers.RandomWalkOptimizer.optimize_with_backtracking">
 <span class="sig-name descname"><span class="pre">optimize_with_backtracking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/optimizers.html#RandomWalkOptimizer.optimize_with_backtracking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.optimizers.RandomWalkOptimizer.optimize_with_backtracking" title="Link to this definition">#</a></dt>
-<dd><p>Optimizes the objective function using random walk algorithm with backtracking.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>objective (function): The objective function to be optimized.
-max_iters (int): The maximum number of iterations for the optimization.
-callback (function, optional): A callback function to be called after each iteration. Defaults to None.</p>
+<dd><p>Optimize objective using random walk with path backtracking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>objective</strong><span class="classifier">callable</span></dt><dd><p>Function taking a signature and returning <code class="docutils literal notranslate"><span class="pre">(metric,</span> <span class="pre">loss)</span></code>.</p>
 </dd>
-<dt>Returns:</dt><dd><p>tuple: A tuple containing the best node, metric, and loss.</p>
+<dt><strong>max_iters</strong><span class="classifier">int</span></dt><dd><p>Maximum number of walk iterations.</p>
+</dd>
+<dt><strong>callback</strong><span class="classifier">callable, optional</span></dt><dd><p>Callback invoked as <code class="docutils literal notranslate"><span class="pre">callback(signature,</span> <span class="pre">(metric,</span> <span class="pre">loss))</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>tuple</dt><dd><p>Best result as <code class="docutils literal notranslate"><span class="pre">(signature,</span> <span class="pre">metric,</span> <span class="pre">loss)</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -416,14 +435,16 @@ callback (function, optional): A callback function to be called after each itera
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.optimizers.RandomWalkOptimizer"><code class="docutils literal notranslate"><span class="pre">RandomWalkOptimizer</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.optimizers.RandomWalkOptimizer.normalize_graph"><code class="docutils literal notranslate"><span class="pre">RandomWalkOptimizer.normalize_graph()</span></code></a></li>
@@ -479,8 +500,8 @@ By Anupam Bhakta, Adam Mehdi, Kevin Qiu
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

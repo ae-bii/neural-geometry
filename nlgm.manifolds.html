@@ -16,30 +16,33 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
-  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="_static/documentation_options.js?v=0deb7d70"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'nlgm.manifolds';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,6 +50,7 @@
     <link rel="prev" title="nlgm.autoencoder Module" href="nlgm.autoencoder.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.2" />
   </head>
   
   
@@ -62,19 +66,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -82,7 +75,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -90,8 +82,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -107,7 +99,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -137,15 +130,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
@@ -163,9 +152,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -248,7 +242,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -262,25 +256,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -343,23 +329,51 @@ document.write(`
 <span id="nlgm-manifolds-module"></span><h1><code class="docutils literal notranslate"><span class="pre">nlgm.manifolds</span></code> Module<a class="headerlink" href="#module-nlgm.manifolds" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="nlgm.manifolds.BasicManifold">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">BasicManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold" title="Link to this definition">#</a></dt>
-<dd><p>A base class for manifolds, providing a common interface for dimension, curvature, and base point.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dimension (int): The dimension of the manifold.
-curvature (float): The curvature of the manifold.
-base_point (torch.Tensor): The origin point of the tangent space.</p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">BasicManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold" title="Link to this definition">#</a></dt>
+<dd><p>Base manifold class with shared geometry attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dimension</strong><span class="classifier">int</span></dt><dd><p>Dimension of the manifold.</p>
+</dd>
+<dt><strong>curvature</strong><span class="classifier">float</span></dt><dd><p>Scalar curvature of the manifold.</p>
+</dd>
+<dt><strong>base_point</strong><span class="classifier">torch.Tensor, optional</span></dt><dd><p>Origin point of the tangent space. If omitted, a zero vector of
+length <code class="docutils literal notranslate"><span class="pre">dimension</span></code> is used.</p>
 </dd>
 </dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.manifolds.BasicManifold.distance" title="nlgm.manifolds.BasicManifold.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(point_x, point_y)</p></td>
+<td><p>Compute geodesic distance between two points on the manifold.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nlgm.manifolds.BasicManifold.exponential_map" title="nlgm.manifolds.BasicManifold.exponential_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_map</span></code></a>(tangent_vector)</p></td>
+<td><p>Map a tangent-space vector onto the manifold.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.BasicManifold.distance">
-<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
-point_y (torch.Tensor): The second point.</p>
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold.distance" title="Link to this definition">#</a></dt>
+<dd><p>Compute geodesic distance between two points on the manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>point_x</strong><span class="classifier">torch.Tensor</span></dt><dd><p>First point.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+<dt><strong>point_y</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Second point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Geodesic distance between <code class="docutils literal notranslate"><span class="pre">point_x</span></code> and <code class="docutils literal notranslate"><span class="pre">point_y</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -367,11 +381,19 @@ point_y (torch.Tensor): The second point.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.BasicManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#BasicManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.BasicManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+<dd><p>Map a tangent-space vector onto the manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tangent_vector</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Tangent vector to map.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Mapped point on the manifold.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -380,16 +402,37 @@ point_y (torch.Tensor): The second point.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">EuclideanManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">EuclideanManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold" title="Link to this definition">#</a></dt>
+<dd><p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.manifolds.EuclideanManifold.distance" title="nlgm.manifolds.EuclideanManifold.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(point_x, point_y)</p></td>
+<td><p>Compute Euclidean distance between two points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nlgm.manifolds.EuclideanManifold.exponential_map" title="nlgm.manifolds.EuclideanManifold.exponential_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_map</span></code></a>(tangent_vector)</p></td>
+<td><p>Map a tangent vector in Euclidean space.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points in Euclidean space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
-point_y (torch.Tensor): The second point.</p>
+<dd><p>Compute Euclidean distance between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>point_x</strong><span class="classifier">torch.Tensor</span></dt><dd><p>First point.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The Euclidean distance between the two points.</p>
+<dt><strong>point_y</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Second point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Euclidean distance between <code class="docutils literal notranslate"><span class="pre">point_x</span></code> and <code class="docutils literal notranslate"><span class="pre">point_y</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -397,11 +440,19 @@ point_y (torch.Tensor): The second point.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.EuclideanManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#EuclideanManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.EuclideanManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map to the given tangent vector in Euclidean space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+<dd><p>Map a tangent vector in Euclidean space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tangent_vector</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Tangent vector to map.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>The mapped point, equal to <code class="docutils literal notranslate"><span class="pre">tangent_vector</span></code> in Euclidean space.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -410,16 +461,37 @@ point_y (torch.Tensor): The second point.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">HyperbolicManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">HyperbolicManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold" title="Link to this definition">#</a></dt>
+<dd><p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.manifolds.HyperbolicManifold.distance" title="nlgm.manifolds.HyperbolicManifold.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(point_x, point_y)</p></td>
+<td><p>Compute hyperbolic geodesic distance between two points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nlgm.manifolds.HyperbolicManifold.exponential_map" title="nlgm.manifolds.HyperbolicManifold.exponential_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_map</span></code></a>(tangent_vector)</p></td>
+<td><p>Map a tangent vector onto a hyperbolic manifold.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points in Hyperbolic space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
-point_y (torch.Tensor): The second point.</p>
+<dd><p>Compute hyperbolic geodesic distance between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>point_x</strong><span class="classifier">torch.Tensor</span></dt><dd><p>First point.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The geodesic distance between the two points.</p>
+<dt><strong>point_y</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Second point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Geodesic distance between <code class="docutils literal notranslate"><span class="pre">point_x</span></code> and <code class="docutils literal notranslate"><span class="pre">point_y</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -427,11 +499,19 @@ point_y (torch.Tensor): The second point.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.HyperbolicManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#HyperbolicManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.HyperbolicManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map to the given tangent vector in Hyperbolic space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+<dd><p>Map a tangent vector onto a hyperbolic manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tangent_vector</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Tangent vector to map.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Point on the hyperbolic manifold after exponential mapping.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -440,26 +520,48 @@ point_y (torch.Tensor): The second point.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="nlgm.manifolds.ProductManifold">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">ProductManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curvatures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold" title="Link to this definition">#</a></dt>
-<dd><p>Represents a product manifold constructed from multiple manifold components,
-each characterized by its dimension and curvature.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>curvatures (List[float]): A list containing the curvatures of component manifolds.</p>
-</dd>
-<dt>Attributes:</dt><dd><p>manifolds (List[BasicManifold]): A list of manifold objects representing the components of the product manifold.
-dimensions (List[int]): A list of dimensions of each component manifold.</p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">ProductManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curvatures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold" title="Link to this definition">#</a></dt>
+<dd><p>Product manifold assembled from fixed-size component manifolds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>curvatures</strong><span class="classifier">list[float]</span></dt><dd><p>Curvatures for each component manifold.</p>
 </dd>
 </dl>
-<p>Note: dimension of each component manifold is assumed to be 2.</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.manifolds.ProductManifold.distance" title="nlgm.manifolds.ProductManifold.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(point_x, point_y)</p></td>
+<td><p>Compute product-manifold distance between two points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nlgm.manifolds.ProductManifold.exponential_map" title="nlgm.manifolds.ProductManifold.exponential_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_map</span></code></a>(latent_vector)</p></td>
+<td><p>Apply per-component exponential maps and concatenate the result.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Notes</p>
+<p>Each component manifold is assumed to have dimension 2.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.ProductManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the distance between two points in the product manifold space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point in the product manifold space.
-point_y (torch.Tensor): The second point in the product manifold space.</p>
+<dd><p>Compute product-manifold distance between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>point_x</strong><span class="classifier">torch.Tensor</span></dt><dd><p>First point in product-manifold coordinates.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The distance between the two points in the product manifold space.</p>
+<dt><strong>point_y</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Second point in product-manifold coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Distance between <code class="docutils literal notranslate"><span class="pre">point_x</span></code> and <code class="docutils literal notranslate"><span class="pre">point_y</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -467,16 +569,18 @@ point_y (torch.Tensor): The second point in the product manifold space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.ProductManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#ProductManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.ProductManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map of each component manifold to the corresponding segment of the input latent vector
-and returns a concatenated tensor representing the projection into the product manifold space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>latent_vector (torch.Tensor): A latent vector in Euclidean space to be mapped to the product manifold space.</dt><dd><p>Its dimension should match the sum of the dimensions of the component manifolds.</p>
+<dd><p>Apply per-component exponential maps and concatenate the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>latent_vector</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Latent vector in Euclidean space. Its last dimension should match
+the sum of component manifold dimensions.</p>
 </dd>
 </dl>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>torch.Tensor: A tensor representing the projection of the input latent vector into the product manifold space,</dt><dd><p>preserving the differentiability for gradient-based optimization.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Projection of <code class="docutils literal notranslate"><span class="pre">latent_vector</span></code> into the product manifold space.</p>
 </dd>
 </dl>
 </dd>
@@ -487,16 +591,37 @@ and returns a concatenated tensor representing the projection into the product m
 
 <dl class="py class">
 <dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">SphericalManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">nlgm.manifolds.</span></span><span class="sig-name descname"><span class="pre">SphericalManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold" title="Link to this definition">#</a></dt>
+<dd><p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nlgm.manifolds.SphericalManifold.distance" title="nlgm.manifolds.SphericalManifold.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(point_x, point_y)</p></td>
+<td><p>Compute spherical geodesic distance between two points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nlgm.manifolds.SphericalManifold.exponential_map" title="nlgm.manifolds.SphericalManifold.exponential_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_map</span></code></a>(tangent_vector)</p></td>
+<td><p>Map a tangent vector onto a spherical manifold.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold.distance" title="Link to this definition">#</a></dt>
-<dd><p>Computes the geodesic distance between two points in Spherical space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>point_x (torch.Tensor): The first point.
-point_y (torch.Tensor): The second point.</p>
+<dd><p>Compute spherical geodesic distance between two points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>point_x</strong><span class="classifier">torch.Tensor</span></dt><dd><p>First point.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The geodesic distance between the two points.</p>
+<dt><strong>point_y</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Second point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Geodesic distance between <code class="docutils literal notranslate"><span class="pre">point_x</span></code> and <code class="docutils literal notranslate"><span class="pre">point_y</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -504,11 +629,19 @@ point_y (torch.Tensor): The second point.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nlgm.manifolds.SphericalManifold.exponential_map">
 <span class="sig-name descname"><span class="pre">exponential_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/nlgm/manifolds.html#SphericalManifold.exponential_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nlgm.manifolds.SphericalManifold.exponential_map" title="Link to this definition">#</a></dt>
-<dd><p>Applies the exponential map to the given tangent vector in Spherical space.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>tangent_vector (torch.Tensor): The tangent vector to be mapped.</p>
+<dd><p>Map a tangent vector onto a spherical manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tangent_vector</strong><span class="classifier">torch.Tensor</span></dt><dd><p>Tangent vector to map.</p>
 </dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The result of applying the exponential map to the tangent vector.</p>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>torch.Tensor</dt><dd><p>Point on the spherical manifold after exponential mapping.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -553,14 +686,16 @@ point_y (torch.Tensor): The second point.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold"><code class="docutils literal notranslate"><span class="pre">BasicManifold</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nlgm.manifolds.BasicManifold.distance"><code class="docutils literal notranslate"><span class="pre">BasicManifold.distance()</span></code></a></li>
@@ -635,8 +770,8 @@ By Anupam Bhakta, Adam Mehdi, Kevin Qiu
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
