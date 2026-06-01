@@ -9,22 +9,14 @@ from nlgm.manifolds import ProductManifold
 
 class Encoder(nn.Module):
     """
-    Encoder class for the geometric autoencoder.
+    Encoder network for the geometric autoencoder.
 
     Parameters
     ----------
     hidden_dim : int
-        Number of hidden dimensions.
+        Number of hidden channels in intermediate convolution layers.
     latent_dim : int
-        Number of latent dimensions.
-
-    Methods
-    -------
-    forward
-
-    Attributes
-    ----------
-    encoder
+        Size of the latent representation.
     """
 
     def __init__(self, hidden_dim=20, latent_dim=2):
@@ -55,17 +47,17 @@ class Encoder(nn.Module):
 
     def forward(self, x):
         """
-        Forward pass of the encoder.
+        Encode an input batch.
 
         Parameters
         ----------
         x : torch.Tensor
-            Input tensor.
+            Input tensor of images.
 
         Returns
         -------
-        tensor : torch.Tensor
-            Encoded output tensor.
+        torch.Tensor
+            Latent representation.
         """
         z = self.encoder(x)
         return z
@@ -73,22 +65,14 @@ class Encoder(nn.Module):
 
 class Decoder(nn.Module):
     """
-    Decoder class for the geometric autoencoder.
+    Decoder network for the geometric autoencoder.
 
     Parameters
     ----------
     hidden_dim : int
-        Number of hidden dimensions.
+        Number of hidden channels in intermediate layers.
     latent_dim : int
-        Number of latent dimensions.
-
-    Methods
-    -------
-    forward
-
-    Attributes
-    ----------
-    decoder
+        Size of the latent representation.
     """
 
     def __init__(self, hidden_dim=20, latent_dim=2):
@@ -114,17 +98,17 @@ class Decoder(nn.Module):
 
     def forward(self, z):
         """
-        Forward pass of the decoder.
+        Decode latent vectors back to image space.
 
         Parameters
         ----------
         z : torch.Tensor
-            Encoded input tensor.
+            Latent tensor.
 
         Returns
         -------
-        tensor : torch.Tensor
-            Decoded output tensor.
+        torch.Tensor
+            Reconstructed image tensor.
         """
         x_recon = self.decoder(z)
         return x_recon
@@ -132,26 +116,16 @@ class Decoder(nn.Module):
 
 class GeometricAutoencoder(nn.Module):
     """
-    Geometric Autoencoder class.
+    Autoencoder with latent projection to a product manifold.
 
     Parameters
     ----------
     signature : list
-        List of signature dimensions.
+        Curvature signature for the product manifold.
     hidden_dim : int
-        Number of hidden dimensions.
+        Number of hidden channels in intermediate layers.
     latent_dim : int
-        Number of latent dimensions.
-
-    Methods
-    -------
-    forward
-
-    Attributes
-    ----------
-    geometry
-    encoder
-    decoder
+        Size of the latent representation.
     """
 
     def __init__(self, signature, hidden_dim=20, latent_dim=2):
@@ -162,17 +136,17 @@ class GeometricAutoencoder(nn.Module):
 
     def forward(self, x):
         """
-        Forward pass of the geometric autoencoder.
+        Encode, project to manifold, and decode.
 
         Parameters
         ----------
         x : torch.Tensor
-            Input tensor.
+            Input image tensor.
 
         Returns
         -------
-        tensor : torch.Tensor
-            Decoded output tensor.
+        torch.Tensor
+            Reconstructed image tensor.
         """
         z = self.encoder(x)
         z = self.geometry.exponential_map(z)

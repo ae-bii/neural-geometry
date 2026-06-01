@@ -8,12 +8,16 @@ def visualize_optimization_trajectory(
     adjacency_matrix, signatures, evaluated_signatures
 ):
     """
-    Visualize the optimization trajectory in the graph search space.
+    Plot optimization trajectory on the graph search space.
 
-    Args:
-        adjacency_matrix (numpy.ndarray): Adjacency matrix representing the graph search space.
-        signatures (list): List of signatures corresponding to each node in the graph.
-        evaluated_signatures (list): List of signatures evaluated during the optimization process.
+    Parameters
+    ----------
+    adjacency_matrix : numpy.ndarray
+        Graph adjacency matrix.
+    signatures : list
+        Signatures corresponding to graph nodes.
+    evaluated_signatures : list
+        Signatures visited during optimization.
     """
     # Create a graph object from the adjacency matrix
     graph = nx.from_numpy_array(adjacency_matrix)
@@ -54,10 +58,12 @@ def visualize_optimization_trajectory(
 
 def visualize_validation_metrics(evaluated_metrics):
     """
-    Visualize the evolution of validation metrics during the optimization process.
+    Plot validation metric values over optimization iterations.
 
-    Args:
-        evaluated_metrics (list): List of validation metrics obtained during the optimization process.
+    Parameters
+    ----------
+    evaluated_metrics : list
+        Validation metric history.
     """
     # Visualize the metric evolution
     plt.figure()
@@ -74,10 +80,12 @@ def visualize_validation_metrics(evaluated_metrics):
 
 def visualize_loss_trajectories(loss_trajectories):
     """
-    Visualize the loss trajectories for different geometries explored during the optimization process.
+    Plot training loss trajectories for explored geometries.
 
-    Args:
-        loss_trajectories (list): List of loss trajectories, where each trajectory corresponds to a different geometry.
+    Parameters
+    ----------
+    loss_trajectories : list
+        Loss trajectories, one sequence per explored geometry.
     """
     plt.figure()
     colors = plt.cm.viridis(np.linspace(0, 1, len(loss_trajectories)))

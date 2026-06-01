@@ -12,18 +12,29 @@ def train_and_evaluate(
     progress_bar=True,
 ):
     """
-    Trains and evaluates a model using the given train and test data loaders.
+    Train a model and evaluate on a test loader each epoch.
 
-    Args:
-        model (nn.Module): The model to train and evaluate.
-        train_loader (torch.utils.data.DataLoader): The data loader for training data.
-        test_loader (torch.utils.data.DataLoader): The data loader for test data.
-        epochs (int, optional): The number of epochs to train the model. Defaults to 10.
-        device (torch.device, optional): The device to use for training. Defaults to torch.device("cpu").
-        progress_bar (bool, optional): Whether to display a progress bar during training. Defaults to True.
+    Parameters
+    ----------
+    model : nn.Module
+        Model to train and evaluate.
+    train_loader : torch.utils.data.DataLoader
+        Training data loader.
+    test_loader : torch.utils.data.DataLoader
+        Test data loader.
+    epochs : int, default=10
+        Number of training epochs.
+    device : torch.device, default=torch.device("cpu")
+        Device used for training and evaluation.
+    progress_bar : bool, default=True
+        Whether to show epoch-level progress.
 
-    Returns:
-        tuple: A tuple containing the list of train losses and the test loss.
+    Returns
+    -------
+    list[float]
+        Per-epoch training losses.
+    float
+        Final epoch test loss.
     """
     criterion = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
