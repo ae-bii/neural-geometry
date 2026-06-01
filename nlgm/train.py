@@ -69,7 +69,7 @@ def train_and_evaluate(
         test_loss /= len(test_loader)
 
         print(
-            f"Epoch [{epoch+1}/{epochs}], Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}"
+            f"Epoch [{epoch + 1}/{epochs}], Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}"
         )
 
     return train_losses, test_loss

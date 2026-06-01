@@ -54,9 +54,7 @@ class BasicManifold:
         """
         pass
 
-    def distance(
-        self, point_x: torch.Tensor, point_y: torch.Tensor
-    ) -> torch.Tensor:
+    def distance(self, point_x: torch.Tensor, point_y: torch.Tensor) -> torch.Tensor:
         """
         Compute geodesic distance between two points on the manifold.
 
